@@ -1,0 +1,16 @@
+{
+  "name": "himque-API",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.js",
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  },
+  "license": "MIT",
+  "keywords": [
+    "himachatquest",
+    "himaqueAPI",
+    "hcq"
+  ]
+  "license": "MIT"
+}
