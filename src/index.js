@@ -1,6 +1,6 @@
 "use strict";
 const { EventEmitter } = require("node:events");
-const { fetch } = require("./system.js");
+const { fetch } = require("./system/");
 
 class Base extends EventEmitter {
 }
