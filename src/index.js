@@ -96,3 +96,4 @@ exports.Client = Client
 exports.Base = Base
 exports.Data = Data
 exports.Errors = require("./Errors.js")
+exports.Game = require("./Game.js")
