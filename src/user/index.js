@@ -66,7 +66,7 @@ class users extends Base {
       result.lastlogin = new Date(0)
       result.ip = ip.source.split("\r\n")[2].split("\t").join("").split("<br />").join("")
     }
-    if (!this.client.secret.options.includes("NotSaveCache")) {
+    if (!this.client.secret.options.includes(1 << 1)) {
       if (this.cache.has(result.id)) this.cache.delete(result.id);
       this.cache.set(result.id, result);
     }
