@@ -2,7 +2,9 @@
 
 ## 使い方
 ```
-const {Client: hcq} = require("himaque-API")
+const {Client: HCQ} = require("himaque-API")
+const hcq = new HCQ()
+
 hcq.login("ヒマクエのID","ヒマクエのPASS")
 
 hcq.on("ready", () => {
@@ -11,7 +13,7 @@ hcq.on("ready", () => {
 
 hcq.on("guildMessage", message => {
   if (message.content === "ping"){
-    hcq.user.guild.send("pong!")
+    hcq.guild.send("pong!")
   }
 })
 ```
