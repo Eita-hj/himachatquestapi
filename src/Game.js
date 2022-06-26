@@ -1,10 +1,12 @@
 const { convtext, fetch } = require("./system/");
-
 class Game {
   constructor(client) {
     this.ranking = new Ranking(client);
+    this.updateInfo = new UpdateInfo()
   }
 }
+
+module.exports = Game
 
 class Ranking {
   constructor(client) {
