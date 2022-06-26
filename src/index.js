@@ -58,7 +58,7 @@ class Client extends Base {
       this.guilds = new this.guilds(this);
       this.users = new this.users(this);
       this.user = await this.users.fetch(result.userid);
-
+      this.guild = this.user.guild
       this.emit("ready", this);
 
       const { startload } = require("./chat/");
