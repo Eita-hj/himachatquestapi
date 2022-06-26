@@ -1,7 +1,8 @@
 const { convtext, fetch } = require("../system/");
 
-const startload = function (client) {
+const startload = function (client, kbmark) {
   if (client.user.guild?.id) get_guildChat(client);
+  get_areaChat(client, kbmark)
 };
 
 async function get_guildChat(client) {
