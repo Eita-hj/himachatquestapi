@@ -2,7 +2,7 @@ const { convtext, fetch } = require("../system/");
 
 const startload = function (client, kbmark) {
   if (client.user.guild?.id) get_guildChat(client);
-  get_areaChat(client, kbmark)
+  if (client.secret.options.includes(1 << 3)) get_areaChat(client, kbmark)
 };
 
 async function get_guildChat(client) {
@@ -24,7 +24,7 @@ async function get_guildChat(client) {
     if (!!obj.coments[0]) {
       bmark = obj.bmark;
       let c = obj.coments[0].source;
-      result.author = client.secret.options.includes("NotLoadCache") ? await client.users.fetch() : await client.users.get(obj.coments[0].uid);
+      result.author = client.secret.options.includes(1 << 2) ? await client.users.fetch() : await client.users.get(obj.coments[0].uid);
       if (
         c.includes(
           "<a href='javascript:void(0);' class='astyle' onclick='PhotoGet(this,"
@@ -97,7 +97,7 @@ async function get_areaChat(client, defaultbmark) {
             .split("<td class='c_mozi' style='color:#000000'>")[1]
             .split("\n")[0]
         );
-        result.author = client.cache.secret.options.includes("NotLoadCache")
+        result.author = client.cache.secret.options.includes(1 << 2)
           ? await client.users.fetch(data.coments[i].uid)
           : await client.users.get(data.coments[i].uid);
         client.emit("AreaMessageCreate", result);
