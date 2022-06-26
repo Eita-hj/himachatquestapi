@@ -31,7 +31,7 @@ class Guilds extends Base {
       .split("<span onclick='UserWindow(")[1]
       .split(")")[0];
     result.owner = await this.client.users.get(result.ownerID)
-    if (!this.client.secret.options.includes("NotSaveCache")) {
+    if (!this.client.secret.options.includes(1 << 1)) {
       if (this.cache.has(result.id)) this.cache.delete(result.id);
       this.cache.set(result.id, result);
     }
@@ -40,6 +40,7 @@ class Guilds extends Base {
 }
 
 const { Data } = require("../index.js")
+
 class Guild extends Data{
   async send(msg) {
     if (this.id !== this.client.user.guild.id) return new Error("Message guild Error(Error Code 303)")
