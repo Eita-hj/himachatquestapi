@@ -1,4 +1,4 @@
-const { fetch, convtext } = require("../system.js");
+const { fetch, convtext } = require("../system/");
 const { Base } = require("../index.js");
 
 class Guilds extends Base {
@@ -64,7 +64,5 @@ class Guild extends Data{
     return this
   }
 }
-
-const { EventEmitter } = require("node:events")
 
 module.exports = Guilds;
