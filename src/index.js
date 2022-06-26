@@ -73,19 +73,22 @@ function OptionsToArray(options) {
   const array = new Array();
   if (options.SaveCache === false) {
     if (array.NotSaveCache === false) return new Error("Options is invalid.(Code:001)");
-    if (!array.includes("NotSaveCache")) array[array.length] = "NotSaveCache"
+    if (!array.includes("NotSaveCache")) array[array.length] = 1 << 1
   }
   if (options.NotSaveCache === true) {
     if (array.SaveCache === true) return new Error("Options is invalid.(Code:002)");
-    if (!array.includes("NotSaveCache")) array[array.length] = "NotSaveCache"
+    if (!array.includes("NotSaveCache")) array[array.length] = 1 << 1
   }
   if (options.LoadCache === false) {
     if (array.NotLoadCache === false) return new Error("Options is invalid.(Code:001)");
-    if (!array.includes("NotLoadCache")) array[array.length] = "NotLoadCache"
+    if (!array.includes("NotLoadCache")) array[array.length] = 1 << 2
   }
   if (options.NotLoadCache === true) {
     if (array.LoadCache === true) return new Error("Options is invalid.(Code:002)");
-    if (!array.includes("NotLoadCache")) array[array.length] = "NotLoadCache"
+    if (!array.includes("NotLoadCache")) array[array.length] = 1 << 2
+  }
+  if (options.RecieveAreaMessage === true){
+    array[array.length] = 1 << 3
   }
 }
 
