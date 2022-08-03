@@ -1,23 +1,21 @@
-# [HIMACHAT QUEST](http://himaquest.com)用
-
-## 使い方
+# 使い方
 ```
 const HCQ = require("himaque-api").Client
 const hcq = new HCQ()
 
-hcq.login("ヒマクエのID","ヒマクエのPASS")
+hcq.login("ID","PASS")
 
 hcq.on("ready", () => {
   console.log("ready!")
 })
 
-hcq.on("guildMessageCreate", message => {
+hcq.on("GuildMessageCreate", message => {
   if (message.author.id === hcq.user.id) return;
   if (message.content === "ping"){
     hcq.guild.send("pong!");
   }
   if (message.content === hello){
-    hcq.guild.send(`Hello! ${hcq.user.name}`)
+    hcq.guild.send(`Hello! ${message.author.name}`)
   }
 })
 ```

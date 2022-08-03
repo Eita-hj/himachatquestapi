@@ -15,6 +15,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/eita-hj/himaque-api.git"
-  },
-  "license": "MIT"
+  }
 }
