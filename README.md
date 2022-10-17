@@ -1,9 +1,7 @@
 # 使い方
 ```
-const HCQ = require("himaque-api").Client
+const { HCQ: Client } = require("himaque-api")
 const hcq = new HCQ()
-
-hcq.login("ID","PASS")
 
 hcq.on("ready", () => {
   console.log("ready!")
@@ -18,4 +16,6 @@ hcq.on("GuildMessageCreate", message => {
     hcq.guild.send(`Hello! ${message.author.name}`)
   }
 })
+
+hcq.login("ID","PASS")
 ```

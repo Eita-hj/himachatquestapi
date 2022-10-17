@@ -1,19 +1,21 @@
 {
-  "name": "himaque-api",
-  "version": "1.0.2",
-  "description": "ヒマクエ用API",
-  "main": "./src/index.js",
-  "dependencies": {
-    "node-fetch": "^2.6.7"
-  },
-  "license": "MIT",
-  "keywords": [
-    "himachatquest",
-    "himaqueAPI",
-    "hcq"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/eita-hj/himaque-api.git"
-  }
+	"name": "himaque-api",
+	"version": "3.0.0-beta",
+	"description": "ヒマクエ用API",
+	"main": "./src/index.js",
+	"dependencies": {
+		"buffer-to-stream": "^1.0.0",
+		"form-data": "^4.0.0",
+		"node-fetch": "^2.6.7"
+	},
+	"license": "MIT",
+	"keywords": [
+		"himachatquest",
+		"himaqueAPI",
+		"hcq"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/eita-hj/himaque-api.git"
+	}
 }
