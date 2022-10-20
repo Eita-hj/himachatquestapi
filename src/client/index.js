@@ -50,20 +50,19 @@ module.exports = class Client extends EventEmitter {
 			return true;
 		}
 	}
-	async logout(send = true){
+	async logout(post = false){
 		if (!this.secret.logined) throw new Error("Already Logouted.")
-		this.secret.logined = false
 		this.emit("debug", "[Debug] Logout Requested.")
-		if (send) await api.post(api.links.logout, {
+		if (post) await api.post(api.links.logout, {
 			marumie: this.secret.id,
 			seskey: this.secret.key
 		})
-		this.secret = {
-			id: "",
-			key: "",
-			users: require("../managers/UserManager"),
-			guilds: require("../managers/GuildManager")
-		}
+		this.secret.id = "";
+		this.secret.key = "";
+		this.users = require("../managers/UserManager")
+		this.guilds = require("../managers/GuildManager")
+		this.secret.logined = false
 		this.emit("debug", "[Debug] Logouted.")
+		return;
 	}
 }
