@@ -15,6 +15,7 @@ module.exports = {
 	Chat: {
 		AreaMessage: "http://himaquest.com/chat_F5User.php",
 		GuildMessage: "http://himaquest.com/chat_F5Guild.php",
+		DirectMessage: "http://himaquest.com/chat_F5HTalk.php"
 	},
 	Ranking: "http://himaquest.com/mission_Ranking.php",
 	UpdateInfo: "http://himaquest.com/top_UpdateInfo.php",
