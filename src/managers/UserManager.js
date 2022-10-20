@@ -10,7 +10,7 @@ module.exports = class UserManager extends BaseManager {
 			seskey: this.client.secret.key,
 			targetid: id
 		})
-		if (ip == "いません") return null
+		if (ip == "いません") return undefined
 		const source = await api.post(api.links.User.Info, {
 			marumie: this.client.secret.id,
 			seskey: this.client.secret.key,
