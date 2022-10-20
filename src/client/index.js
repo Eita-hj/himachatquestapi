@@ -15,7 +15,8 @@ module.exports = class Client extends EventEmitter {
 			id: undefined,
 			key: undefined,
 			options: OptionBits.set(options.option),
-			logined: false
+			logined: false,
+			chatload: false
 		};
 	}
 	async login(id = this.id, pass = this.pass) {
@@ -44,7 +45,7 @@ module.exports = class Client extends EventEmitter {
 			this.guild = this.user.guild;
 			this.emit("ready", this);
 			this.logined = true
-			const { startload } = require("../collectors/ChatCollector");
+			const { startload } = require("../collectors/BaseChatCollector");
 			startload(this, result.kbmark);
 
 			return true;
@@ -53,6 +54,7 @@ module.exports = class Client extends EventEmitter {
 	async logout(post = false){
 		if (!this.secret.logined) throw new Error("Already Logouted.")
 		this.emit("debug", "[Debug] Logout Requested.")
+		this.secret.chatload = false
 		if (post) await api.post(api.links.logout, {
 			marumie: this.secret.id,
 			seskey: this.secret.key
