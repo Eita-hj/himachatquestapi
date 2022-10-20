@@ -4,7 +4,7 @@ const Guild = require("../structures/Guild")
 
 module.exports = class GuildManager extends BaseManager {
 	async fetch(id) {
-		if (!(typeof if === "number" && Number.isInteger(id) && id > 0)) throw new Error(`${id} is invalid. (Error Code 500)`)
+		if (!(typeof id === "number" && Number.isInteger(id) && id > 0)) throw new Error(`${id} is invalid. (Error Code 500)`)
 		let source = await api.post(api.links.Guild.Info, {
 			marumie: this.client.secret.id,
 			seskey: this.client.secret.key,
