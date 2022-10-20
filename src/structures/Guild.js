@@ -4,8 +4,7 @@ const { api } = require("../utils/")
 module.exports = class Guild extends Data {
 	async send(data) {
 		if (this.id !== this.client.user.guild.id) throw new Error("Message guild Error(Error Code 303)")
-		const { GuildMessageAttachMent } = require("./FileAttachent")
-		console.log(data.constructor.name)
+		const GuildMessageAttachMent = require("./GuildMessageAttachent")
 		if (data.constructor.name instanceof GuildMessageAttachMent){
 			await api.post(api.links.Attachment.Upload.Guild, data.data, 1)
 		} else {
