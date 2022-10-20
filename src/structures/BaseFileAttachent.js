@@ -1,7 +1,7 @@
 const FormData = require("form-data")
 const { api } = require("../utils/")
 
-class FileAttachment {
+module.exports = class BaseFileAttachment {
 	constructor(client, file, id){
 		if (!client || !file) return
 		this.data = new FormData()
@@ -26,22 +26,3 @@ class FileAttachment {
 		})
 	}
 }
-
-class GuildMessageAttachMent extends FileAttachment {
-	constructor(client, file, id){
-		super(client, file, id)
-		if (!client || !file) return
-		this.data.append("ftype", "photosubmir")
-	}
-}
-class DMMessageAttachMent extends FileAttachment {
-	constructor(client, file, targetid, id){
-		super(client, file, id)
-		if (!client || !file) return
-		this.data.append("ftype", "photosubmih")
-		this.data.append("targetid", `${targetid}`)
-	}
-}
-
-exports.GuildMessageAttachMent = GuildMessageAttachMent
-exports.DMMessageAttachMent = DMMessageAttachMent
