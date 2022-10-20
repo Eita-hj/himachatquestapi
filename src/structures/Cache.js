@@ -3,7 +3,8 @@ class Cache extends Map {
 		return d.constructor == this.constructor
 	}
 	at(i){
-		return this.first(i)
+		if (!(typeof if === "number" && Number.isInteger(i)) throw new TypeError(`${i} is invalid.`)
+		return [...this][i < 0 ? this.size + i : i][1]
 	}
 	concat(...d){
 		if (d.length == 0) throw TypeError("undefined is not Cache or Array")
@@ -11,11 +12,11 @@ class Cache extends Map {
 		if (check.length) throw TypeError(`${check} is not Cache or Array`)
 		const data = [];
 		d.forEach(n => {
-		if (this.isCache(n)){
-			[...n].forEach(m => data.push(m))
-		} else {
-			data.push(n)
-		}
+			if (this.isCache(n)){
+				[...n].forEach(m => data.push(m))
+			} else {
+				data.push(n)
+			}
 		})
 		return new this.constructor(([...this]).concat(data));
 	}
