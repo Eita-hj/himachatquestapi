@@ -33,7 +33,7 @@ class Ranking {
 			);
 			obj.user = this.client?.secret?.id
 				? cache
-					? this.client.secret.options.includes(1 << 2)
+					? this.client.secret.options.includes(1n << 2n)
 						? this.client.users.fetch(id)
 						: this.client.users.get(id)
 					: await this.client.fetch(id)
