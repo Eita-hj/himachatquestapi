@@ -7,8 +7,8 @@ module.exports = async function (client, defaultbmark) {
 		seskey: client.secret.key,
 		bmark: defaultbmark,
 	}).bmark;
-	for (; client.secret.load; ) {
-		if (!client.secret.load) return;
+	for (; client.secret.chatload; ) {
+		if (!client.secret.chatload) return;
 		const data = await api.post(api.links.Chat.AreaMessage, {
 			marumie: client.secret.id,
 			seskey: client.secret.key,
@@ -28,11 +28,11 @@ module.exports = async function (client, defaultbmark) {
 					result.shout = result.content.includes("<b style=")
 					result.content = convtext(result.content)
 					result.content = result.shout ? result.content.slice(25).slice(0, -4) : result.content
-					if (!client.secret.load) return;
+					if (!client.secret.chatload) return;
 					result.author = client.secret.options.has(1n << 2n)
 						? await client.users.fetch(data.coments[i].uid)
 						: await client.users.get(data.coments[i].uid);
-					if (!client.secret.load) return;
+					if (!client.secret.chatload) return;
 					client.emit("AreaMessageCreate", result);
 				}
 			} else {
@@ -40,7 +40,7 @@ module.exports = async function (client, defaultbmark) {
 				first = false;
 			}
 		}
-		if (!client.secret.load) return;
+		if (!client.secret.chatload) return;
 		await new Promise((resolve) => setTimeout(resolve, 1000));
 	}
 }
