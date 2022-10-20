@@ -41,7 +41,7 @@ module.exports = class Client extends EventEmitter {
 			this.secret.key = result.seskey;
 			this.guilds = new this.guilds(this);
 			this.users = new this.users(this);
-			this.user = await this.users.fetch(Number(result.userid));
+			this.user = await this.users.fetch(result.userid);
 			this.guild = this.user.guild;
 			this.emit("ready", this);
 			this.logined = true
