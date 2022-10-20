@@ -3,7 +3,7 @@ class Cache extends Map {
 		return d.constructor == this.constructor
 	}
 	at(i){
-		if (!(typeof if === "number" && Number.isInteger(i)) throw new TypeError(`${i} is invalid.`)
+		if (!(typeof i === "number" && Number.isInteger(i))) throw new TypeError(`${i} is invalid.`)
 		return [...this][i < 0 ? this.size + i : i][1]
 	}
 	concat(...d){
