@@ -4,7 +4,8 @@ const User = require("../structures/User")
 
 module.exports = class UserManager extends BaseManager {
 	async fetch(id) {
-		if (!(typeof id === "number" && Number.isInteger(id) && id > 0)) throw new Error(`${id} is invalid. (Error Code 500)`)
+		if (isNaN(id)) throw new Error(`${id} is invalid. (Error Code 500)`)
+		if (!(typeof Number(id) === "number" && Number.isInteger(Number(id)) && id > 0)) throw new Error(`${id} is invalid. (Error Code 501)`)
 		const ip = await api.post(api.links.User.Manage, {
 			marumie: this.client.secret.id,
 			seskey: this.client.secret.key,
