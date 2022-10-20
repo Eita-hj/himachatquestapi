@@ -6,6 +6,7 @@ module.exports = new Bits(
 			GuildMessages: 1n << 1n,
 			UsersCache: 1n << 2n,
 			GuildCache: 1n << 3n,
+			DirectMessages: 1n << 4n
 		}
 	}
 )
