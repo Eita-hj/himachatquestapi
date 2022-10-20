@@ -6,8 +6,8 @@ module.exports = class Guild extends Data {
 		if (this.id !== this.client.user.guild.id) throw new Error("Message guild Error(Error Code 303)")
 		const { GuildMessageAttachMent } = require("./FileAttachent")
 		console.log(data.constructor.name)
-		if (data.constructor.name == new GuildMessageAttachMent().constructor.name){
-			await api.post(api.links.Attachment.Upload.Guild, data.data, 1).then(console.log)
+		if (data.constructor.name instanceof GuildMessageAttachMent){
+			await api.post(api.links.Attachment.Upload.Guild, data.data, 1)
 		} else {
 			if (!(typeof data == "string" || typeof data == "number"))
 				throw new Error("Message type Error(Error Code 300)");
