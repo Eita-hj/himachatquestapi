@@ -80,7 +80,6 @@ async function getGuildChat(client) {
 			}
 			if (!load) return;
 			client.emit("GuildMessageCreate", result);
-			client.emit("GuildMessage", result);
 		}
 		if (!load) return;
 		await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -117,13 +116,11 @@ async function getAreaChat(client, defaultbmark) {
 					result.content = convtext(result.content)
 					result.content = result.shout ? result.content.slice(25).slice(0, -4) : result.content
 					if (!load) return;
-					result.content
 					result.author = client.secret.options.has(1n << 2n)
 						? await client.users.fetch(data.coments[i].uid)
 						: await client.users.get(data.coments[i].uid);
 					if (!load) return;
 					client.emit("AreaMessageCreate", result);
-					client.emit("AreaMessage", result);
 				}
 			} else {
 				bmark = data.bmark == undefined ? bmark : data.bmark;
