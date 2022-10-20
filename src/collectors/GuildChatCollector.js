@@ -1,6 +1,6 @@
 const { api, convtext } = require("../utils/");
 
-module.export = async function getGuildChat(client) {
+module.export = async function (client) {
 	let bmark = await api.post(api.links.Guild.ChatEntry, {
 		marumie: client.secret.id,
 		seskey: client.secret.key,
