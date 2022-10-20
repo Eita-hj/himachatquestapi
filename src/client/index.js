@@ -59,10 +59,10 @@ module.exports = class Client extends EventEmitter {
 		})
 		this.secret.id = "";
 		this.secret.key = "";
-		this.users = require("../managers/UserManager")
-		this.guilds = require("../managers/GuildManager")
-		this.secret.logined = false
-		this.emit("debug", "[Debug] Logouted.")
+		this.users = require("../managers/UserManager");
+		this.guilds = require("../managers/GuildManager");
+		this.secret.logined = false;
+		this.emit("debug", "[Debug] Logouted.");
 		return;
 	}
 }
