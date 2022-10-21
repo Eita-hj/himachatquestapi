@@ -1,7 +1,11 @@
 # 使い方
 ```
-const { HCQ: Client } = require("himaque-api")
-const hcq = new HCQ()
+const { HCQ: Client, OptionBits } = require("himaque-api")
+const hcq = new HCQ({
+  option: [
+    OptionBits.Flags.GuildMessage
+  ]
+})
 
 hcq.on("ready", () => {
   console.log("ready!")
