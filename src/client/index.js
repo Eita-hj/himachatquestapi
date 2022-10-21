@@ -46,7 +46,7 @@ module.exports = class Client extends EventEmitter {
 			this.emit("ready", this);
 			this.logined = true
 			const { startload } = require("../collectors/BaseChatCollector");
-			startload(this, result.kbmark);
+			startload(this, result.kbmark, result.hbmark);
 
 			return true;
 		}
