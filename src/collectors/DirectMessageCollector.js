@@ -14,8 +14,8 @@ module.exports = async function (client, defaultbmark) {
 			seskey: client.secret.key,
 			bmark,
 		});
-		if (data.coments.length) {
-			if (!first){
+		if (!first) {
+			if (data.coments.length){
 				for (let i = 0; i < data.coments.length; i++) {
 					bmark = data.bmark || bmark;
 					let source = data.coments[i].source;
@@ -25,7 +25,7 @@ module.exports = async function (client, defaultbmark) {
 						.join("")
 						.split("<td class='c_mozi' style='color:#000000'>")[1]
 						.split("\n")[0]
-					result.author = client.secret.options.has(1n << 2n) ? await client.users.get(obj.coments[0].uid) : await client.users.fetch(obj.coments[0].uid);
+					result.author = client.secret.options.has(1n << 2n) ? await client.users.get(obj.coments[i].uid) : await client.users.fetch(obj.coments[i].uid);
 					if (
 						c.includes(
 							"<a href='javascript:void(0);' class='astyle' onclick='PhotoGet(this,"
@@ -53,9 +53,9 @@ module.exports = async function (client, defaultbmark) {
 							tag = ".jpeg";
 						}
 						result.content = null;
-						const { GuildMessageAttachMent } = require("../structures/FileAttachent")
+						const DirectMessageAttachMent = require("../structures/DirectFileAttachent")
 						const photoData = await api.post(api.links.Attachment.PhotoData(pid, pkey, tag),{}, 2).then(n => n.stream())
-						result.file = new GuildMessageAttachMent(client, photoData, pid)
+						result.file = new DirectMessageAttachMent(client, photoData, pid)
 					} else {
 						result.type = "text";
 						result.file = null;
@@ -68,6 +68,7 @@ module.exports = async function (client, defaultbmark) {
 						);
 						result.content = c
 					}
+					result.reply = result.author.send
 					if (!client.secret.chatload) return;
 					client.emit("DirectMessageCreate", result);
 				}
