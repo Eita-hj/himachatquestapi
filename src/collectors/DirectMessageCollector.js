@@ -53,7 +53,7 @@ module.exports = async function (client, defaultbmark) {
 							tag = ".jpeg";
 						}
 						result.content = null;
-						const DirectMessageAttachMent = require("../structures/DirectFileAttachent")
+						const DirectMessageAttachMent = require("../structures/DirectMessageAttachment")
 						const photoData = await api.post(api.links.Attachment.PhotoData(pid, pkey, tag),{}, 2).then(n => n.stream())
 						result.file = new DirectMessageAttachMent(client, photoData, pid)
 					} else {
