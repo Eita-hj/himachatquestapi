@@ -10,8 +10,8 @@ module.exports = class Data {
 	toString() {
 		return this.name;
 	}
-	clone() {
-		return new this.constructor(this.parseData);
+	clone(client = this.client) {
+		return new this.constructor(this.parseData, client);
 	}
 	save(data){
 		this.#parseData = data
