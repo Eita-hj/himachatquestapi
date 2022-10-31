@@ -4,7 +4,11 @@ module.exports = {
 	Guild: {
 		Info: "http://himaquest.com/guild_Window.php",
 		SendMessage: "http://himaquest.com/chat_HatugenGuild.php",
-		ChatEntry: "http://himaquest.com/chat_GuildChatEntry.php"
+		ChatEntry: "http://himaquest.com/chat_GuildChatEntry.php",
+		BBS: {
+			Window: "https://himaquest.com/guild_BBSWindow.php",
+			Create: ""
+		}
 	},
 	User: {
 		Info: "http://himaquest.com/UserWindow.php",
