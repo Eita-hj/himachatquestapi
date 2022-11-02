@@ -1,6 +1,6 @@
 const {api, convtext} = require("../utils/")
 const BaseManager = require("./BaseManager")
-const GuildBBS = require("../structures/BBS")
+const GuildBBS = require("../structures/GuildBBS")
 
 module.exports = class BBSGetter extends BaseManager {
   constructor(client){
