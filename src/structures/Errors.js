@@ -1,5 +1,5 @@
 module.exports = {
-  get Description(code){
+  getDescription(code){
     return error[code].jp
   }
 };
