@@ -1,7 +1,12 @@
 const Data = require("./Data")
 const { api } = require("../utils/")
+const GuildBBSManager = require("../managers/GuildBBSManager")
 
 module.exports = class Guild extends Data {
+	constructor(a,b){
+		super(a,b)
+		this.BBSs = new GuildBBSManager(this)
+	}
 	async send(data) {
 		if (this.id !== this.client.user.guild.id) throw new Error("Message guild Error(Error Code 303)")
 		const GuildMessageAttachMent = require("./GuildMessageAttachent")
