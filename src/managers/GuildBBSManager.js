@@ -8,7 +8,6 @@ module.exports = class GuildBBSManager extends BaseManager {
   }
   async fetch(page){
     if (!typeof page === "number") throw new TypeError(`${page} is invalid.`)
-    //guild_BBSSerch.php
     const f = await api.post(api.links.Guild.BBS.List, {
       marumie: this.client.secret.id,
       seskey: this.client.secret.key,
