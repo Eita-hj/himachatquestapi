@@ -10,6 +10,7 @@ module.exports = class Client extends EventEmitter {
 		this.pass = "";
 		this.users = require("../managers/UserManager");
 		this.guilds = require("../managers/GuildManager");
+		this.BBSs = require("../managers/BBSGetter");
 		if (options.option == undefined) throw new Error("Option is invalid.")
 		this.secret = {
 			id: undefined,
@@ -41,6 +42,7 @@ module.exports = class Client extends EventEmitter {
 			this.secret.key = result.seskey;
 			this.guilds = new this.guilds(this);
 			this.users = new this.users(this);
+			this.BBSs = new this.BBSs(this);
 			this.user = await this.users.fetch(result.userid);
 			this.guild = this.user.guild;
 			this.emit("ready", this);
@@ -63,6 +65,7 @@ module.exports = class Client extends EventEmitter {
 		this.secret.key = "";
 		this.users = require("../managers/UserManager");
 		this.guilds = require("../managers/GuildManager");
+		this.BBSs = require("../managers/BBSGetter");
 		this.secret.logined = false;
 		this.emit("debug", "[Debug] Logouted.");
 		return;
