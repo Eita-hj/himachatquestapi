@@ -6,7 +6,8 @@ module.exports = {
 		SendMessage: "http://himaquest.com/chat_HatugenGuild.php",
 		ChatEntry: "http://himaquest.com/chat_GuildChatEntry.php",
 		BBS: {
-			Window: "https://himaquest.com/guild_BBSWindow.php",
+			Window: "http://himaquest.com/guild_BBSWindow.php",
+			List: "http://himaquest.com/guild_BBSSerch.php",
 			Create: ""
 		}
 	},
