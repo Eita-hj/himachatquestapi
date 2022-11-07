@@ -25,7 +25,6 @@ module.exports = class BBSGetter extends BaseManager {
     const t = source.split(`style='color:#0000EE;cursor:pointer;font-size:11px;'>${authorid}</span>　`)[1].split("</div>")[0]
     r.createdTimestamp = Date.parse(t.split("-").join("/"))
     r.createdAt = new Date(r.createdTimestamp)
-    r.comments = new GuildBBSCommentManager(this.client, this)
     return new GuildBBS(r, this.client)
   }
 }
