@@ -17,9 +17,10 @@ module.exports = class BBSGetter extends BaseManager {
     const r = {}
     const { source } = f
     r.title = convtext(source.split("<h3 style='font-weight:bold' class='bbsul_title'>")[1].split("</h3>")[0])
-    r.author = await this.client.users.get(Number(source.split("author <span onclick='UserWindow(")[1].split(")")[0]))
-    const t = source.split.split("</span>")
-    r.createdTimestamp = Date.parse(t[t.length - 1].slice(1).slice(0, -6).split("-").join("/"))
+    const authorid = source.split("author <span onclick='UserWindow(")[1].split(")")[0]
+    r.author = await this.client.users.get(Number(authorid))
+    const t = source.split(`style='color:#0000EE;cursor:pointer;font-size:11px;'>${authorid}</span>　`)[1].split("</div>")[0]
+    r.createdTimestamp = Date.parse(t.split("-").join("/"))
     r.createdAt = new Date(createdTimestamp)
     r.comments = new GuildBBSCommentManager(this)
     return new GuildBBS(r, this.client)
