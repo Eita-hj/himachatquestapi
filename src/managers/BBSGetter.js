@@ -14,7 +14,7 @@ module.exports = class BBSGetter extends BaseManager {
       bbsid: id,
       page: 1
     })
-    const result = {}
+    const r = {}
     const { source } = f
     r.title = convtext(source.split("<h3 style='font-weight:bold' class='bbsul_title'>")[1].split("</h3>")[0])
     r.author = await this.client.users.get(Number(source.split("author <span onclick='UserWindow(")[1].split(")")))
