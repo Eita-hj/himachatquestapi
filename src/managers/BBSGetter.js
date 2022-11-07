@@ -1,6 +1,5 @@
 const {api, convtext} = require("../utils/")
 const BaseManager = require("./BaseManager")
-const GuildBBSCommentManager = require("./GuildBBSCommentManager")
 const GuildBBS = require("../structures/GuildBBS")
 
 module.exports = class BBSGetter extends BaseManager {
