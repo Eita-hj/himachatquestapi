@@ -17,7 +17,7 @@ module.exports = class BBSGetter extends BaseManager {
     const r = {}
     const { source } = f
     r.title = convtext(source.split("<h3 style='font-weight:bold' class='bbsul_title'>")[1].split("</h3>")[0])
-    r.author = await this.client.users.get(Number(source.split("author <span onclick='UserWindow(")[1].split(")")))
+    r.author = await this.client.users.get(Number(source.split("author <span onclick='UserWindow(")[1].split(")")[0]))
     const t = source.split.split("</span>")
     r.createdTimestamp = Date.parse(t[t.length - 1].slice(1).slice(0, -6).split("-").join("/"))
     r.createdAt = new Date(createdTimestamp)
