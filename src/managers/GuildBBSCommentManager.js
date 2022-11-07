@@ -2,8 +2,8 @@ const {api, convtext} = require("../utils/")
 const BaseManager = require("./BaseManager")
 const Cache = require("../structures/Cache")
 module.exports = class GuildBBSCommentManager extends BaseManager {
-  constructor(data){
-    super(data)
+  constructor(client, data){
+    super(client)
     this.BBS = data
   }
   async fetch(page){
