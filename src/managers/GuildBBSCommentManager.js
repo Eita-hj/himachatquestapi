@@ -2,7 +2,7 @@ const {api, convtext} = require("../utils/")
 const BaseManager = require("./BaseManager")
 const Cache = require("../structures/Cache")
 module.exports = class GuildBBSCommentManager extends BaseManager {
-  constractor(data){
+  constructor(data){
     super(data)
     this.BBS = data
   }
