@@ -18,6 +18,7 @@ module.exports = class BBSGetter extends BaseManager {
     if (f === "メンバーでない" || f.error === 99) return null
     const r = {}
     const { source } = f
+    f.id = id
     r.title = convtext(source.split("<h3 style='font-weight:bold' class='bbsul_title'>")[1].split("</h3>")[0])
     const authorid = source.split("author <span onclick='UserWindow(")[1].split(")")[0]
     r.author = await this.client.users.get(Number(authorid))
