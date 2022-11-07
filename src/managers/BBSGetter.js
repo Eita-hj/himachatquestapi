@@ -15,6 +15,7 @@ module.exports = class BBSGetter extends BaseManager {
       bbsid: id,
       page: 1
     })
+    if (f === "メンバーでない" || f.error === 99) return null
     const r = {}
     const { source } = f
     r.title = convtext(source.split("<h3 style='font-weight:bold' class='bbsul_title'>")[1].split("</h3>")[0])
