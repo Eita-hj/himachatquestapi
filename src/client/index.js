@@ -70,7 +70,7 @@ module.exports = class Client extends EventEmitter {
 		this.guilds = new this.guilds(this);
 		this.users = new this.users(this);
 		this.BBSs = new this.BBSs(this);
-		this.user = await this.users.fetch(result.userid);
+		this.user = await this.users.fetch(Number(SID));
 		this.guild = this.user.guild;
 		this.emit("ready", this);
 		this.logined = true
