@@ -53,6 +53,32 @@ module.exports = class Client extends EventEmitter {
 			return true;
 		}
 	}
+	async loginByData(SID, SKEY){
+		this.emit("debug", "[Debug] Login Requested.")
+		this.emit("debug", `[Debug] Recieved SID:${SID} Recieved SKEY:${SKEY.slice(0,4)}${pass.slice(4).replace(/./g, "*")}`)
+		
+		if (!SID || !SKEY) throw new TypeError("SID or SKEY is invaild.")
+		const result = await api.post(api.links.Info, {
+			marumie: SID,
+			seskey: SKEY,
+			targetid: SID
+		})
+		if (result === "セッション不正") throw new Error("SID or SKEY is invalid.")
+		this.secret.logined = true
+		this.secret.id = SID;
+		this.secret.key = SKEY;
+		this.guilds = new this.guilds(this);
+		this.users = new this.users(this);
+		this.BBSs = new this.BBSs(this);
+		this.user = await this.users.fetch(result.userid);
+		this.guild = this.user.guild;
+		this.emit("ready", this);
+		this.logined = true
+		const { startload } = require("../collectors/BaseMessageCollector");
+		startload(this, result.kbmark, result.hbmark);
+
+		return true;
+	}
 	async logout(post = false){
 		if (!this.secret.logined) throw new Error("Already Logouted.")
 		this.emit("debug", "[Debug] Logout Requested.")
