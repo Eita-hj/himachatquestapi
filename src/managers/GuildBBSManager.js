@@ -15,17 +15,18 @@ module.exports = class GuildBBSManager extends BaseManager {
       page,
     })
     const { source } = f
-    const a = source.split("<div class='gw_bbsul' onclick='")
+    const a = source.split("<div class='gw_bbsul' onclick='BBSWindow(")
     a.shift()
-    const r = a.map(async n => {
+    for (let i = 0; i < a.length; i++){
+      const n = a[i]
       const id = n.split(",1)'>")[0]
       const data = await this.client.BBSs.fetch(id)
       const count = n.split("<small class='gw_bbsul_many'>(")[1].split(")</small>")[0]
       const lastUpdateTimestamp = Date.parse(n.split("<small class='gw_bbsul_updated'>(")[1].split(")</small>")[0].split("-").join("/"))
       const lastUpdate = new Date(lastUpdateTimestamp)
-      data.save({...data, lastUpdateTimestamp, lastUpdate, count})
+      data.save({lastUpdateTimestamp, lastUpdate, count})
       //if (this.client.secret.options.has(1 << 5)) this.cache.set(id, data.clone())
-      return [id, data.clone()]
+      r.push([id, data.clone()])
     })
     return new Cache(r)
   }
