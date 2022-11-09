@@ -27,7 +27,7 @@ module.exports = class GuildBBSManager extends BaseManager {
       data.save({lastUpdateTimestamp, lastUpdate, count})
       //if (this.client.secret.options.has(1 << 5)) this.cache.set(id, data.clone())
       r.push([id, data.clone()])
-    })
+    }
     return new Cache(r)
   }
 }
