@@ -58,7 +58,7 @@ module.exports = class Client extends EventEmitter {
 		this.emit("debug", `[Debug] Recieved SID:${SID} Recieved SKEY:${SKEY.slice(0,4)}${SKEY.slice(4).replace(/./g, "*")}`)
 		
 		if (!SID || !SKEY) throw new TypeError("SID or SKEY is invaild.")
-		const result = await api.post(api.links.Info, {
+		const result = await api.post(api.links.User.Info, {
 			marumie: SID,
 			seskey: SKEY,
 			targetid: SID
