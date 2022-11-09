@@ -83,7 +83,7 @@ module.exports = class Client extends EventEmitter {
 		if (!this.secret.logined) throw new Error("Already Logouted.")
 		this.emit("debug", "[Debug] Logout Requested.")
 		this.secret.chatload = false
-		if (post) await api.post(api.links.logout, {
+		if (post) await api.post(api.links.Logout, {
 			marumie: this.secret.id,
 			seskey: this.secret.key
 		})
