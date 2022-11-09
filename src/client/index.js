@@ -55,7 +55,7 @@ module.exports = class Client extends EventEmitter {
 	}
 	async loginByData(SID, SKEY){
 		this.emit("debug", "[Debug] Login Requested.")
-		this.emit("debug", `[Debug] Recieved SID:${SID} Recieved SKEY:${SKEY.slice(0,4)}${pass.slice(4).replace(/./g, "*")}`)
+		this.emit("debug", `[Debug] Recieved SID:${SID} Recieved SKEY:${SKEY.slice(0,4)}${SKEY.slice(4).replace(/./g, "*")}`)
 		
 		if (!SID || !SKEY) throw new TypeError("SID or SKEY is invaild.")
 		const result = await api.post(api.links.Info, {
