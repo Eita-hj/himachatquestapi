@@ -17,6 +17,7 @@ module.exports = class GuildBBSManager extends BaseManager {
     const { source } = f
     const a = source.split("<div class='gw_bbsul' onclick='BBSWindow(")
     a.shift()
+    const r = []
     for (let i = 0; i < a.length; i++){
       const n = a[i]
       const id = n.split(",1)'>")[0]
