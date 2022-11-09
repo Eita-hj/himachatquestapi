@@ -11,9 +11,9 @@ module.exports = class Data {
 		return this.name;
 	}
 	clone() {
-		return new this.constructor(this.parseData);
+		return new this.constructor(this.#parseData);
 	}
 	save(data){
-		this.#parseData = data
+		this.#parseData = {...this.#parseData, data}
 	}
 }
