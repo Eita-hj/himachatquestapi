@@ -19,7 +19,7 @@ module.exports = {
 		SendDM: "http://himaquest.com/chat_HatugenKobetu.php",
 		Setting: {
 			NameChange: "http://himaquest.com/myhouse_NameChange.php",
-			ProfileChange: "http://himaquest.com/user_ShoukaiEdit.php"
+			ProfileChange: "http://himaquest.com/user_ShoukaiComplete.php"
 		}
 	},
 	Chat: {
