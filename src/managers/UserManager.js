@@ -65,7 +65,7 @@ module.exports = class UserManager extends BaseManager {
 			if (this.cache.has(result.id)) this.cache.delete(result.id);
 			this.cache.set(result.id, result);
 		}
-		if (id === this.client.secret.id) return new ClientUser(result, this.client)
+		if (id == this.client.secret.id) return new ClientUser(result, this.client)
 		return new User(result, this.client);
 	}
 	async get(id) {
