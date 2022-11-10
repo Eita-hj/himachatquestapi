@@ -1,6 +1,7 @@
 const BaseManager = require("./BaseManager")
 const { api, convtext } = require("../utils/")
 const User = require("../structures/User")
+const ClientUser = require("../structures/Clientuser")
 
 module.exports = class UserManager extends BaseManager {
 	async fetch(id) {
@@ -64,6 +65,7 @@ module.exports = class UserManager extends BaseManager {
 			if (this.cache.has(result.id)) this.cache.delete(result.id);
 			this.cache.set(result.id, result);
 		}
+		if (id === this.client.secret.id) return new ClientUser(result, this.client)
 		return new User(result, this.client);
 	}
 	async get(id) {
