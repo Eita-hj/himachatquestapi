@@ -1,7 +1,7 @@
 const BaseManager = require("./BaseManager")
 const { api, convtext } = require("../utils/")
 const User = require("../structures/User")
-const ClientUser = require("../structures/Clientuser")
+const ClientUser = require("../structures/ClientUser")
 
 module.exports = class UserManager extends BaseManager {
 	async fetch(id) {
