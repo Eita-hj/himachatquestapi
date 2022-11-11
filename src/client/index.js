@@ -20,7 +20,27 @@ module.exports = class Client extends EventEmitter {
 			chatload: false
 		};
 	}
-	async login(id = this.id, pass = this.pass) {
+	async login(type, data1, data2){
+		switch (type){
+			case "IDPASS":
+			case "IDPass":
+			case "IdPass":
+				this.loginByIdPass(data1, data2);
+				break;
+			case "Data":
+			case "SIDSKEY":
+				this.loginByData(data1, data2);
+				break;
+			case "TOKEN":
+			case "token":
+			case "Token":
+				this.loginByToken(data1)
+				break;
+			default:
+				throw new TypeError("Login Type is invalid.")
+		}
+	}
+	async loginByIdPass(id = this.id, pass = this.pass) {
 		if (this.secret.logined) throw new Error("Already Logined.")
 		this.emit("debug", "[Debug] Login Requested.")
 		this.emit("debug", `[Debug] Recieved ID:${id.slice(0,2)}${id.slice(2).replace(/./g, "*")} Recieved PASS:${pass.slice(0,2)}${pass.slice(2).replace(/./g, "*")}`)
@@ -78,6 +98,19 @@ module.exports = class Client extends EventEmitter {
 		startload(this, result.kbmark, result.hbmark);
 
 		return true;
+	}
+	async loginByToken(token){
+		const { toData } = require("../utils/GenerateToken");
+		const { ID, Pass, SID, SKEY } = toData(token);
+		try {
+			await this.loginByData(SID,SKEY);
+			return
+		} catch (e) {
+			this.emit("debug", "Login by secret data is failed.")
+			await this.loginByIdPass(ID, Pass);
+			console.warn("Login successed, but secret data is invalid. So you need to regenerate token.");
+			return;
+		}
 	}
 	async logout(post = false){
 		if (!this.secret.logined) throw new Error("Already Logouted.")
