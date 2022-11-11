@@ -100,7 +100,7 @@ module.exports = class Client extends EventEmitter {
 		return true;
 	}
 	async loginByToken(token){
-		const { toData } = require("../utils/GenerateToken");
+		const { GenerateToken: { toData } } = require("../utils/");
 		const { ID, Pass, SID, SKEY } = toData(token);
 		try {
 			await this.loginByData(SID,SKEY);
@@ -108,7 +108,7 @@ module.exports = class Client extends EventEmitter {
 		} catch (e) {
 			this.emit("debug", "Login by secret data is failed.")
 			await this.loginByIdPass(ID, Pass);
-			console.warn("Login successed, but secret data is invalid. So you need to regenerate token.");
+			console.warn("Login successed, but secret data is invalid. You need to regenerate token.");
 			return;
 		}
 	}
