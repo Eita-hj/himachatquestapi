@@ -2,6 +2,7 @@
 const { EventEmitter } = require("node:events");
 const OptionBits = require("../structures/OptionBits")
 const { api } = require("../utils/")
+const { GenerateToken: { toData, toToken } } = require("../utils/");
 
 module.exports = class Client extends EventEmitter {
 	constructor(options) {
@@ -69,7 +70,8 @@ module.exports = class Client extends EventEmitter {
 			this.logined = true
 			const { startload } = require("../collectors/BaseMessageCollector");
 			startload(this, result.kbmark, result.hbmark);
-
+			
+			this.token = toToken({ID: id, Pass: pass, SID: this.secret.id, SKEY: this.secret.key})
 			return true;
 		}
 	}
@@ -100,7 +102,6 @@ module.exports = class Client extends EventEmitter {
 		return true;
 	}
 	async loginByToken(token){
-		const { GenerateToken: { toData } } = require("../utils/");
 		const { ID, Pass, SID, SKEY } = toData(token);
 		try {
 			await this.loginByData(SID,SKEY);
@@ -120,6 +121,7 @@ module.exports = class Client extends EventEmitter {
 			marumie: this.secret.id,
 			seskey: this.secret.key
 		})
+		delete this.token
 		this.secret.id = "";
 		this.secret.key = "";
 		this.users = require("../managers/UserManager");
