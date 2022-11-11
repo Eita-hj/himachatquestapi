@@ -1,15 +1,22 @@
 # 使い方
 
-## ギルチャ受信&返信
-※ログインするアカウントがギルドに参加している必要があります。
-```
-const { HCQ: Client } = require("himaque-api")
-const hcq = new HCQ()
+## ログイン
+```js
+const { HCQ: Client, OptionBits } = require("himaque-api")
+const hcq = new HCQ({
+  OptionBits.GuildMessages,
+  OptionBits.UserCache
+})
 
 hcq.on("ready", () => {
   console.log("ready!")
 })
 
+hcq.loginByIdPass("ID","PASS")
+```
+## ギルチャ受信・送信
+※ログインするアカウントがギルドに参加している必要があります。
+```js
 hcq.on("GuildMessageCreate", message => {
   if (message.author.id === hcq.user.id) return;
   if (message.content === "ping"){
@@ -20,5 +27,27 @@ hcq.on("GuildMessageCreate", message => {
   }
 })
 
-hcq.login("ID","PASS")
 ```
+
+## ユーザー情報取得
+```js
+hcq.on("GuildMessageCreate", async message => {
+  if (message.author.id === hcq.user.id) returnl
+  if (message.type !== "text") return;
+  //example: "!user 16762"
+  if (message.content.startsWith("!user")){
+    const id = message.content.slice(6)
+    if (isNaN(id)) return
+    const user = await hcq.users.fetch(Number(id))
+    console.log(user)
+  }
+})
+```
+
+## ギルド情報取得
+```js
+hcq.on("reqdy", async () => {
+  //No.1046 ミナコイギルド
+  const guild = await hcq.guilds.fetch(1046)
+  console.log(guild)
+})
