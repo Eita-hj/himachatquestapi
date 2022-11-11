@@ -22,7 +22,7 @@ module.exports = class GuildBBSCommentManager extends BaseManager {
     for (let i = 0; i < a.length; i++){
       const n = a[i]
       const authorid = n.split(")")[0]
-      const author = await this.client.users.fetch(Number(authorid))
+      const author = await this.client.users.get(Number(authorid))
       const number = Number(n.split(">")[1].split("　")[0])
       const createdTimestamp = Date.parse(n.split("<span style='color:#AAAAAA'>")[1].split("</span>")[0].split("-").join("/"))
       const createdAt = new Date(createdTimestamp)
