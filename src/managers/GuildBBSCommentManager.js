@@ -27,7 +27,7 @@ module.exports = class GuildBBSCommentManager extends BaseManager {
       const createdTimestamp = Date.parse(n.split("<span style='color:#AAAAAA'>")[1].split("</span>")[0].split("-").join("/"))
       const createdAt = new Date(createdTimestamp)
       const content = convtext(n.split("<p class='bbsul_honbun'>")[1].split("</p>")[0].split("<br />\n").join("\n"))
-      const files = source.includes("<img class='photoimg' src='PhotoBBS/") ? source.split("<div class='bbsul_imgdivs'>")[1].split("<img class='photoimg' src='PhotoBBS/").slice(1).map(n => `http://himaquest.com/PhotoBBS/${n.split("'")[0]}`) : null
+      const files = n.includes("<img class='photoimg' src='PhotoBBS/") ? n.split("<div class='bbsul_imgdivs'>")[1].split("<img class='photoimg' src='PhotoBBS/").slice(1).map(n => `http://himaquest.com/PhotoBBS/${n.split("'")[0]}`) : null
       r.push([number, new GuildBBSCommentData({number, content, files, author, createdAt, createdTimestamp}, this.client)])
     }
     return new Cache(r)
