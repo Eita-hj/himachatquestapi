@@ -66,10 +66,10 @@ module.exports = class Client extends EventEmitter {
 			this.BBSs = new this.BBSs(this);
 			this.user = await this.users.fetch(result.userid);
 			this.guild = this.user.guild;
-			this.emit("ready", this);
 			this.logined = true
 			const { startload } = require("../collectors/BaseMessageCollector");
 			this.token = toToken({ID: id, Pass: pass, SID: this.secret.id, SKEY: this.secret.key})
+			this.emit("ready", this);
 			startload(this, result.kbmark, result.hbmark);
 			
 			return true;
@@ -94,8 +94,8 @@ module.exports = class Client extends EventEmitter {
 		this.BBSs = new this.BBSs(this);
 		this.user = await this.users.fetch(Number(SID));
 		this.guild = this.user.guild;
-		this.emit("ready", this);
 		this.logined = true
+		this.emit("ready", this);
 		const { startload } = require("../collectors/BaseMessageCollector");
 		startload(this, result.kbmark, result.hbmark);
 
