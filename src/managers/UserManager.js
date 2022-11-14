@@ -1,17 +1,18 @@
 const BaseManager = require("./BaseManager")
 const { api, convtext } = require("../utils/")
 const User = require("../structures/User")
+const ClientUser = require("../structures/ClientUser")
 
 module.exports = class UserManager extends BaseManager {
 	async fetch(id) {
-		if (!id) throw new Error(`${id} is invalid. (Error Code 500)`)
-		if (isNaN(id)) throw new Error(`${id} is invalid. (Error Code 501)`)
+		if (isNaN(id)) throw new Error(`${id} is invalid. (Error Code 500)`)
+		if (!(typeof Number(id) === "number" && Number.isInteger(Number(id)) && id > 0)) throw new Error(`${id} is invalid. (Error Code 501)`)
 		const ip = await api.post(api.links.User.Manage, {
 			marumie: this.client.secret.id,
 			seskey: this.client.secret.key,
 			targetid: id
 		})
-		if (ip == "いません") return null
+		if (ip == "いません") return undefined
 		const source = await api.post(api.links.User.Info, {
 			marumie: this.client.secret.id,
 			seskey: this.client.secret.key,
@@ -64,6 +65,7 @@ module.exports = class UserManager extends BaseManager {
 			if (this.cache.has(result.id)) this.cache.delete(result.id);
 			this.cache.set(result.id, result);
 		}
+		if (id == this.client.secret.id) return new ClientUser(result, this.client)
 		return new User(result, this.client);
 	}
 	async get(id) {

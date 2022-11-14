@@ -1,4 +1,4 @@
-module.exports = class Errors {
+module.exports = {
   getDescription(code){
     return error[code].jp
   }
@@ -34,4 +34,10 @@ const error = {
   404: {
     jp: "一時的にBANされている状態です。\nID・パスワードを短時間で複数回間違えたり、チャットに短時間で大量のコメントを送信するとこのエラーが発生する事があります。",
   },
+  500: {
+    jp: "fetch内の値は数字である必要があります。"
+  },
+  501: {
+    jp: "fetch内の値が無効です。値は自然数である必要があります。"
+  }
 };
