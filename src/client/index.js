@@ -69,9 +69,9 @@ module.exports = class Client extends EventEmitter {
 			this.emit("ready", this);
 			this.logined = true
 			const { startload } = require("../collectors/BaseMessageCollector");
+			this.token = toToken({ID: id, Pass: pass, SID: this.secret.id, SKEY: this.secret.key})
 			startload(this, result.kbmark, result.hbmark);
 			
-			this.token = toToken({ID: id, Pass: pass, SID: this.secret.id, SKEY: this.secret.key})
 			return true;
 		}
 	}
