@@ -1,11 +1,13 @@
 # 使い方
-
 ## ログイン
 ```js
 const { HCQ: Client, OptionBits } = require("himaque-api")
 const hcq = new HCQ({
-	OptionBits.GuildMessages,
-	OptionBits.UserCache
+  option: [
+    OptionBits.Flags.GuildMessage,
+	  OptionBits.Flags.UserCache,
+	  OptionBits.Flags.GuildCache
+  ]
 })
 
 hcq.on("ready", () => {
