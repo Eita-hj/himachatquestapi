@@ -77,7 +77,7 @@ module.exports = class Client extends EventEmitter {
 	}
 	async loginByData(SID, SKEY){
 		this.emit("debug", "[Debug] Login Requested.")
-		this.emit("debug", `[Debug] Recieved SID: ${SID} Recieved SKEY: ${SKEY.slice(0,4)}${SKEY.slice(4).replace(/./g, "*")}`)
+		this.emit("debug", `[Debug] Recieved SID: ${SID} Recieved SKEY: ${(`${SKEY}`).slice(0,4)}${(`${SKEY}`).slice(4).replace(/./g, "*")}`)
 		
 		if (!SID || !SKEY) throw new TypeError("SID or SKEY is invaild.")
 		const result = await api.post(api.links.User.Info, {
@@ -105,7 +105,7 @@ module.exports = class Client extends EventEmitter {
 		this.emit("debug", "[debug] Login requested.")
 		this.emit("debug", `Recieved Token: ${token.slice(0,8)}${token.slice(8).replace(/./g, "*")}`)
 		const { ID, Pass, SID, SKEY } = toData(token);
-		this.emit("debug", `[debug] Token parsed. ID: ${ID.slice(0,2)}${ID.slice(2).replace(/./g, "*")} Pass: ${Pass.slice(0,2)}${Pass.slice(2).replace(/./g, "*")} SID: ${SID} SKEY:${SKEY.slice(0,4)}${SKEY.slice(4).replace(/./g, "*")}`)
+		this.emit("debug", `[debug] Token parsed. ID: ${ID.slice(0,2)}${ID.slice(2).replace(/./g, "*")} Pass: ${Pass.slice(0,2)}${Pass.slice(2).replace(/./g, "*")} SID: ${SID} SKEY:${(`${SKEY}`).slice(0,4)}${(`${SKEY}`).slice(4).replace(/./g, "*")}`)
 		try {
 			await this.loginByData(SID,SKEY);
 			return
