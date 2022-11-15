@@ -44,7 +44,7 @@ module.exports = class Client extends EventEmitter {
 	async loginByIdPass(id = this.id, pass = this.pass) {
 		if (this.secret.logined) throw new Error("Already Logined.")
 		this.emit("debug", "[Debug] Login Requested.")
-		this.emit("debug", `[Debug] Recieved ID:${id.slice(0,2)}${id.slice(2).replace(/./g, "*")} Recieved PASS:${pass.slice(0,2)}${pass.slice(2).replace(/./g, "*")}`)
+		this.emit("debug", `[Debug] Recieved ID: ${id.slice(0,2)}${id.slice(2).replace(/./g, "*")} Recieved Pass: ${pass.slice(0,2)}${pass.slice(2).replace(/./g, "*")}`)
 		if (!id || !pass) throw new Error("ID or PASS is invalid.(Error Code 100)");
 		if (!id.match(/^[a-z0-9]{4,20}$/) || !pass.match(/^[a-z0-9]{4,20}$/))
 			return new Error("ID or PASS is invalid.(Error Code 101)");
@@ -77,7 +77,7 @@ module.exports = class Client extends EventEmitter {
 	}
 	async loginByData(SID, SKEY){
 		this.emit("debug", "[Debug] Login Requested.")
-		this.emit("debug", `[Debug] Recieved SID:${SID} Recieved SKEY:${SKEY.slice(0,4)}${SKEY.slice(4).replace(/./g, "*")}`)
+		this.emit("debug", `[Debug] Recieved SID: ${SID} Recieved SKEY: ${SKEY.slice(0,4)}${SKEY.slice(4).replace(/./g, "*")}`)
 		
 		if (!SID || !SKEY) throw new TypeError("SID or SKEY is invaild.")
 		const result = await api.post(api.links.User.Info, {
@@ -102,9 +102,10 @@ module.exports = class Client extends EventEmitter {
 		return true;
 	}
 	async loginByToken(token){
-		this.emit("debug", `[debug] Login requested. Recieved Token: ${token.split(0,8)}${token.split(8).replace(/./g, "*")}`)
+		this.emit("debug", "[debug] Login requested.")
+		this.emit("debug", `Recieved Token: ${token.slice(0,8)}${token.slice(8).replace(/./g, "*")}`)
 		const { ID, Pass, SID, SKEY } = toData(token);
-		this.emit("debug", `[debug] Token parsed. ID: ${ID.split(0,2)}${ID.split(2).replace(/./g, "*")} Pass: ${Pass.split(0,2)}${Pass.split(2).replace(/./g, "*")} SID: ${SID} SKEY:${SKEY.split(0,4)}${SKEY.split(4).replace(/./g, "*")}`)
+		this.emit("debug", `[debug] Token parsed. ID: ${ID.slice(0,2)}${ID.slice(2).replace(/./g, "*")} Pass: ${Pass.slice(0,2)}${Pass.slice(2).replace(/./g, "*")} SID: ${SID} SKEY:${SKEY.slice(0,4)}${SKEY.slice(4).replace(/./g, "*")}`)
 		try {
 			await this.loginByData(SID,SKEY);
 			return
