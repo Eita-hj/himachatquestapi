@@ -102,15 +102,15 @@ module.exports = class Client extends EventEmitter {
 		return true;
 	}
 	async loginByToken(token){
-		this.emit("debug", "[debug] Login requested.")
-		this.emit("debug", `Recieved Token: ${token.slice(0,8)}${token.slice(8).replace(/./g, "*")}`)
+		this.emit("debug", "[Debug] Login requested.")
+		this.emit("debug", `Recieved Token: ${token.slice(0,12)}${token.slice(12).replace(/./g, "*")}`)
 		const { ID, Pass, SID, SKEY } = toData(token);
-		this.emit("debug", `[debug] Token parsed. ID: ${ID.slice(0,2)}${ID.slice(2).replace(/./g, "*")} Pass: ${Pass.slice(0,2)}${Pass.slice(2).replace(/./g, "*")} SID: ${SID} SKEY:${(`${SKEY}`).slice(0,4)}${(`${SKEY}`).slice(4).replace(/./g, "*")}`)
+		this.emit("debug", `[Debug] Token was parsed. ID: ${ID.slice(0,2)}${ID.slice(2).replace(/./g, "*")} Pass: ${Pass.slice(0,2)}${Pass.slice(2).replace(/./g, "*")} SID: ${SID} SKEY: ${(`${SKEY}`).slice(0,4)}${(`${SKEY}`).slice(4).replace(/./g, "*")}`)
 		try {
 			await this.loginByData(SID,SKEY);
 			return
 		} catch (e) {
-			this.emit("debug", "Login by secret data is failed.")
+			this.emit("debug", "[Debug] Login by secret data is failed.")
 			await this.loginByIdPass(ID, Pass);
 			console.warn("Login successed, but secret data is invalid. You need to regenerate token.");
 			return;
