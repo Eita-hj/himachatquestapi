@@ -27,18 +27,18 @@ module.exports = class Client extends EventEmitter {
 			case "IDPass":
 			case "IdPass":
 			case 0:
-				this.loginByIdPass(data1, data2);
+				await this.loginByIdPass(data1, data2);
 				break;
 			case "Data":
 			case "SIDSKEY":
 			case 1:
-				this.loginByData(data1, data2);
+				await this.loginByData(data1, data2);
 				break;
 			case "TOKEN":
 			case "token":
 			case "Token":
 			case 2:
-				this.loginByToken(data1)
+				await this.loginByToken(data1)
 				break;
 			default:
 				throw new TypeError("Login Type is invalid.")
