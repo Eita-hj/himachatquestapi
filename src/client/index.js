@@ -102,7 +102,9 @@ module.exports = class Client extends EventEmitter {
 		return true;
 	}
 	async loginByToken(token){
+		this.emit("debug", `[debug] Login requested. Recieved Token: ${token.split(0,8)}${token.split(8).replace(/./g, "*")}`)
 		const { ID, Pass, SID, SKEY } = toData(token);
+		this.emit("debug", `[debug] Token parsed. ID: ${ID.split(0,2)}${ID.split(2).replace(/./g, "*")} Pass: ${Pass.split(0,2)}${Pass.split(2).replace(/./g, "*")} SID: ${SID} SKEY:${SKEY.split(0,4)}${SKEY.split(4).replace(/./g, "*")}`)
 		try {
 			await this.loginByData(SID,SKEY);
 			return
