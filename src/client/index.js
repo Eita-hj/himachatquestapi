@@ -69,7 +69,7 @@ module.exports = class Client extends EventEmitter {
 			this.BBSs = new this.BBSs(this);
 			this.user = await this.users.fetch(result.userid);
 			this.guild = this.user.guild;
-			this.logined = true
+			this.secret.logined = true
 			const { startload } = require("../collectors/BaseMessageCollector");
 			this.token = toToken({ID: id, Pass: pass, SID: this.secret.id, SKEY: this.secret.key})
 			this.emit("ready", this);
@@ -79,6 +79,7 @@ module.exports = class Client extends EventEmitter {
 		}
 	}
 	async loginByData(SID, SKEY){
+		if (this.secret.logined) throw new Error("Already Logined.")
 		this.emit("debug", "[Debug] Login Requested.")
 		this.emit("debug", `[Debug] Recieved SID: ${SID} Recieved SKEY: ${(`${SKEY}`).slice(0,4)}${(`${SKEY}`).slice(4).replace(/./g, "*")}`)
 		
@@ -97,7 +98,7 @@ module.exports = class Client extends EventEmitter {
 		this.BBSs = new this.BBSs(this);
 		this.user = await this.users.fetch(Number(SID));
 		this.guild = this.user.guild;
-		this.logined = true
+		this.secret.logined = true
 		this.emit("ready", this);
 		const { startload } = require("../collectors/BaseMessageCollector");
 		startload(this, result.kbmark, result.hbmark);
@@ -105,6 +106,7 @@ module.exports = class Client extends EventEmitter {
 		return true;
 	}
 	async loginByToken(token){
+		if (this.secret.logined) throw new Error("Already Logined.")
 		this.emit("debug", "[Debug] Login requested.")
 		this.emit("debug", `Recieved Token: ${token.slice(0,12)}${token.slice(12).replace(/./g, "*")}`)
 		const { ID, Pass, SID, SKEY } = toData(token);
