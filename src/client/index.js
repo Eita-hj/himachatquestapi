@@ -115,6 +115,7 @@ module.exports = class Client extends EventEmitter {
 			await this.loginByData(SID,SKEY);
 			return
 		} catch (e) {
+			if (this.secret.logined) throw e
 			this.emit("debug", "[Debug] Login by secret data is failed.")
 			await this.loginByIdPass(ID, Pass);
 			console.warn("Login successed, but secret data is invalid. You need to regenerate token.");
