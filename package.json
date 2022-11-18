@@ -1,6 +1,6 @@
 {
 	"name": "himaque-api",
-	"version": "4.0.1-beta",
+	"version": "4.0.1",
 	"description": "ヒマクエ用API",
 	"main": "./src/index.js",
 	"dependencies": {
