@@ -3,8 +3,8 @@ const { api } = require("../utils/")
 
 module.exports = class User extends Data {
 	async send(data){
-		const DMMessageAttachMent = require("./DMMessageAttachent")
-		if (data.constructor instanceof DMMessageAttachMent){
+		const DirectMessageAttachMent = require("./DirectMessageAttachent")
+		if (data.constructor instanceof DirectMessageAttachMent){
 			await api.post(api.links.Attachment.Upload.DM, data.data, this.id, 1)
 		} else {
 			if (!(typeof data == "string" || typeof data == "number"))
