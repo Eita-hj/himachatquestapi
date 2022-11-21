@@ -18,16 +18,14 @@ module.exports = async function (client, defaultbmark) {
 			if (data.coments.length){
 				for (let i = 0; i < data.coments.length; i++) {
 					bmark = data.bmark || bmark;
-					let { source } = data.coments[i];
-					let result = new Object();
-					result.content = source
-						.split("\t")
-						.join("")
-						.split("<td class='c_mozi' style='color:#000000'>")[1]
-						.split("\n")[0]
-					result.author = client.secret.options.has(1n << 2n) ? await client.users.get(obj.coments[i].uid) : await client.users.fetch(obj.coments[i].uid);
+					const n = data.coments[i]
+					const { source } = n;
+					const result = new Object();
+					result.at = (Number(n.aite))
+					result.author = client.secret.options.has(1n << 2n) ? await client.users.get(Number(n.uid)) : await client.users.fetch(Number(n.uid));
+					result.createdTimeStamp = new Date(Number(n.htime) * 1000)
 					if (
-						source.includes(
+						source.startsWith(
 							"<a href='javascript:void(0);' class='astyle' onclick='PhotoGet(this,"
 						)
 					) {
@@ -54,14 +52,13 @@ module.exports = async function (client, defaultbmark) {
 						}
 						result.content = null;
 						const DirectMessageAttachMent = require("../structures/DirectMessageAttachment")
-						const photoData = await api.post(api.links.Attachment.PhotoData(pid, pkey, tag),{}, 2).then(n => n.stream())
-						result.file = new DirectMessageAttachMent(client, photoData, pid)
+						//const photoData = await api.post(api.links.Attachment.PhotoData(pid, pkey, tag),{}, 2).then(n => n.stream())
+						//result.file = new DirectMessageAttachMent(client, photoData, pid)
 					} else {
 						result.type = "text";
 						result.file = null;
 						result.content = convtext(
-							result
-								.content
+							source
 								.split("\t")
 								.join("")
 								.split("<td class='c_mozi' style='color:#000000'>")[1]
