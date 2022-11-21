@@ -23,7 +23,8 @@ module.exports = async function (client, defaultbmark) {
 					const result = new Object();
 					result.at = (Number(n.aite))
 					result.author = client.secret.options.has(1n << 2n) ? await client.users.get(Number(n.uid)) : await client.users.fetch(Number(n.uid));
-					result.createdTimeStamp = new Date(Number(n.htime) * 1000)
+					result.createdTimeStamp = Number(n.htime) * 1000
+					result.createdAt = new Date(result.createdTimestamp)
 					if (
 						source.startsWith(
 							"<a href='javascript:void(0);' class='astyle' onclick='PhotoGet(this,"
