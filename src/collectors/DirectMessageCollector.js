@@ -70,10 +70,10 @@ module.exports = async function (client, defaultbmark) {
 					if (!client.secret.chatload) return;
 					client.emit("DirectMessageCreate", result);
 				}
-			} else {
-				bmark = data.bmark || bmark;
-				first = false;
-			}
+			}	
+		} else {
+			bmark = data.bmark || bmark;
+			first = false;
 		}
 		if (!client.secret.chatload) return;
 		await new Promise((resolve) => setTimeout(resolve, 1000));
