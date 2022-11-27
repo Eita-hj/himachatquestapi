@@ -1,20 +1,20 @@
 # 使い方
 ## ログイン
 ```js
-const { HCQ: Client, OptionBits } = require("himaque-api")
+const { HCQ: Client, OptionBits, LoginType } = require("himaque-api")
 const hcq = new HCQ({
-  option: [
-    OptionBits.Flags.GuildMessage,
-	  OptionBits.Flags.UserCache,
-	  OptionBits.Flags.GuildCache
-  ]
+	option: [
+		OptionBits.Flags.GuildMessage,
+		OptionBits.Flags.UserCache,
+		OptionBits.Flags.GuildCache
+	]
 })
 
 hcq.on("ready", () => {
 	console.log("ready!")
 })
 
-hcq.loginByIdPass("ID","PASS")
+hcq.login(LoginType.IdPass, "ID", "PASS")
 ```
 ## ギルチャ受信・送信
 ※ログインするアカウントがギルドに参加している必要があります。
