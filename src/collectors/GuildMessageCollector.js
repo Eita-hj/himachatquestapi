@@ -52,8 +52,8 @@ module.exports = async function (client) {
 					}
 					result.content = null;
 					const GuildMessageAttachMent = require("../structures/GuildMessageAttachment")
-					const photoData = await api.post(api.links.Attachment.PhotoData(pid, pkey, tag),{}, 2).then(n => n.stream())
-					result.file = new GuildMessageAttachMent(client, photoData, pid)
+					//const photoData = await api.post(api.links.Attachment.PhotoData(pid, pkey, tag),{}, 2).then(n => n.stream())
+					result.file = new GuildMessageAttachMent(client, api.links.Attachment.PhotoData(pid, pkey, tag), pid)
 				} else {
 					result.type = "text";
 					result.file = null;
