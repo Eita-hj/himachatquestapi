@@ -34,7 +34,7 @@ hcq.on("GuildMessageCreate", message => {
 ## ユーザー情報取得
 ```js
 hcq.on("GuildMessageCreate", async message => {
-	if (message.author.id === hcq.user.id) returnl
+	if (message.author.id === hcq.user.id) return;
 	if (message.type !== "text") return;
 	//example: "!user 16762"
 	if (message.content.startsWith("!user")){
@@ -52,4 +52,4 @@ hcq.on("reqdy", async () => {
 	//No.1046 ミナコイギルド
 	const guild = await hcq.guilds.fetch(1046)
 	console.log(guild)
-})
+});
