@@ -2,11 +2,13 @@ module.exports = class Bits {
 	constructor(obj){
 		this.Flags = obj.default
 		if (obj.data == undefined) return this.bits = 0n
+		if (typeof obj.data == "number") return this.bits = BigInt(obj.data);
 		if (typeof obj.data == "bigint") return this.bits = obj.data;
 		if (!Array.isArray(obj.data)) throw new Error("Bit Setting Error (Code:600)")
-		let bits = obj.data.map(n => typeof n == "string" ? this.Flags[n] : typeof n == "bigint" ? n : null)
+		let bits = obj.data.map(n => typeof n == "string" ? this.Flags[n] : typeof n == "bigint" ? n : typeof n == "number" ? BigInt(n) : null)
 		if (bits.includes(null)) throw new Error("Bit Setting Error (Code:601)")
-		this.bits = bits.reduce((a, b) => a + b)
+		if (bits.length === 0) return this.bits = 0n
+		this.bits = bits.reduce((a, b) => a + b) || 0n
 	}
 	set(bits){
 		return new this.constructor({
