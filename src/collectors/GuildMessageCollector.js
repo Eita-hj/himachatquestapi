@@ -23,6 +23,17 @@ module.exports = async function (client) {
 			for (let i = 0; i < obj.coments.length; i++){
 				let c = obj.coments[i].source;
 				if (!client.secret.chatload) return;
+				if (obj.coments[i].uid === "0"){
+					const message = convtext(c.split("<tr><td class='c_moji' style='color:#999999'>")[1].split("\n<span class='c_date'>")[0])
+					const createdTimestamp = Date.parse(c.split("<span class='c_date'>")[1].split("</span></td></tr>")[0])
+					const createdAt = new Date(createdTimestamp)
+					client.emit("GuildDungeonCreate", {
+						message,
+						createdTimestamp,
+						createdAt
+					})
+					continue
+				}
 				result.author = client.secret.options.has(1n << 2n) ? await client.users.get(obj.coments[i].uid) : await client.users.fetch(obj.coments[i].uid);
 				if (
 					c.includes(
@@ -51,9 +62,8 @@ module.exports = async function (client) {
 						tag = ".jpeg";
 					}
 					result.content = null;
-					const GuildMessageAttachMent = require("../structures/GuildMessageAttachent")
-					const photoData = await api.post(api.links.Attachment.PhotoData(pid, pkey, tag),{}, 2).then(n => n.stream())
-					result.file = new GuildMessageAttachMent(client, photoData, pid)
+					const GuildMessageAttachMent = require("../structures/GuildMessageAttachment")
+					result.file = new GuildMessageAttachMent(client, api.links.Attachment.PhotoData(pid, pkey, tag), pid)
 				} else {
 					result.type = "text";
 					result.file = null;
