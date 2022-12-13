@@ -1,6 +1,5 @@
-'use strict';
 const { EventEmitter } = require("node:events");
-const OptionBits = require("../structures/OptionBits")
+const ClientOptionBits = require("../structures/ClientOptionBits")
 const { api } = require("../utils/")
 const { GenerateToken: { toData, toToken } } = require("../utils/");
 
@@ -16,7 +15,7 @@ module.exports = class Client extends EventEmitter {
 		this.secret = {
 			id: undefined,
 			key: undefined,
-			options: OptionBits.set(options.option),
+			options: ClientOptionBits.set(options.option),
 			logined: false,
 			chatload: false
 		};
