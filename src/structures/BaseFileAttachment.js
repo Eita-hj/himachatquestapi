@@ -10,9 +10,10 @@ module.exports = class BaseFileAttachment {
 		this.data.append("marumie",`${client.secret.id}`)
 		this.data.append("seskey",`${client.secret.key}`)
 		const toBuffer = require("buffer-to-stream")
-		const { createReadStream } = require("fs")
-		const f = (typeof file == "string") ? createReadStream(file) : (Buffer.isBuffer(file)) ? toBuffer(file) : file
-		if (f.size > 2000000) throw new Error(`${file} size is over 2MB.`)
+		const { createReadStream, ReadStream } = require("fs")
+		const f = (typeof file == "string" || Buffer.isBuffer(file)) ? createReadStream(file) : (file instanceof ReadStream) ? file : null
+		if (f === null) throw new Error(`${file} is invalid.`)
+		if (f.size > (2 << 20)) throw new Error(`${file} size is over 2MB.`)
 		this.data.append("puri", f)
 		this.id = id
 		this.url = typeof file == "string" ? file : undefined
