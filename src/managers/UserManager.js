@@ -9,23 +9,22 @@ module.exports = class UserManager extends BaseManager {
 		switch (typeof data){
 			case "number":
 			case "string":
-				const id = data;
-				if (isNaN(id)) throw new Error(`${id} is invalid. (Error Code 500)`)
-				if (!(typeof Number(id) === "number" && Number.isInteger(Number(id)) && id > 0)) throw new Error(`${id} is invalid. (Error Code 501)`)
+				if (isNaN(data)) throw new Error(`${data} is invalid. (Error Code 500)`)
+				if (!(typeof Number(data) === "number" && Number.isInteger(Number(data)) && Number(data) > 0)) throw new Error(`${data} is invalid. (Error Code 501)`)
 				const ip = await api.post(api.links.User.Manage, {
 					marumie: this.client.secret.id,
 					seskey: this.client.secret.key,
-					targetid: id
+					targetid: data
 				})
 				if (ip == "いません") return undefined
 				const source = await api.post(api.links.User.Info, {
 					marumie: this.client.secret.id,
 					seskey: this.client.secret.key,
-					targetid: id,
+					targetid: data,
 				});
 				const result = new Object();
 				if (source.source != "このアカウントは利用停止されています"){
-					result.id = id;
+					result.id = data;
 					result.name = convtext(
 						source.source.split(".png' />")[1].split("</div>")[0]
 					);
@@ -48,7 +47,7 @@ module.exports = class UserManager extends BaseManager {
 						name: convtext(source.source.split("<span style='color:#AAAAAA;font-size:8px;vertical-align:super;float:left;'>所属</span>\r\n")[1].split("</div>")[0].split(/\s/).join(""))
 					}
 					if (result.guild.name == "<span style='color:#AAAAAA;font-size:14px;'>(未設定)</span>") result.guild = undefined
-					if (id == this.client.secret.id) {
+					if (data == this.client.secret.id) {
 						let guildid = await api.post(api.links.User.JoinGuilds, {
 							marumie: this.client.secret.id,
 							seskey: this.client.secret.key,
@@ -70,7 +69,7 @@ module.exports = class UserManager extends BaseManager {
 					if (this.cache.has(result.id)) this.cache.delete(result.id);
 					this.cache.set(result.id, result);
 				}
-				if (id == this.client.secret.id) return new ClientUser(result, this.client)
+				if (data == this.client.secret.id) return new ClientUser(result, this.client)
 				return new User(result, this.client);
 				break;
 			case "object":
