@@ -5,10 +5,11 @@ const ClientUser = require("../structures/ClientUser")
 const Cache = require("../structures/Cache")
 
 module.exports = class UserManager extends BaseManager {
-	async fetch(id) {
+	async fetch(data) {
 		switch (typeof data){
 			case "number":
 			case "string":
+				const id = data;
 				if (isNaN(id)) throw new Error(`${id} is invalid. (Error Code 500)`)
 				if (!(typeof Number(id) === "number" && Number.isInteger(Number(id)) && id > 0)) throw new Error(`${id} is invalid. (Error Code 501)`)
 				const ip = await api.post(api.links.User.Manage, {
@@ -78,7 +79,7 @@ module.exports = class UserManager extends BaseManager {
 					for (let i = 0; i < data.length; i++){
 						const id = data[i]
 						if (typeof id === "number" || typeof id === "string"){
-							const user = await this.get(id)
+							const user = await this.fetch(id)
 							cache.set(string(id), user)
 						} else {
 							throw new TypeError(`${id} must be string, or number.`)
