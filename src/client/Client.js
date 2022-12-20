@@ -9,28 +9,28 @@ module.exports = class Client extends BaseClient {
 	constructor(ClientOptions) {
 		super();
 		if (ClientOptions.option == undefined) throw new Error("ClientOptionBits must be set.")
-    const options = ClientOptionBits.set(ClientOptions.option)
-    const recieves = ClientRecieveOptionBits.set(ClientOptions.recieves === undefined ? 0n : options.recieves)
-    if (ClientOptions.recieves && !options.has(7n) && recieves?.bits !== 0n) throw new Error(`ClientOptionBits must be included any message option to set ClientRecieveOptionBits.`)
-    const caches = ClientCacheOptionBits.set(ClientOptions.caches === undefined ? 0n : options.caches)
-    const ignoreUsers = ClientOptions.ignoreUsers || []
-    const postInterval = ClientOptions.postInterval || 1000
-    if (typeof postInterval !== "number") throw new Error(`${postInterval} is invaled.\nClientOption.postInterval must be number.`)
-    if (!Number.isSafeInteger(postInterval) || postInterval < 100 || postInterval > 600000) throw new Error(`${postInterval} is invaled.\nClientOption.postInterval must be 100(ms) to 600000(ms)`)
+		const options = ClientOptionBits.set(ClientOptions.option)
+		const recieves = ClientRecieveOptionBits.set(ClientOptions.recieves === undefined ? 0n : options.recieves)
+		if (ClientOptions.recieves && !options.has(7n) && recieves?.bits !== 0n) throw new Error(`ClientOptionBits must be included any message option to set ClientRecieveOptionBits.`)
+		const caches = ClientCacheOptionBits.set(ClientOptions.caches === undefined ? 0n : options.caches)
+		const ignoreUsers = ClientOptions.ignoreUsers || []
+		const postInterval = ClientOptions.postInterval || 1000
+		if (typeof postInterval !== "number") throw new Error(`${postInterval} is invaled.\nClientOption.postInterval must be number.`)
+		if (!Number.isSafeInteger(postInterval) || postInterval < 100 || postInterval > 600000) throw new Error(`${postInterval} is invaled.\nClientOption.postInterval must be 100(ms) to 600000(ms)`)
 		this.id = "";
 		this.pass = "";
 		this.users = require("../managers/UserManager");
 		this.guilds = require("../managers/GuildManager");
-    this.BBSs = require("../managers/BBSGetter");
-    this.ignores = require("../managers/ClientUserIgnoreManager")
+		this.BBSs = require("../managers/BBSGetter");
+		this.ignores = require("../managers/ClientUserIgnoreManager")
 		this.secret = {
 			id: undefined,
 			key: undefined,
 			options,
-      recieves,
-      caches,
-      ignoreUsers,
-      postInterval,
+			recieves,
+			caches,
+			ignoreUsers,
+			postInterval,
 			logined: false,
 			chatload: false
 		};
@@ -81,7 +81,7 @@ module.exports = class Client extends BaseClient {
 			this.guilds = new this.guilds(this);
 			this.users = new this.users(this);
 			
-      this.BBSs = new this.BBSs(this);
+			this.BBSs = new this.BBSs(this);
 			this.user = await this.users.fetch(result.userid);
 			this.guild = this.user.guild;
 			this.secret.logined = true
@@ -110,7 +110,7 @@ module.exports = class Client extends BaseClient {
 		this.secret.key = SKEY;
 		this.guilds = new this.guilds(this);
 		this.users = new this.users(this);
-    this.BBSs = new this.BBSs(this);
+		this.BBSs = new this.BBSs(this);
 		this.user = await this.users.fetch(SID);
 		this.guild = this.user.guild;
 		this.secret.logined = true
@@ -150,8 +150,8 @@ module.exports = class Client extends BaseClient {
 		this.secret.key = "";
 		this.users = require("../managers/UserManager");
 		this.guilds = require("../managers/GuildManager");
-    this.BBSs = require("../managers/BBSGetter");
-    this.ignores = require("../managers/ClientUserIgnoreManager")
+		this.BBSs = require("../managers/BBSGetter");
+		this.ignores = require("../managers/ClientUserIgnoreManager")
 		this.secret.logined = false;
 		this.emit("debug", "[Debug] Logouted.");
 		return;
