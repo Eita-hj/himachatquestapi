@@ -20,6 +20,11 @@ module.exports = {
 		Setting: {
 			NameChange: "http://himaquest.com/myhouse_NameChange.php",
 			ProfileChange: "http://himaquest.com/user_ShoukaiComplete.php"
+		},
+		Ignores: {
+			List: "http://himaquest.com/block_LoadMusiList.php",
+			Add: "http://himaquest.com/block_MusiAdd.php",
+			Remove: "http://himaquest.com/block_MusiKaizyo.php"
 		}
 	},
 	Chat: {
