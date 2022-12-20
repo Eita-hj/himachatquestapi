@@ -1,7 +1,8 @@
 const { api, convtext } = require("../utils/");
 
 module.exports = async function (client, defaultbmark) {
-  let first = true
+	if (client.secret.recieves.has(1n << 0n)) return;
+	let first = true
 	let bmark = await api.post(api.links.Chat.AreaMessage, {
 		marumie: client.secret.id,
 		seskey: client.secret.key,
@@ -41,6 +42,6 @@ module.exports = async function (client, defaultbmark) {
 			}
 		}
 		if (!client.secret.chatload) return;
-		await new Promise((resolve) => setTimeout(resolve, 1000));
+		await new Promise((resolve) => setTimeout(resolve, client.secret.postInterval));
 	}
 }
