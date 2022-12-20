@@ -11,6 +11,7 @@ module.exports = class Client extends EventEmitter {
 		this.users = require("../managers/UserManager");
 		this.guilds = require("../managers/GuildManager");
 		this.BBSs = require("../managers/BBSGetter");
+		this.ignores = require("../managers/ClientUserIgnoreManager");
 		if (options.option == undefined) throw new Error("Option is invalid.")
 		this.secret = {
 			id: undefined,
@@ -65,6 +66,7 @@ module.exports = class Client extends EventEmitter {
 			this.secret.key = result.seskey;
 			this.guilds = new this.guilds(this);
 			this.users = new this.users(this);
+			this.ignores = new this.ignores(this);
 			this.BBSs = new this.BBSs(this);
 			this.user = await this.users.fetch(result.userid);
 			this.guild = this.user.guild;
@@ -94,6 +96,7 @@ module.exports = class Client extends EventEmitter {
 		this.secret.key = SKEY;
 		this.guilds = new this.guilds(this);
 		this.users = new this.users(this);
+		this.ignores = new this.ignores(this);
 		this.BBSs = new this.BBSs(this);
 		this.user = await this.users.fetch(Number(SID));
 		this.guild = this.user.guild;
@@ -135,6 +138,7 @@ module.exports = class Client extends EventEmitter {
 		this.users = require("../managers/UserManager");
 		this.guilds = require("../managers/GuildManager");
 		this.BBSs = require("../managers/BBSGetter");
+		this.ignores = require("../managers/ClientUserIgnoreManager");
 		this.secret.logined = false;
 		this.emit("debug", "[Debug] Logouted.");
 		return;
