@@ -80,7 +80,7 @@ module.exports = class Client extends BaseClient {
 			this.secret.key = result.seskey;
 			this.guilds = new this.guilds(this);
 			this.users = new this.users(this);
-			
+			this.ignores = new this.ignores(this);
 			this.BBSs = new this.BBSs(this);
 			this.user = await this.users.fetch(result.userid);
 			this.guild = this.user.guild;
@@ -110,6 +110,7 @@ module.exports = class Client extends BaseClient {
 		this.secret.key = SKEY;
 		this.guilds = new this.guilds(this);
 		this.users = new this.users(this);
+		this.ignores = new this.ignores(this);
 		this.BBSs = new this.BBSs(this);
 		this.user = await this.users.fetch(SID);
 		this.guild = this.user.guild;
