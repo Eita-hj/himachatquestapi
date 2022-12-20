@@ -1,80 +1,89 @@
 const { api, convtext } = require("../utils/");
 
-module.exports = async function (client, defaultbmark) {
-	let first = true
-	let { bmark } = await api.post(api.links.Chat.DirectMessage, {
+module.exports = async function (client) {
+	let bmark = await api.post(api.links.Guild.ChatEntry, {
 		marumie: client.secret.id,
 		seskey: client.secret.key,
-		bmark: defaultbmark,
 	});
-	for (; client.secret.chatload; ) {
+	bmark = bmark.bmark
+	for (let rate = 1; true; rate++) {
 		if (!client.secret.chatload) return;
-		const data = await api.post(api.links.Chat.DirectMessage, {
+		const obj = await api.post(api.links.Chat.GuildMessage, {
 			marumie: client.secret.id,
 			seskey: client.secret.key,
 			bmark,
+			rate,
 		});
-		if (!first) {
-			if (data.coments.length){
-				bmark = data.bmark || bmark;
-				for (let i = 0; i < data.coments.length; i++) {
-					const n = data.coments[i]
-					const { source } = n;
-					const result = new Object();
-					result.place = await client.users.get(Number(n.aite))
-					result.author = await client.users.get(Number(n.uid));
-					result.createdTimeStamp = Number(n.htime) * 1000
-					result.createdAt = new Date(result.createdTimestamp)
-					if (
-						source.startsWith(
-							"<a href='javascript:void(0);' class='astyle' onclick='PhotoGet(this,"
-						)
-					) {
-						result.type = "image";
-						let pid = source.split("PhotoGet(this,")[1];
-						let pkey = pid.split(',"')[1].split('")')[0];
-						pid = pid.split(",")[0];
-						if (!client.secret.chatload) return;
-						let tag = await api.post(api.links.Attachment.PhotoGet, {
-							marumie: client.secret.id,
-							seskey: client.secret.key,
-							imgid: pid,
-							imgpass: pkey,
-						})
-						tag = tag.source
-						if (tag.includes(".png")) {
-							tag = ".png";
-						} else if (tag.includes(".jpg")) {
-							tag = ".jpg";
-						} else if (tag.includes(".gif")) {
-							tag = ".gif";
-						} else if (tag.includes(".jpeg")) {
-							tag = ".jpeg";
-						}
-						result.content = null;
-						const DirectMessageAttachMent = require("../structures/DirectMessageAttachment")
-						result.file = new DirectMessageAttachMent(client, api.links.Attachment.PhotoData(pid, pkey, tag), pid)
-					} else {
-						result.type = "text";
-						result.file = null;
-						result.content = convtext(
-							source
-								.split("\t")
-								.join("")
-								.split("<td class='c_mozi' style='color:#000000'>")[1]
-								.split("\n")[0]
-						);
-					}
-					result.reply = result.author.send
-					if (!client.secret.chatload) return;
-					client.emit("DirectMessageCreate", result);
+		if (!client.secret.chatload) return;
+		const result = new Object();
+		result.client = client;
+		result.guild = client.user.guild;
+		if (obj.coments.length) {
+			bmark = obj.bmark || bmark;
+			for (let i = 0; i < obj.coments.length; i++){
+				let c = obj.coments[i].source;
+				if (!client.secret.chatload) return;
+				if (obj.coments[i].uid === "0"){
+					if (client.secret.recieves.has(1n << 2n)) continue;
+					const message = convtext(c.split("<tr><td class='c_moji' style='color:#999999'>")[1].split("\n<span class='c_date'>")[0])
+					const createdTimestamp = Date.parse(c.split("<span class='c_date'>")[1].split("</span></td></tr>")[0])
+					const createdAt = new Date(createdTimestamp)
+					client.emit("GuildDungeonCreate", {
+						message,
+						createdTimestamp,
+						createdAt
+					})
+					continue
 				}
-			}	
-		} else {
-			bmark = data.bmark || bmark;
-			first = false;
+				result.author = await client.users.get(obj.coments[i].uid);
+				if (
+					c.includes(
+						"<a href='javascript:void(0);' class='astyle' onclick='PhotoGet(this,"
+					)
+				) {
+					if (client.secret.recieves.has(1n << 1n)) continue;
+					result.type = "image";
+					let pid = c.split("PhotoGet(this,")[1];
+					let pkey = pid.split(',"')[1].split('")')[0];
+					pid = pid.split(",")[0];
+					if (!client.secret.chatload) return;
+					let tag = await api.post(api.links.Attachment.PhotoGet, {
+						marumie: client.secret.id,
+						seskey: client.secret.key,
+						imgid: pid,
+						imgpass: pkey,
+					})
+					tag = tag.source
+					if (tag.includes(".png")) {
+						tag = ".png";
+					} else if (tag.includes(".jpg")) {
+						tag = ".jpg";
+					} else if (tag.includes(".gif")) {
+						tag = ".gif";
+					} else if (tag.includes(".jpeg")) {
+						tag = ".jpeg";
+					}
+					result.content = null;
+					const GuildMessageAttachMent = require("../structures/GuildMessageAttachment")
+					result.file = new GuildMessageAttachMent(client, api.links.Attachment.PhotoData(pid, pkey, tag), pid)
+				} else {
+					if (client.secret.recieves.has(1n << 0n)) continue;
+					result.type = "text";
+					result.file = null;
+					c = convtext(
+						c
+							.split("\t")
+							.join("")
+							.split("<td class='c_mozi' style='color:#000000'>")[1]
+							.split("\n")[0]
+					);
+					result.content = c
+				}
+			}
+			if (!client.secret.chatload) return;
+			client.emit("GuildMessageCreate", result);
 		}
 		if (!client.secret.chatload) return;
-		await new Promise((resolve) => setTimeout(resolve, 1000));
+		await new Promise((resolve) => setTimeout(resolve, client.secret.postInterval));
 	}
 }
