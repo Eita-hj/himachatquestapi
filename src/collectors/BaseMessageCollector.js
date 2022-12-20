@@ -1,12 +1,19 @@
 const { api, convtext } = require("../utils/");
-
-let load = false
 exports.startload = function (client, kbmark, hbmark) {
-	const GuildMessage = require("./GuildMessageCollector")
-	const AreaMessage = require("./AreaMessageCollector")
-	const DirectMessage = require("./DirectMessageCollector")
-	if (client.secret.options.has(1n << 0n) || (client.user.guild?.id && client.secret.options.has(1n << 1n)) || client.secret.options.has(1n << 4n)) client.secret.chatload = true
-	if (client.user.guild?.id && client.secret.options.has(1n << 1n)) GuildMessage(client);
-	if (client.secret.options.has(1n << 0n)) AreaMessage(client, kbmark)
-	if (client.secret.options.has(1n << 4n)) DirectMessage(client, hbmark)
+	const GuildMessage = require("./GuildMessageCollector");
+	const AreaMessage = require("./AreaMessageCollector");
+	const DirectMessage = require("./DirectMessageCollector");
+	if (
+		client.secret.options.has(1n << 0n) ||
+		client.secret.options.has(1n << 1n) ||
+		(client.user.guild && client.secret.options.has(1n << 2n))
+	){
+		client.secret.chatload = true;
+	} else {
+		return;
+	}
+	if (client.secret.options.has(1n << 0n)) DirectMessage(client, hbmark);
+	if (client.secret.options.has(1n << 1n)) AreaMessage(client, kbmark);
+	if (client.user.guild && client.secret.options.has(1n << 2n))
+		GuildMessage(client);
 };
