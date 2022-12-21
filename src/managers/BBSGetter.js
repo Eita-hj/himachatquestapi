@@ -6,6 +6,24 @@ module.exports = class BBSGetter extends BaseManager {
   constructor(client){
     super(client)
   }
+  async exists(id){
+    const data = await api.post(api.links.Guild.BBS.Window, {
+      marumie: this.client.secret.id,
+      seskey: this.client.secret.key,
+      bbsid: id,
+      page: 1
+    })
+    return data.error !== 99
+  }
+  async getable(id){
+    const data = await api.post(api.links.Guild.BBS.Window, {
+      marumie: this.client.secret.id,
+      seskey: this.client.secret.key,
+      bbsid: id,
+      page: 1
+    })
+    return !(f === "メンバーでない" || f.error === 99)
+  }
   async fetch(id){
     if (!(typeof Number(data) === "number" && Number.isInteger(Number(data)) && Number(data) > 0)) throw new TypeError(`${id} is invalid of BBS id.`)
     const f = await api.post(api.links.Guild.BBS.Window, {
