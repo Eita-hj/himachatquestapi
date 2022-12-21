@@ -32,7 +32,7 @@ module.exports = class RankingManager extends BaseManager {
 			result.set(temp[0], obj);
 		}
 		if (this.client){
-			if (this.client.secret.caches.has(33n)) this.cache = result.clone()
+			if (this.client.secret.caches.has(1n << 6n)) this.cache = result.clone()
 		}
 		if (ranking) return result.get(ranking.toString());
 		return result;
