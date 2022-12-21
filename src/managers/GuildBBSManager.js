@@ -26,7 +26,7 @@ module.exports = class GuildBBSManager extends BaseManager {
       const lastUpdateTimestamp = Date.parse(n.split("<small class='gw_bbsul_updated'>")[1].split("</small>")[0].split("-").join("/"))
       const lastUpdate = new Date(lastUpdateTimestamp)
       data.save({lastUpdateTimestamp, lastUpdate, count})
-      //if (this.client.secret.options.has(1 << 5)) this.cache.set(id, data.clone())
+      if (this.client.secret.caches.has(1n << 2n)) this.cache.set(id, data.clone())
       r.push([id, data.clone()])
     }
     return new Cache(r)
