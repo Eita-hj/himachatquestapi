@@ -3,18 +3,32 @@ const { api, convtext } = require("../utils/")
 const Guild = require("../structures/Guild")
 
 module.exports = class GuildManager extends BaseManager {
+	async exists(id){
+		if (isNaN(data)) throw new Error(`${data} is invalid. (Error Code 500)`)
+		if (!(typeof Number(data) === "number" && Number.isInteger(Number(data)) && Number(data) > 0)) throw new Error(`${data} is invalid. (Error Code 501)`)
+		const { source } = await api.post(api.links.Guild.Info, {
+			marumie: this.client.secret.id,
+			seskey: this.client.secret.key,
+			targetid: id,
+		});
+		const name = convtext(
+			source
+				.split("<div class='gw_guildname'>")[1]
+				.split("</div>")[0]
+		);
+		return (name !== "")
+	}
 	async fetch(data) {
 		switch (typeof data){
 			case "number":
 			case "string":
 				if (isNaN(data)) throw new Error(`${data} is invalid. (Error Code 500)`)
 				if (!(typeof Number(data) === "number" && Number.isInteger(Number(data)) && Number(data) > 0)) throw new Error(`${data} is invalid. (Error Code 501)`)
-				let source = await api.post(api.links.Guild.Info, {
+				const { source } = await api.post(api.links.Guild.Info, {
 					marumie: this.client.secret.id,
 					seskey: this.client.secret.key,
 					targetid: data,
 				});
-				source = source.source;
 				const result = new Object();
 				result.id = data;
 				result.name = convtext(
