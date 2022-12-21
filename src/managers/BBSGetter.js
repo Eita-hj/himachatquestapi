@@ -25,7 +25,7 @@ module.exports = class BBSGetter extends BaseManager {
     r.createdTimestamp = Date.parse(t.split("-").join("/"))
     r.createdAt = new Date(r.createdTimestamp)
     const BBS = new GuildBBS(r, this.client)
-    if (this.client.secret.cache.has(1n << 3n)) this.cache.set(String(BBS.id), BBS)
+    if (this.client.secret.cache.has(1n << 2n)) this.cache.set(String(BBS.id), BBS)
     return BBS
   }
 }
