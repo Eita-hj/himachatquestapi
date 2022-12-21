@@ -14,7 +14,7 @@ class ClientUserIgnoreManager extends BaseManager {
 			const u = await this.client.users.get(musiarray[i])
 			result.set(musiarray[i], u)
 		}
-		this.cache = result
+		if (this.client.secret.caches.has(1n << 5n)) this.cache = result
 		return result
 	}
 	async add(target) {
@@ -33,6 +33,8 @@ class ClientUserIgnoreManager extends BaseManager {
 				tuid: target
 			})
 		}
+		if (this.client.secret.caches.has(1n << 5n)) await this.fetch()
+		return
 	}
 	async remove(target) {
 		if (target instanceof User){
@@ -49,6 +51,8 @@ class ClientUserIgnoreManager extends BaseManager {
 				targetid: target
 			})
 		}
+		if (this.client.secret.caches.has(1n << 5n)) await this.fetch()
+		return
 	}
 }
 
