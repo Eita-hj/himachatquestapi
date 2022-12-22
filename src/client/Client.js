@@ -1,5 +1,4 @@
 const BaseClient = require("./BaseClient");
-const GameClient = require("./GameClient");
 const ClientOptionBits = require("../structures/ClientOptionBits")
 const ClientCacheOptionBits = require("../structures/ClientCacheOptionBits")
 const ClientRecieveOptionBits = require("../structures/ClientRecieveOptionBits")
@@ -26,6 +25,7 @@ module.exports = class Client extends BaseClient {
 		this.guilds = require("../managers/GuildManager");
 		this.BBSs = require("../managers/BBSGetter");
 		this.ignores = require("../managers/ClientUserIgnoreManager")
+		this.Games = require("./GameClient");
 		this.secret = {
 			id: undefined,
 			key: undefined,
@@ -37,7 +37,6 @@ module.exports = class Client extends BaseClient {
 			logined: false,
 			chatload: false
 		};
-		this.Games = new 
 	}
 	async login(type, data1, data2){
 		switch (type){
@@ -92,8 +91,11 @@ module.exports = class Client extends BaseClient {
 			const { startload } = require("../collectors/BaseMessageCollector");
 			this.token = toToken({ID: id, Pass: pass, SID: this.secret.id, SKEY: this.secret.key})
 			this.emit("ready", this);
+			this.Games = new this.Games({
+				client: this,
+				userFetch: true
+			})
 			startload(this, result.kbmark, result.hbmark);
-			
 			return true;
 		}
 	}
@@ -121,8 +123,11 @@ module.exports = class Client extends BaseClient {
 		this.secret.logined = true
 		this.emit("ready", this);
 		const { startload } = require("../collectors/BaseMessageCollector");
+		this.Games = new this.Games({
+			client: this,
+			userFetch: true
+		})
 		startload(this, result.kbmark, result.hbmark);
-
 		return true;
 	}
 	async loginByToken(token){
@@ -157,6 +162,7 @@ module.exports = class Client extends BaseClient {
 		this.guilds = require("../managers/GuildManager");
 		this.BBSs = require("../managers/BBSGetter");
 		this.ignores = require("../managers/ClientUserIgnoreManager")
+		this.Games = require("./GameClient");
 		this.secret.logined = false;
 		this.emit("debug", "[Debug] Logouted.");
 		return;
