@@ -1,4 +1,5 @@
 const BaseClient = require("./BaseClient");
+const GameClient = require("./GameClient");
 const ClientOptionBits = require("../structures/ClientOptionBits")
 const ClientCacheOptionBits = require("../structures/ClientCacheOptionBits")
 const ClientRecieveOptionBits = require("../structures/ClientRecieveOptionBits")
@@ -7,16 +8,18 @@ const { GenerateToken: { toData, toToken } } = require("../utils/");
 
 module.exports = class Client extends BaseClient {
 	constructor(ClientOptions) {
-		super();
 		if (ClientOptions.option == undefined) throw new Error("ClientOptionBits must be set.")
+		super();
 		const options = ClientOptionBits.set(ClientOptions.option)
 		const recieves = ClientRecieveOptionBits.set(ClientOptions.recieves === undefined ? 0n : options.recieves)
-		if (ClientOptions.recieves && !options.has(7n) && recieves?.bits !== 0n) throw new Error(`ClientOptionBits must be included any message option to set ClientRecieveOptionBits.`)
+		if (ClientOptions.recieves && !options.has(7n) && recieves?.bits !== 0n)
+			throw new Error(`ClientOptionBits must be included any message option to set ClientRecieveOptionBits.`)
 		const caches = ClientCacheOptionBits.set(ClientOptions.caches === undefined ? 0n : options.caches)
 		const ignoreUsers = ClientOptions.ignoreUsers || []
 		const postInterval = ClientOptions.postInterval || 1000
 		if (typeof postInterval !== "number") throw new Error(`${postInterval} is invaled.\nClientOption.postInterval must be number.`)
-		if (!Number.isSafeInteger(postInterval) || postInterval < 100 || postInterval > 600000) throw new Error(`${postInterval} is invaled.\nClientOption.postInterval must be 100(ms) to 600000(ms)`)
+		if (!Number.isSafeInteger(postInterval) || postInterval < 100 || postInterval > 600000)
+			throw new TypeError(`${postInterval} is invalid.\nClientOption.postInterval must be 100(ms) to 600000(ms)`)
 		this.id = "";
 		this.pass = "";
 		this.users = require("../managers/UserManager");
@@ -34,6 +37,7 @@ module.exports = class Client extends BaseClient {
 			logined: false,
 			chatload: false
 		};
+		this.Games = new 
 	}
 	async login(type, data1, data2){
 		switch (type){
