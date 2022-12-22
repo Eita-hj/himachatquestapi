@@ -4,8 +4,14 @@ const BaseClient = require("./BaseClient")
 const RankingManager = require("../managers/RankingManager")
 
 module.exports = class GameClient extends BaseClient {
-	constructor(client) {
-		this.ranking = new RankingManager(client);
+	constructor(options) {
+		super()
+		const { client, userFetch } = options
+		if (userFetch) {
+			this.ranking = new RankingManager(client);
+		} else {
+			this.ranking = new RankingManager();
+		}
 	}
 	async getUpdateInfo(date = null) {
 		let result = new Cache(),
