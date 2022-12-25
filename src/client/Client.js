@@ -10,10 +10,10 @@ module.exports = class Client extends BaseClient {
 		if (ClientOptions.options == undefined) throw new Error("ClientOptionBits must be set.")
 		super();
 		const options = ClientOptionBits.set(ClientOptions.options)
-		const recieves = ClientRecieveOptionBits.set(ClientOptions.recieves === undefined ? 0n : options.recieves)
+		const recieves = ClientRecieveOptionBits.set(ClientOptions.recieves === undefined ? [...Object.values(ClientRecieveOptionBits.Flags)] : options.recieves)
 		if (ClientOptions.recieves && !options.has(7n) && recieves?.bits !== 0n)
 			throw new Error(`ClientOptionBits must be included any message option to set ClientRecieveOptionBits.`)
-		const caches = ClientCacheOptionBits.set(ClientOptions.caches === undefined ? 0n : options.caches)
+		const caches = ClientCacheOptionBits.set(ClientOptions.caches === undefined ? [...Object.values(ClientCacheOptionBits.Flags)] : options.caches)
 		const ignoreUsers = ClientOptions.ignoreUsers || []
 		const postInterval = ClientOptions.postInterval || 1000
 		if (typeof postInterval !== "number") throw new Error(`${postInterval} is invaled.\nClientOption.postInterval must be number.`)
