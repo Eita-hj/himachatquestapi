@@ -5,7 +5,7 @@ const RankingManager = require("../managers/RankingManager")
 
 module.exports = class GameClient extends BaseClient {
 	constructor(options) {
-		super()
+		super(options)
 		const { client, userFetch } = options
 		if (userFetch) {
 			this.ranking = new RankingManager(client);
