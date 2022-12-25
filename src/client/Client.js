@@ -8,7 +8,7 @@ const { GenerateToken: { toData, toToken } } = require("../utils/");
 module.exports = class Client extends BaseClient {
 	constructor(ClientOptions) {
 		if (ClientOptions.options == undefined) throw new Error("ClientOptionBits must be set.")
-		super();
+		super(ClientOptions);
 		const options = ClientOptionBits.set(ClientOptions.options)
 		const recieves = ClientRecieveOptionBits.set(ClientOptions.recieves === undefined ? [...Object.values(ClientRecieveOptionBits.Flags)] : options.recieves)
 		if (ClientOptions.recieves && !options.has(7n) && recieves?.bits !== 0n)
