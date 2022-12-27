@@ -27,7 +27,8 @@ class ClientUserFriendRequestsManager extends BaseManager {
         recievedAt,
         requestid: userdata.requestid,
       });
-      if (this.client.secret.caches.has(1n << 4n)) data.set(user.id, user);
+      const requestuser = new FriendRequestUser(user.getData());
+      if (this.client.secret.caches.has(1n << 4n)) data.set(user.id, requestuser);
     }
     return data;
   }
