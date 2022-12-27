@@ -25,6 +25,7 @@ class ClientUserIgnoreManager extends BaseManager {
 				tuid: target.id,
 				tmemo: target.name
 			})
+			this.client.secret.ignoreUsers.push(target.id)
 		} else {
 			if (!Number.isSafeInteger(Number(target))) throw new TypeError(`${target} is invalid.`)
 			await api.post(api.links.User.Ignores.Add,{
@@ -32,6 +33,7 @@ class ClientUserIgnoreManager extends BaseManager {
 				seskey: this.client.secret.key,
 				tuid: target
 			})
+			this.client.secret.ignoreUsers.push(target)
 		}
 		if (this.client.secret.caches.has(1n << 5n)) await this.fetch()
 		return
@@ -43,6 +45,7 @@ class ClientUserIgnoreManager extends BaseManager {
 				seskey: this.client.secret.key,
 				targetid: target.id
 			})
+			this.client.secret.ignoreUsers.filter(n => n != target.id)
 		} else {
 			if (!Number.isSafeInteger(Number(target))) throw new TypeError(`${target} is invalid.`)
 			const r = await api.post(api.links.User.Ignores.Remove,{
@@ -50,6 +53,7 @@ class ClientUserIgnoreManager extends BaseManager {
 				seskey: this.client.secret.key,
 				targetid: target
 			})
+			this.client.secret.ignoreUsers.filter(n => n != target)
 		}
 		if (this.client.secret.caches.has(1n << 5n)) await this.fetch()
 		return
