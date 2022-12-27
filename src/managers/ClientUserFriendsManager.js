@@ -30,8 +30,8 @@ class ClientUserFriendsManager extends BaseManager {
         lastLoginedTimestamp,
         lastLoginedAt,
       });
-      const frienduser = new FriendUser();
-      if (this.client.secret.caches.has(1n << 4n)) data.set(user.id, user);
+      const frienduser = new FriendUser(user.getData());
+      if (this.client.secret.caches.has(1n << 4n)) data.set(user.id, frienduser);
     }
     return data;
   }
