@@ -7,18 +7,19 @@ const { GenerateToken: { toData, toToken } } = require("../utils/");
 
 module.exports = class Client extends BaseClient {
 	constructor(ClientOptions) {
-		if (ClientOptions.options == undefined) throw new Error("ClientOptionBits must be set.")
+		if (ClientOptions.options == undefined) throw new Error("ClientOptionBits must be set.");
 		super(ClientOptions);
-		const options = ClientOptionBits.set(ClientOptions.options)
-		const recieves = ClientRecieveOptionBits.set(ClientOptions.recieves === undefined ? [...Object.values(ClientRecieveOptionBits.Flags)] : options.recieves)
-		if (ClientOptions.recieves && !options.has(7n) && recieves?.bits !== 0n)
-			throw new Error(`ClientOptionBits must be included any message option to set ClientRecieveOptionBits.`)
-		const caches = ClientCacheOptionBits.set(ClientOptions.caches === undefined ? [...Object.values(ClientCacheOptionBits.Flags)] : options.caches)
-		const ignoreUsers = ClientOptions.ignoreUsers || []
-		const postInterval = ClientOptions.postInterval || 1000
-		if (typeof postInterval !== "number") throw new Error(`${postInterval} is invaled.\nClientOption.postInterval must be number.`)
-		if (!Number.isSafeInteger(postInterval) || postInterval < 100 || postInterval > 600000)
-			throw new TypeError(`${postInterval} is invalid.\nClientOption.postInterval must be 100(ms) to 600000(ms)`)
+		const options = ClientOptionBits.set(ClientOptions.options);
+		const recieves = ClientRecieveOptionBits.set(ClientOptions.recieves === undefined ? [...Object.values(ClientRecieveOptionBits.Flags)] : options.recieves);
+		if (ClientOptions.recieves && !options.has(7n) && recieves?.bits !== 0n);
+			throw new Error(`ClientOptionBits must be included any message option to set ClientRecieveOptionBits.`);
+		const caches = ClientCacheOptionBits.set(ClientOptions.caches === undefined ? [...Object.values(ClientCacheOptionBits.Flags)] : options.caches);
+		const ignoreUsers = ClientOptions.ignoreUsers || [];
+		if (Array.isArray(ignoreUsers)) throw new TypeError("ClientOption.ignoreUsers must be Array.");
+		const postInterval = ClientOptions.postInterval || 1000;
+		if (typeof postInterval !== "number") throw new Error(`${postInterval} is invaled.\nClientOption.postInterval must be number.`);
+		if (!Number.isSafeInteger(postInterval) || postInterval < 100 || postInterval > 600000);
+			throw new TypeError(`${postInterval} is invalid.\nClientOption.postInterval must be 100(ms) to 600000(ms)`);
 		this.id = "";
 		this.pass = "";
 		this.users = require("../managers/UserManager");
@@ -95,6 +96,8 @@ module.exports = class Client extends BaseClient {
 				client: this,
 				userFetch: true
 			})
+			const ignores = await this.ignores.fetch()
+			ignores.map(n => this.secret.ignoreUsers.push(n.id))
 			startload(this, result.kbmark, result.hbmark);
 			return true;
 		}
@@ -127,6 +130,8 @@ module.exports = class Client extends BaseClient {
 			client: this,
 			userFetch: true
 		})
+		const ignores = await this.ignores.fetch()
+		ignores.map(n => this.secret.ignoreUsers.push(n.id))
 		startload(this, result.kbmark, result.hbmark);
 		return true;
 	}
