@@ -14,6 +14,9 @@ module.exports = class Data {
 		return new this.constructor(this.#parseData, client);
 	}
 	save(data){
-		this.#parseData = {...this.#parseData, ...data}
+		this.#parseData = {...this.#parseData, ...data};
 	}
-}
+	getData(){
+		return this.#parseData;
+	}
+};
