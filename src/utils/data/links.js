@@ -25,6 +25,14 @@ module.exports = {
 			List: "http://himaquest.com/block_LoadMusiList.php",
 			Add: "http://himaquest.com/block_MusiAdd.php",
 			Remove: "http://himaquest.com/block_MusiKaizyo.php"
+		},
+		Friends: {
+			List: "http://himaquest.com/friend_List.php",
+			Delete: "http://himaquest.com/friend_Kaizyo.php"
+		},
+		FriendRequests: {
+			Allow: "http://himaquest.com/friend_SinseiOK.php",
+			Deny: "http://himaquest.com/friend_SinseiNO.php"
 		}
 	},
 	Chat: {
