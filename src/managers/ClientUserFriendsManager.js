@@ -6,7 +6,8 @@ const FriendUser = require("../structures/FriendUser");
 
 class ClientUserFriendsManager extends BaseManager {
   constructor(client) {
-    super(client);
+    super(client)
+		if (!client.secret.caches.has(1n << 4n)) delete this.cache
     this.recieves = new ClientUserFriendRequestsManager(client);
   }
   async fetch() {
