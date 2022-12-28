@@ -4,6 +4,10 @@ const Cache = require("../structures/Cache")
 const { api, convtext } = require("../utils/")
 
 class ClientUserIgnoreManager extends BaseManager {
+	constructor(client){
+		super(client)
+		if (!client.secret.caches.has(1n << 4n)) delete this.cache
+	}
 	async fetch() {
 		const { musiarray } = await api.post(api.links.User.Ignores.List,{
 			marumie: this.client.secret.id,
