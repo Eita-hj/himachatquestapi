@@ -2,6 +2,10 @@ const { api, convtext } = require("../utils/");
 const Cache = require("../structures/Cache");
 const BaseManager = require("./BaseManager")
 module.exports = class RankingManager extends BaseManager {
+	constructor(client){
+		super(client)
+		if (!client.secret.caches.has(1n << 6n)) delete this.cache
+	}
 	async fetch(ranking) {
 		let result = new Cache(),
 			temp = new Array();
