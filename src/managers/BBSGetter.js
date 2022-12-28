@@ -5,6 +5,7 @@ const GuildBBS = require("../structures/GuildBBS")
 module.exports = class BBSGetter extends BaseManager {
   constructor(client){
     super(client)
+		if (!client.secret.caches.has(1n << 2n)) delete this.cache
   }
   async exists(id){
     const data = await api.post(api.links.Guild.BBS.Window, {
