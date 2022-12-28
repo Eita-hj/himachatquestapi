@@ -21,8 +21,9 @@ module.exports = async function (client, defaultbmark) {
 					const n = data.coments[i]
 					const { source } = n;
 					const result = new Object();
+					result.authorId = data.coments[i].uid
 					result.place = await client.users.get(Number(n.aite))
-					result.author = await client.users.get(Number(n.uid));
+					result.author = await client.users.get(result.authorId);
 					result.createdTimeStamp = Number(n.htime) * 1000
 					result.createdAt = new Date(result.createdTimestamp)
 					if (
