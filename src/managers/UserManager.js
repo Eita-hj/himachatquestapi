@@ -5,6 +5,10 @@ const ClientUser = require("../structures/ClientUser")
 const Cache = require("../structures/Cache")
 
 module.exports = class UserManager extends BaseManager {
+	constructor(client){
+		super(client)
+		if (!client.secret.caches.has(1n << 0n)) delete this.cache
+	}
 	async exists(id){
 		if (isNaN(data)) throw new Error(`${data} is invalid. (Error Code 500)`)
 		if (!(typeof Number(data) === "number" && Number.isInteger(Number(data)) && Number(data) > 0)) throw new Error(`${data} is invalid. (Error Code 501)`)
