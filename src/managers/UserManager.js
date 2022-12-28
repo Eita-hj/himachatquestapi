@@ -111,7 +111,7 @@ module.exports = class UserManager extends BaseManager {
 		switch (typeof data){
 			case "number":
 			case "string":
-				return this.cache.has(data) ? this.cache.get(data) : await this.fetch(data);
+				return this.cache?.has?.(data) ? this.cache.get(data) : await this.fetch(data);
 				break;
 			case "object":
 				const cache = new Cache()
