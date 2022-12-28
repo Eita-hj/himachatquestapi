@@ -35,7 +35,9 @@ module.exports = async function (client) {
 					})
 					continue
 				}
-				result.author = await client.users.get(obj.coments[i].uid);
+				result.authorId = data.coments[i].uid
+				if (this.client.secret.ignoreUsers.includes(result.authorId)) continue;
+				result.author = await client.users.get(result.authorId);
 				if (
 					c.includes(
 						"<a href='javascript:void(0);' class='astyle' onclick='PhotoGet(this,"
