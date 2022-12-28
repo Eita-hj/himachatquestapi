@@ -3,6 +3,10 @@ const { api, convtext } = require("../utils/")
 const Guild = require("../structures/Guild")
 
 module.exports = class GuildManager extends BaseManager {
+	constructor(client){
+		super(client)
+		if (!client.secret.caches.has(1n << 1n)) delete this.cache
+	}
 	async exists(id){
 		if (isNaN(data)) throw new Error(`${data} is invalid. (Error Code 500)`)
 		if (!(typeof Number(data) === "number" && Number.isInteger(Number(data)) && Number(data) > 0)) throw new Error(`${data} is invalid. (Error Code 501)`)
