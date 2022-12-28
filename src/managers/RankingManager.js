@@ -43,7 +43,7 @@ module.exports = class RankingManager extends BaseManager {
 	}
 	async get(ranking){
 		if (ranking){
-			return this.cache.size ? this.cache : (await this.fetch())
+			return this?.cache?.size ? this.cache : (await this.fetch())
 		} else {
 			return this.cache.has(ranking) ? this.cache.get(ranking) : (await this.fetch(ranking))
 		}
