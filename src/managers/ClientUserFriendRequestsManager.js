@@ -4,6 +4,10 @@ const Cache = require("../structures/Cache");
 const FriendRequestUser = require("../structures/FriendRequestUser");
 
 class ClientUserFriendRequestsManager extends BaseManager {
+  constructor(client){
+    super(client)
+		if (!client.secret.caches.has(1n << 4n)) delete this.cache
+  }
   async fetch() {
     const { sinseidata } = await api.post(api.links.User.Friends.List, {
       marumie: this.client.secret.id,
