@@ -5,6 +5,7 @@ const Cache = require("../structures/Cache")
 module.exports = class GuildBBSCommentManager extends BaseManager {
   constructor(client, data){
     super(client)
+		if (!client.secret.caches.has(1n << 3n)) delete this.cache
     this.BBS = data
   }
   async fetch(page){
