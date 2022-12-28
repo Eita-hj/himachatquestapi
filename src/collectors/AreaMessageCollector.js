@@ -21,6 +21,8 @@ module.exports = async function (client, defaultbmark) {
 					bmark = data.bmark == undefined ? bmark : data.bmark;
 					let source = data.coments[i].source;
 					let result = new Object();
+					result.authorId = data.coments[i].uid
+					if (this.client.secret.ignoreUsers.includes(Number(result.authorId))) continue;
 					result.content = source
 						.split("\t")
 						.join("")
@@ -31,8 +33,8 @@ module.exports = async function (client, defaultbmark) {
 					result.content = result.shout ? result.content.slice(25).slice(0, -4) : result.content
 					if (!client.secret.chatload) return;
 					result.author = client.secret.options.has(1n << 2n)
-						? await client.users.fetch(data.coments[i].uid)
-						: await client.users.get(data.coments[i].uid);
+						? await client.users.fetch(result.authorId)
+						: await client.users.get(result.authorId);
 					if (!client.secret.chatload) return;
 					client.emit("AreaMessageCreate", result);
 				}
