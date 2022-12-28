@@ -4,6 +4,7 @@ const BaseManager = require("./BaseManager")
 module.exports = class GuildBBSManager extends BaseManager {
   constructor(client, guild){
     super(client)
+		if (!client.secret.caches.has(1n << 2n)) delete this.cache
     this.guild = guild
   }
   async fetch(page){
