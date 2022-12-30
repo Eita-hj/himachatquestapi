@@ -41,8 +41,9 @@ module.exports = class Bits {
 		if (typeof boolean !== "boolean") throw boolean;
 		return boolean;
 	}
-	hasAny(array){
-		if (!Array.isArray(array)) throw new TypeError("Bits.hasAny option must be array.")
-		return !array.map(n => this.has(n)).filter(n => !n).length
+	hasAny(data){
+		if (typeof data === "bigint") return this.hasAny(this.set(data).toArray())
+		if (!Array.isArray(data)) throw new TypeError("Bits.hasAny option must be array.")
+		return !data.map(n => this.has(n)).filter(n => !n).length
 	}
 }
