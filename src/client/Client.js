@@ -11,7 +11,7 @@ module.exports = class Client extends BaseClient {
 		super(ClientOptions);
 		const options = ClientOptionBits.set(ClientOptions.options);
 		const recieves = ClientRecieveOptionBits.set(ClientOptions.recieves === undefined ? [...Object.values(ClientRecieveOptionBits.Flags)] : options.recieves);
-		if (ClientOptions.recieves && !options.has(7n) && recieves?.bits !== 0n);
+		if (ClientOptions.recieves && !options.hasAny(7n) && recieves?.bits !== 0n)
 			throw new Error(`ClientOptionBits must be included any message option to set ClientRecieveOptionBits.`);
 		const caches = ClientCacheOptionBits.set(ClientOptions.caches === undefined ? [...Object.values(ClientCacheOptionBits.Flags)] : options.caches);
 		const ignoreUsers = ClientOptions.ignoreUsers || [];
