@@ -79,12 +79,13 @@ module.exports = class UserManager extends BaseManager {
 					result.lastlogin = new Date(0)
 					result.ip = ip.source.split("\r\n")[2].split("\t").join("").split("<br />").join("")
 				}
+				let user = new User(result, this.client);
+				if (data == this.client.secret.id) return new ClientUser(result, this.client)
 				if (this.client.secret.options.has(1n << 2n)) {
 					if (this.cache.has(result.id)) this.cache.delete(result.id);
-					this.cache.set(result.id, result);
-				}
-				if (data == this.client.secret.id) return new ClientUser(result, this.client)
-				return new User(result, this.client);
+					this.cache.set(result.id, user);
+				};
+				return user;
 				break;
 			case "object":
 				const cache = new Cache()
