@@ -40,5 +40,9 @@ module.exports = class Bits {
 					: new Error("<Bits>.has option is invalid. (Code:602)")
 		if (typeof boolean !== "boolean") throw boolean;
 		return boolean;
+	},
+	hasAny(array){
+		if (!Array.isArray(array)) throw new TypeError("Bits.hasAny option must be array.")
+		return !array.map(n => this.has(n)).filter(n => !n).length
 	}
 }
