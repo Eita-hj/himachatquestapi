@@ -4,7 +4,7 @@ const Cache = require("../structures/Cache");
 const ClientUserFriendRequestsManager = require("./ClientUserFriendRequestsManager");
 const FriendUser = require("../structures/FriendUser");
 
-class ClientUserFriendsManager extends BaseManager {
+module.exports = class ClientUserFriendsManager extends BaseManager {
 	constructor(client) {
 	super(client)
 		if (!client.secret.caches.has(1n << 4n)) delete this.cache;
