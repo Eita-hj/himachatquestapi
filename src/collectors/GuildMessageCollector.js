@@ -35,7 +35,7 @@ module.exports = async function (client) {
 					})
 					continue
 				}
-				result.authorId = data.coments[i].uid
+				result.authorId = obj.coments[i].uid
 				if (this.client.secret.ignoreUsers.includes(result.authorId)) continue;
 				result.author = await client.users.get(result.authorId);
 				if (
