@@ -23,7 +23,7 @@ module.exports = class ClientUserFriendRequestsManager extends BaseManager {
 			const userdata = users[i];
 			const user = await this.client.users.get(userdata.id);
 			const recievedTimestamp = Date.parse(
-				userdata.updated.split("-").join("/")
+				userdata.recieved.split("-").join("/")
 			);
 			const recievedAt = new Date(recievedTimestamp);
 			user.save({
