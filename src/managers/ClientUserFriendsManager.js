@@ -46,5 +46,8 @@ module.exports = class ClientUserFriendsManager extends BaseManager {
 			seskey: this.client.secret.key,
 			sinseiid: userId,
 		});
+		const user = await this.client.users.get(userId)
+		this.cache.delete(userId)
+		return user;
 	}
 }
