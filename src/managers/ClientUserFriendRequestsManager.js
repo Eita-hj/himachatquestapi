@@ -15,7 +15,7 @@ module.exports = class ClientUserFriendRequestsManager extends BaseManager {
 		});
 		const users = sinseidata.map((user) => ({
 			id: user.uid,
-			requestid: user.sinseiid,
+			requestId: user.sinseiid,
 			recieved: user.updated,
 		}));
 		const data = new Cache();
@@ -29,7 +29,7 @@ module.exports = class ClientUserFriendRequestsManager extends BaseManager {
 			user.save({
 				recievedTimestamp,
 				recievedAt,
-				requestid: userdata.requestid,
+				requestId: userdata.requestId,
 			});
 			const requestuser = new FriendRequestUser(user.getData(), this.client);
 			if (this.client.secret.caches.has(1n << 4n)) data.set(user.id, requestuser);
