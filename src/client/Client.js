@@ -18,7 +18,7 @@ module.exports = class Client extends BaseClient {
 		if (!Array.isArray(ignoreUsers)) throw new TypeError("ClientOption.ignoreUsers must be Array.");
 		const postInterval = ClientOptions.postInterval || 1000;
 		if (typeof postInterval !== "number") throw new Error(`${postInterval} is invaled.\nClientOption.postInterval must be number.`);
-		if (!Number.isSafeInteger(postInterval) || postInterval < 100 || postInterval > 600000);
+		if (!Number.isSafeInteger(postInterval) || postInterval < 100 || postInterval > 600000)
 			throw new TypeError(`${postInterval} is invalid.\nClientOption.postInterval must be 100(ms) to 600000(ms)`);
 		this.id = "";
 		this.pass = "";
