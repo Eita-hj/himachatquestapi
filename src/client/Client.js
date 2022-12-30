@@ -10,10 +10,10 @@ module.exports = class Client extends BaseClient {
 		if (ClientOptions.options == undefined) throw new Error("ClientOptionBits must be set.");
 		super(ClientOptions);
 		const options = ClientOptionBits.set(ClientOptions.options);
-		const recieves = ClientRecieveOptionBits.set(ClientOptions.recieves === undefined ? [...Object.values(ClientRecieveOptionBits.Flags)] : ClientOptions.recieves);
+		const recieves = ClientRecieveOptionBits.set(ClientOptions.recieves ?? [...Object.values(ClientRecieveOptionBits.Flags)]);
 		if (ClientOptions.recieves && !options.hasAny(7n) && recieves?.bits !== 0n)
 			throw new Error(`ClientOptionBits must be included any message option to set ClientRecieveOptionBits.`);
-		const caches = ClientCacheOptionBits.set(ClientOptions.caches === undefined ? [...Object.values(ClientCacheOptionBits.Flags)] : ClientOptions.caches);
+		const caches = ClientCacheOptionBits.set(ClientOptions.caches ?? [...Object.values(ClientCacheOptionBits.Flags)]);
 		const ignoreUsers = ClientOptions.ignoreUsers || [];
 		if (!Array.isArray(ignoreUsers)) throw new TypeError("ClientOption.ignoreUsers must be Array.");
 		const postInterval = ClientOptions.postInterval || 1000;
