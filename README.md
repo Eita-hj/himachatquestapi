@@ -1,12 +1,10 @@
 # 使い方
 ## ログイン
 ```js
-const { HCQ: Client, OptionBits, LoginType } = require("himaque-api")
+const { HCQ: Client, ClientOptionBits, LoginType } = require("himaque-api")
 const hcq = new HCQ({
-	option: [
-		OptionBits.Flags.GuildMessage,
-		OptionBits.Flags.UserCache,
-		OptionBits.Flags.GuildCache
+	options: [
+		OptionBits.Flags.GuildMessage
 	]
 })
 
