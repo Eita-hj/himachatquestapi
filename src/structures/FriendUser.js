@@ -1,5 +1,5 @@
 const User = require("./User")
-class FriendUser extends User {
+module.exports = class FriendUser extends User {
   async delete() {
     this.client.friends.delete(this)
   }
