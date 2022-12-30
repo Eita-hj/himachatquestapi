@@ -53,11 +53,12 @@ module.exports = class GuildManager extends BaseManager {
 					.split("<span onclick='UserWindow(")[1]
 					.split(")")[0];
 				result.owner = result.ownerID == this.client.secret.id ? this.user : await this.client.users.get(result.ownerID)
+				const guild = new Guild(result, this.client);
 				if (this.client.secret.options.has(1n << 2n)) {
 					if (this.cache.has(result.id)) this.cache.delete(result.id);
-					this.cache.set(result.id, result);
+					this.cache.set(result.id, guild);
 				}
-				return new Guild(result, this.client);
+				return guild
 			case "object":
 				const cache = new Cache()
 				if (Array.isArray(data)){
