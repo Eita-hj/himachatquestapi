@@ -24,7 +24,7 @@ module.exports = async function (client) {
 				let c = obj.coments[i].source;
 				if (!client.secret.chatload) return;
 				if (obj.coments[i].uid === "0"){
-					if (client.secret.recieves.has(1n << 2n)) continue;
+					if (!client.secret.recieves.has(1n << 2n)) continue;
 					const message = convtext(c.split("<tr><td class='c_moji' style='color:#999999'>")[1].split("\n<span class='c_date'>")[0])
 					const createdTimestamp = Date.parse(c.split("<span class='c_date'>")[1].split("</span></td></tr>")[0])
 					const createdAt = new Date(createdTimestamp)
@@ -43,7 +43,7 @@ module.exports = async function (client) {
 						"<a href='javascript:void(0);' class='astyle' onclick='PhotoGet(this,"
 					)
 				) {
-					if (client.secret.recieves.has(1n << 1n)) continue;
+					if (!client.secret.recieves.has(1n << 1n)) continue;
 					result.type = "image";
 					let pid = c.split("PhotoGet(this,")[1];
 					let pkey = pid.split(',"')[1].split('")')[0];
@@ -69,7 +69,7 @@ module.exports = async function (client) {
 					const GuildMessageAttachMent = require("../structures/GuildMessageAttachment")
 					result.file = new GuildMessageAttachMent(client, api.links.Attachment.PhotoData(pid, pkey, tag), pid)
 				} else {
-					if (client.secret.recieves.has(1n << 0n)) continue;
+					if (!client.secret.recieves.has(1n << 0n)) continue;
 					result.type = "text";
 					result.file = null;
 					c = convtext(
