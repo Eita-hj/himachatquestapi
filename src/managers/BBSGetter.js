@@ -9,10 +9,10 @@ module.exports = class BBSGetter extends BaseManager {
 	}
 	async exists(id){
 		const data = await api.post(api.links.Guild.BBS.Window, {
-		marumie: this.client.secret.id,
-		seskey: this.client.secret.key,
-		bbsid: id,
-		page: 1
+			marumie: this.client.secret.id,
+			seskey: this.client.secret.key,
+			bbsid: id,
+			page: 1
 		})
 		return data.error !== 99
 	}
@@ -23,7 +23,7 @@ module.exports = class BBSGetter extends BaseManager {
 			bbsid: id,
 			page: 1
 		})
-		return !(f === "メンバーでない" || f.error === 99)
+		return !(data === "メンバーでない" || data.error === 99)
 	}
 	async fetch(id){
 		if (!(typeof Number(id) === "number" && Number.isInteger(Number(id)) && Number(id) > 0)) throw new TypeError(`${id} is invalid of BBS id.`)
