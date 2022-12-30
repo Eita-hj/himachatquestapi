@@ -47,6 +47,13 @@ module.exports = class ClientUserFriendRequestsManager extends BaseManager {
 			seskey: this.client.secret.key,
 			sinseiid: requestId,
 		});
+		if (this.client.secret.caches.has(1n << 4n)){
+			const userId = data?.id ?? this.cache.find(n => n.requestId === requestId)?.id ?? 0
+			if (!userId) return
+			const user = await this.client.users.get(userId)
+			this.cache.delete(userId)
+			return user
+		}
 	}
 	async deny(data) {
 		const requestId = data instanceof FriendRequestUser ? data.requestId : data;
@@ -57,5 +64,12 @@ module.exports = class ClientUserFriendRequestsManager extends BaseManager {
 			seskey: this.client.secret.key,
 			sinseiid: requestId,
 		});
+		if (this.client.secret.caches.has(1n << 4n)){
+			const userId = data?.id ?? this.cache.find(n => n.requestId === requestId)?.id ?? 0
+			if (!userId) return
+			const user = await this.client.users.get(userId)
+			this.cache.delete(userId)
+			return user
+		}
 	}
 }
