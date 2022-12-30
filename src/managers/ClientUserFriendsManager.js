@@ -31,7 +31,7 @@ module.exports = class ClientUserFriendsManager extends BaseManager {
 				lastLoginedTimestamp,
 				lastLoginedAt,
 			});
-			const frienduser = new FriendUser(user.getData());
+			const frienduser = new FriendUser(user.getData(), this.client);
 			data.set(user.id, frienduser);
 			if (this.client.secret.caches.has(1n << 4n)) this.cache.set(user.id, frienduser);
 		}
