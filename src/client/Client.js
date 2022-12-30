@@ -15,7 +15,7 @@ module.exports = class Client extends BaseClient {
 			throw new Error(`ClientOptionBits must be included any message option to set ClientRecieveOptionBits.`);
 		const caches = ClientCacheOptionBits.set(ClientOptions.caches === undefined ? [...Object.values(ClientCacheOptionBits.Flags)] : options.caches);
 		const ignoreUsers = ClientOptions.ignoreUsers || [];
-		if (Array.isArray(ignoreUsers)) throw new TypeError("ClientOption.ignoreUsers must be Array.");
+		if (!Array.isArray(ignoreUsers)) throw new TypeError("ClientOption.ignoreUsers must be Array.");
 		const postInterval = ClientOptions.postInterval || 1000;
 		if (typeof postInterval !== "number") throw new Error(`${postInterval} is invaled.\nClientOption.postInterval must be number.`);
 		if (!Number.isSafeInteger(postInterval) || postInterval < 100 || postInterval > 600000);
