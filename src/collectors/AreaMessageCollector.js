@@ -22,7 +22,7 @@ module.exports = async function (client, defaultbmark) {
 					let source = data.coments[i].source;
 					let result = new Object();
 					result.authorId = data.coments[i].uid
-					if (this.client.secret.ignoreUsers.includes(Number(result.authorId))) continue;
+					if (client.secret.ignoreUsers.includes(Number(result.authorId))) continue;
 					result.content = source
 						.split("\t")
 						.join("")
