@@ -26,7 +26,7 @@ module.exports = class BBSGetter extends BaseManager {
 		return !(f === "メンバーでない" || f.error === 99)
 	}
 	async fetch(id){
-		if (!(typeof Number(data) === "number" && Number.isInteger(Number(data)) && Number(data) > 0)) throw new TypeError(`${id} is invalid of BBS id.`)
+		if (!(typeof Number(id) === "number" && Number.isInteger(Number(id)) && Number(id) > 0)) throw new TypeError(`${id} is invalid of BBS id.`)
 		const f = await api.post(api.links.Guild.BBS.Window, {
 			marumie: this.client.secret.id,
 			seskey: this.client.secret.key,
