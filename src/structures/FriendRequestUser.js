@@ -1,5 +1,5 @@
 const User = require("./User")
-class FriendRequestUser extends User {
+module.exports = class FriendRequestUser extends User {
   async allow() {
     this.client.friends.requests.allow(this)
   }
