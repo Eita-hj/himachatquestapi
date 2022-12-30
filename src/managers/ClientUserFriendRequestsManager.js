@@ -3,7 +3,7 @@ const { api, convtext } = require("../utils/");
 const Cache = require("../structures/Cache");
 const FriendRequestUser = require("../structures/FriendRequestUser");
 
-class ClientUserFriendRequestsManager extends BaseManager {
+module.exports = class ClientUserFriendRequestsManager extends BaseManager {
 	constructor(client){
 		super(client)
 		if (!client.secret.caches.has(1n << 4n)) delete this.cache
