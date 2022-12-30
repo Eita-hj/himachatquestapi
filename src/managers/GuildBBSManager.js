@@ -41,7 +41,7 @@ module.exports = class GuildBBSManager extends BaseManager {
 					lastUpdateAt,
 					lastUpdateTimestamp
 				}
-				const BBS = new GuildBBS(r, this.client)
+				const BBS = new GuildBBS(data, this.client)
 				if (this.client.secret.caches.has(1n << 2n)) this.cache.set(id, BBS)
 				r.push([id, BBS])
 			}
