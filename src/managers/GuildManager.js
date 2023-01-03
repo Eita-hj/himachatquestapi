@@ -34,7 +34,7 @@ module.exports = class GuildManager extends BaseManager {
 					targetid: data,
 				});
 				const result = new Object();
-				result.id = data;
+				result.id = String(data);
 				result.name = convtext(
 					source
 						.split("<div class='gw_guildname'>")[1]
@@ -83,7 +83,7 @@ module.exports = class GuildManager extends BaseManager {
 		switch (typeof data){
 			case "number":
 			case "string":
-				return this.cache?.has?.(data) ? this.cache.get(data) : this.fetch(data);
+				return this.cache?.has?.(String(data)) ? this.cache.get(String(data)) : this.fetch(String(data));
 				break;
 			case "object":
 				const cache = new Cache()
@@ -91,7 +91,7 @@ module.exports = class GuildManager extends BaseManager {
 					for (let i = 0; i < data.length; i++){
 						const id = data[i]
 						if (typeof id === "number" || typeof id === "string"){
-							const guild = this.get(id)
+							const guild = this.get(String(id))
 							cache.set(string(id), guild)
 						} else {
 							throw new TypeError(`${id} must be string, or number.`)
