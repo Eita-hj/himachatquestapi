@@ -25,12 +25,12 @@ module.exports = class RankingManager extends BaseManager {
 			const id = String(
 				temp[2].split("<small style='color:#AAAAAA'>")[1].split("</small>")[0]
 			);
-			obj.user = this.client
-				? this.client.users.get(id)
+			obj.user = (this.client && this.userFetch)
+				? await this.client.users.get(id)
 				: {
-						name: convtext(temp[2].split("<small style='color:#AAAAAA'>")[0]),
-						id: id,
-					};
+					name: convtext(temp[2].split("<small style='color:#AAAAAA'>")[0]),
+					id: id,
+				};
 			obj.mission = temp[3];
 			obj.date = temp[4].split("</td></tr>")[0];
 			result.set(temp[0], obj);
