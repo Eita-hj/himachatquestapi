@@ -47,7 +47,7 @@ module.exports = class BBSGetter extends BaseManager {
 		if (this.client.secret.caches.has(1n << 2n)) this.cache.set(String(BBS.id), BBS)
 		return BBS
 	}
-	async get(id){
-		return this.cache?.has?.(id) ? this.cache.get(id) : await this.fetch(id)
+	get(id){
+		return this.cache?.has?.(id) ? this.cache.get(id) : this.fetch(id)
 	}
 }
