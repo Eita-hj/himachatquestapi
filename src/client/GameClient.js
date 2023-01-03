@@ -7,6 +7,8 @@ module.exports = class GameClient extends BaseClient {
 	constructor(options) {
 		super(options)
 		const { client, userFetch } = options
+		this.client = client
+		this.userFetch = userFetch
 		if (userFetch) {
 			this.ranking = new RankingManager(client);
 		} else {
