@@ -93,11 +93,11 @@ module.exports = class Client extends BaseClient {
 			this.secret.logined = true
 			const { startload } = require("../collectors/BaseMessageCollector");
 			this.token = toToken({ID: id, Pass: pass, SID: this.secret.id, SKEY: this.secret.key})
-			this.emit("ready", this);
 			this.games = new this.games({
 				client: this,
 				userFetch: true
 			})
+			this.emit("ready", this);
 			const ignores = await this.ignores.fetch()
 			ignores.map(n => this.secret.ignoreUsers.push(n.id))
 			startload(this, result.kbmark, result.hbmark);
@@ -127,12 +127,12 @@ module.exports = class Client extends BaseClient {
 		this.user = await this.users.fetch(SID);
 		this.guild = this.user.guild;
 		this.secret.logined = true
-		this.emit("ready", this);
 		const { startload } = require("../collectors/BaseMessageCollector");
 		this.games = new this.games({
 			client: this,
 			userFetch: true
 		})
+		this.emit("ready", this);
 		const ignores = await this.ignores.fetch()
 		ignores.map(n => this.secret.ignoreUsers.push(n.id))
 		startload(this, result.kbmark, result.hbmark);
