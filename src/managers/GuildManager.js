@@ -79,11 +79,11 @@ module.exports = class GuildManager extends BaseManager {
 				throw new TypeError(`${data} must be array<string | number>, string, or number.`)
 		}	
 	}
-	async get(data){
+	get(data){
 		switch (typeof data){
 			case "number":
 			case "string":
-				return this.cache?.has?.(data) ? this.cache.get(data) : await this.fetch(data);
+				return this.cache?.has?.(data) ? this.cache.get(data) : this.fetch(data);
 				break;
 			case "object":
 				const cache = new Cache()
@@ -91,7 +91,7 @@ module.exports = class GuildManager extends BaseManager {
 					for (let i = 0; i < data.length; i++){
 						const id = data[i]
 						if (typeof id === "number" || typeof id === "string"){
-							const guild = await this.get(id)
+							const guild = this.get(id)
 							cache.set(string(id), guild)
 						} else {
 							throw new TypeError(`${id} must be string, or number.`)
