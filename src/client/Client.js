@@ -27,7 +27,7 @@ module.exports = class Client extends BaseClient {
 		this.BBSs = require("../managers/BBSGetter");
 		this.ignores = require("../managers/ClientUserIgnoreManager")
 		this.friends = require("../managers/ClientUserFriendsManager")
-		this.Games = require("./GameClient");
+		this.games = require("./GameClient");
 		this.secret = {
 			id: undefined,
 			key: undefined,
@@ -94,7 +94,7 @@ module.exports = class Client extends BaseClient {
 			const { startload } = require("../collectors/BaseMessageCollector");
 			this.token = toToken({ID: id, Pass: pass, SID: this.secret.id, SKEY: this.secret.key})
 			this.emit("ready", this);
-			this.Games = new this.Games({
+			this.games = new this.games({
 				client: this,
 				userFetch: true
 			})
@@ -129,7 +129,7 @@ module.exports = class Client extends BaseClient {
 		this.secret.logined = true
 		this.emit("ready", this);
 		const { startload } = require("../collectors/BaseMessageCollector");
-		this.Games = new this.Games({
+		this.games = new this.games({
 			client: this,
 			userFetch: true
 		})
@@ -170,7 +170,7 @@ module.exports = class Client extends BaseClient {
 		this.guilds = require("../managers/GuildManager");
 		this.BBSs = require("../managers/BBSGetter");
 		this.ignores = require("../managers/ClientUserIgnoreManager")
-		this.Games = require("./GameClient");
+		this.games = require("./GameClient");
 		this.secret.logined = false;
 		this.emit("debug", "[Debug] Logouted.");
 		return;
