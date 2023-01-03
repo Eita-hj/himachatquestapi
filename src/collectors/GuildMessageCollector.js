@@ -15,12 +15,12 @@ module.exports = async function (client) {
 			rate,
 		});
 		if (!client.secret.chatload) return;
-		const result = new Object();
-		result.client = client;
-		result.guild = client.user.guild;
 		if (obj.coments.length) {
 			bmark = obj.bmark || bmark;
 			for (let i = 0; i < obj.coments.length; i++){
+				const result = new Object();
+				result.client = client;
+				result.guild = client.user.guild;
 				let c = obj.coments[i].source;
 				if (!client.secret.chatload) return;
 				if (obj.coments[i].uid === "0"){
@@ -81,9 +81,10 @@ module.exports = async function (client) {
 					);
 					result.content = c
 				}
+				if (!client.secret.chatload) return;
+				result.reply = result.guild.send
+				client.emit("GuildMessageCreate", result);
 			}
-			if (!client.secret.chatload) return;
-			client.emit("GuildMessageCreate", result);
 		}
 		if (!client.secret.chatload) return;
 		await new Promise((resolve) => setTimeout(resolve, client.secret.postInterval));
