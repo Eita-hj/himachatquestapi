@@ -23,22 +23,23 @@ module.exports = class UserManager extends BaseManager {
 		switch (typeof data){
 			case "number":
 			case "string":
+				const id = String(data)
 				if (isNaN(data)) throw new Error(`${data} is invalid. (Error Code 500)`)
 				if (!(typeof Number(data) === "number" && Number.isInteger(Number(data)) && Number(data) > 0)) throw new Error(`${data} is invalid. (Error Code 501)`)
 				const ip = await api.post(api.links.User.Manage, {
 					marumie: this.client.secret.id,
 					seskey: this.client.secret.key,
-					targetid: data
+					targetid: id
 				})
 				if (ip == "いません") return undefined
 				const source = await api.post(api.links.User.Info, {
 					marumie: this.client.secret.id,
 					seskey: this.client.secret.key,
-					targetid: data,
+					targetid: id,
 				});
 				const result = new Object();
 				if (source.source != "このアカウントは利用停止されています"){
-					result.id = data;
+					result.id = id;
 					result.name = convtext(
 						source.source.split(".png' />")[1].split("</div>")[0]
 					);
@@ -80,7 +81,7 @@ module.exports = class UserManager extends BaseManager {
 					result.ip = ip.source.split("\r\n")[2].split("\t").join("").split("<br />").join("")
 				}
 				let user = new User(result, this.client);
-				if (data == this.client.secret.id) return new ClientUser(result, this.client)
+				if (id === this.client.secret.id) return new ClientUser(result, this.client)
 				if (this.client.secret.options.has(1n << 2n)) {
 					if (this.cache.has(result.id)) this.cache.delete(result.id);
 					this.cache.set(result.id, user);
@@ -112,7 +113,7 @@ module.exports = class UserManager extends BaseManager {
 		switch (typeof data){
 			case "number":
 			case "string":
-				return this.cache?.has?.(data) ? this.cache.get(data) : this.fetch(data);
+				return this.cache?.has?.(String(data)) ? this.cache.get(String(data)) : this.fetch(String(data));
 				break;
 			case "object":
 				const cache = new Cache()
@@ -120,7 +121,7 @@ module.exports = class UserManager extends BaseManager {
 					for (let i = 0; i < data.length; i++){
 						const id = data[i]
 						if (typeof id === "number" || typeof id === "string"){
-							const user = this.get(id)
+							const user = this.get(String(id))
 							cache.set(string(id), user)
 						} else {
 							throw new TypeError(`${id} must be string, or number.`)
