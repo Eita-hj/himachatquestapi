@@ -22,7 +22,7 @@ module.exports = class RankingManager extends BaseManager {
 		for (let i = 0; i < source.length; i++) {
 			temp = source[i].split("</td><td>");
 			const obj = new Object();
-			const id = Number(
+			const id = String(
 				temp[2].split("<small style='color:#AAAAAA'>")[1].split("</small>")[0]
 			);
 			obj.user = this.client
