@@ -36,7 +36,7 @@ module.exports = class BBSGetter extends BaseManager {
 		if (f === "メンバーでない" || f.error === 99) return null
 		const r = {}
 		const { source } = f
-		r.id = id
+		r.id = String(id)
 		r.title = convtext(source.split("<h3 style='font-weight:bold' class='bbsul_title'>")[1].split("</h3>")[0])
 		const authorid = source.split("author <span onclick='UserWindow(")[1].split(")")[0]
 		r.author = await this.client.users.get(Number(authorid))
@@ -48,6 +48,6 @@ module.exports = class BBSGetter extends BaseManager {
 		return BBS
 	}
 	get(id){
-		return this.cache?.has?.(id) ? this.cache.get(id) : this.fetch(id)
+		return this.cache?.has?.(String(id)) ? this.cache.get(String(id)) : this.fetch(String(id))
 	}
 }
