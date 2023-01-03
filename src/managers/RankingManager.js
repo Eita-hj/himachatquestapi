@@ -41,11 +41,11 @@ module.exports = class RankingManager extends BaseManager {
 		if (ranking) return result.get(ranking.toString());
 		return result;
 	}
-	async get(ranking){
+	get(ranking){
 		if (ranking){
-			return this?.cache?.size ? this.cache : (await this.fetch())
+			return this?.cache?.size ? this.cache : this.fetch()
 		} else {
-			return this.cache.has(ranking) ? this.cache.get(ranking) : (await this.fetch(ranking))
+			return this.cache.has(ranking) ? this.cache.get(ranking) : this.fetch(ranking)
 		}
 	}
 }
