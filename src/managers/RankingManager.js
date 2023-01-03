@@ -25,12 +25,10 @@ module.exports = class RankingManager extends BaseManager {
 			const id = String(
 				temp[2].split("<small style='color:#AAAAAA'>")[1].split("</small>")[0]
 			);
-			obj.user = (this.client && this.userFetch)
-				? await this.client.users.get(id)
-				: {
-					name: convtext(temp[2].split("<small style='color:#AAAAAA'>")[0]),
-					id: id,
-				};
+			obj.user = {
+				name: convtext(temp[2].split("<small style='color:#AAAAAA'>")[0]),
+				id: id,
+			};
 			obj.mission = temp[3];
 			obj.date = temp[4].split("</td></tr>")[0];
 			result.set(temp[0], obj);
@@ -38,7 +36,11 @@ module.exports = class RankingManager extends BaseManager {
 		if (this.client){
 			if (this.client.secret.caches.has(1n << 6n)) this.cache = result.clone()
 		}
-		if (ranking) return result.get(ranking.toString());
+		if (ranking){
+			const data = result.get(ranking.toString())
+			if (this.userFetch && this.client) data.user = await this.client.users.get(data.user.id)
+			return;
+		}
 		return result;
 	}
 	get(ranking){
