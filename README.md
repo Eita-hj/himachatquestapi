@@ -4,7 +4,7 @@
 const { HCQ: Client, ClientOptionBits, LoginType } = require("himaque-api")
 const hcq = new HCQ({
 	options: [
-		OptionBits.Flags.GuildMessage
+		ClientOptionBits.Flags.GuildMessage
 	]
 })
 
