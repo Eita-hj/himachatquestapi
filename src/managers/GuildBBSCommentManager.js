@@ -5,11 +5,11 @@ const Cache = require("../structures/Cache")
 module.exports = class GuildBBSCommentManager extends BaseManager {
   constructor(client, data){
     super(client)
-		if (!client.secret.caches.has(1n << 3n)) delete this.cache
+    if (!client.secret.caches.has(1n << 3n)) delete this.cache
     this.BBS = data
   }
   async fetch(page){
-    if (!(typeof Number(data) === "number" && Number.isInteger(Number(data)) && Number(data) > 0)) throw new TypeError(`${page} is invalid.`)
+    if (!(typeof Number(page) === "number" && Number.isInteger(Number(page)) && Number(page) > 0)) throw new TypeError(`${page} is invalid.`)
     const f = await api.post(api.links.Guild.BBS.Window, {
       marumie: this.client.secret.id,
       seskey: this.client.secret.key,
