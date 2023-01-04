@@ -21,8 +21,9 @@ module.exports = async function (client, defaultbmark) {
 					const n = data.coments[i]
 					const { source } = n;
 					const result = new Object();
+					result.authorId = data.coments[i].uid
 					result.place = await client.users.get(Number(n.aite))
-					result.author = await client.users.get(Number(n.uid));
+					result.author = await client.users.get(result.authorId);
 					result.createdTimeStamp = Number(n.htime) * 1000
 					result.createdAt = new Date(result.createdTimestamp)
 					if (
@@ -30,6 +31,7 @@ module.exports = async function (client, defaultbmark) {
 							"<a href='javascript:void(0);' class='astyle' onclick='PhotoGet(this,"
 						)
 					) {
+						if (!client.secret.recieves.has(1n << 1n)) continue;
 						result.type = "image";
 						let pid = source.split("PhotoGet(this,")[1];
 						let pkey = pid.split(',"')[1].split('")')[0];
@@ -55,6 +57,7 @@ module.exports = async function (client, defaultbmark) {
 						const DirectMessageAttachMent = require("../structures/DirectMessageAttachment")
 						result.file = new DirectMessageAttachMent(client, api.links.Attachment.PhotoData(pid, pkey, tag), pid)
 					} else {
+						if (!client.secret.recieves.has(1n << 0n)) continue;
 						result.type = "text";
 						result.file = null;
 						result.content = convtext(
@@ -75,6 +78,6 @@ module.exports = async function (client, defaultbmark) {
 			first = false;
 		}
 		if (!client.secret.chatload) return;
-		await new Promise((resolve) => setTimeout(resolve, 1000));
+		await new Promise((resolve) => setTimeout(resolve, client.secret.postInterval));
 	}
 }

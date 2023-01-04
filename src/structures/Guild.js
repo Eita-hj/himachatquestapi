@@ -26,12 +26,16 @@ module.exports = class Guild extends Data {
 		}
 		return;
 	}
-	async resolve(){
-		const data = await this.client.guilds.fetch(this.id)
+	async reload(){
+		const data = await this.fetch(this.id)
 		for (const n in data){
 			this[n] = data[n]
 		}
 		this.save(data)
 		return this
+	}
+	async fetch(){
+		const data = await this.client.guilds.fetch(this.id)
+		return data
 	}
 }

@@ -5,10 +5,11 @@ const Cache = require("../structures/Cache")
 module.exports = class GuildBBSCommentManager extends BaseManager {
   constructor(client, data){
     super(client)
+		if (!client.secret.caches.has(1n << 3n)) delete this.cache
     this.BBS = data
   }
   async fetch(page){
-    if (!typeof page === "number") throw new TypeError(`${page} is invalid.`)
+    if (!(typeof Number(data) === "number" && Number.isInteger(Number(data)) && Number(data) > 0)) throw new TypeError(`${page} is invalid.`)
     const f = await api.post(api.links.Guild.BBS.Window, {
       marumie: this.client.secret.id,
       seskey: this.client.secret.key,
@@ -28,7 +29,9 @@ module.exports = class GuildBBSCommentManager extends BaseManager {
       const createdAt = new Date(createdTimestamp)
       const content = convtext(n.split("<p class='bbsul_honbun'>")[1].split("</p>")[0].split("<br />\n").join("\n"))
       const files = n.includes("<img class='photoimg' src='PhotoBBS/") ? n.split("<div class='bbsul_imgdivs'>")[1].split("<img class='photoimg' src='PhotoBBS/").slice(1).map(n => `http://himaquest.com/PhotoBBS/${n.split("'")[0]}`) : null
-      r.push([number, new GuildBBSCommentData({number, content, files, author, createdAt, createdTimestamp}, this.client)])
+      const commentData = new GuildBBSCommentData({number, content, files, author, createdAt, createdTimestamp}, this.client)
+      r.push([number, commentData])
+      if (this.client.secret.caches.has(1n << 3n)) this.cache.set(number, commentData)
     }
     return new Cache(r)
   }

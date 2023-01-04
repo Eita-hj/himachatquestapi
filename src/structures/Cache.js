@@ -1,10 +1,6 @@
 class Cache extends Map {
-	isCache(d){
-		return d.constructor == this.constructor
-	}
 	at(i){
-		if (!(typeof i === "number" && Number.isInteger(i))) throw new TypeError(`${i} is invalid.`)
-		return [...this][i < 0 ? this.size + i : i][1]
+		return ([...this]).at(i)?.[1]
 	}
 	concat(...d){
 		if (d.length == 0) throw TypeError("undefined is not Cache or Array")
@@ -37,11 +33,7 @@ class Cache extends Map {
 		return this.get(this.lastKey(count))
 	}
 	findKey(f){
-		if (typeof f !== "function") throw new TypeError(`${f} is not a function`)
-		const array = [...this]
-		for (let i = 0; i < array.length; i++){
-		if (f.call(array[i],array[i][1],array[i][0],this)) return this.firstKey(i)
-		}
+		return [...this.filter(f)][0]?.[0]
 	}
 	hasAll(a){
 		return a.filter(n => this.has(n)).length == a.length
@@ -50,52 +42,33 @@ class Cache extends Map {
 		return a.some(n => this.has(n))
 	}
 	find(f){
-		if (typeof f !== "function") throw new TypeError(`${f} is not a function`)
-		return this.get(this.findKey(f))
+		return [...this.filter(f)][0]?.[1]
 	}
 	filter(f){
 		if (typeof f !== "function") throw new TypeError(`${f} is not a function`)
 		const array = [...this]
-		const arr = []
-		for (let i = 0; i < array.length; i++){
-		if (f.call(array[i],array[i][1],array[i][0],this)) arr.push(array[i])
-		}
-		return new this.constructor(arr)
+		return new this.constructor(array.filter((v, k, a) => f(v[1], v[0], this)))
 	}
-	map(f, type = 1){
+	map(f){
 		if (typeof f !== "function") throw new TypeError(`${f} is not a function`)
-		if (type == 0 || type == "cache"){
 		const array = [...this]
-		const arr = []
-		for (let i = 0; i < array.length; i++){
-			arr.push([array[i][0],f.call(array[i],array[i][1],array[i][0],this)])
-		}
-		return new this.constructor(arr)
-		}
-		if (type == 1 || type == "array"){
-		const array = [...this]
-		const arr = []
-		for (let i = 0; i < array.length; i++){
-			arr.push(f.call(array[i],array[i][1],array[i][0],this))
-		}
-		return arr
-		}
+		return array.map((v, k, a) => f(v[1], v[0], this))
 	}
 	clone(){
 		return new this.constructor([...this])
 	}
 	tap(f){
 		if (typeof f !== "function") throw new TypeError(`${f} is not a function`)
-		f.call(this, this)
+		f(this)
 		return this
 	}
 	some(f){
 		if (typeof f !== "function") throw new TypeError(`${f} is not a function`)
-		return this.findKey(f) == undefined ? false : true
+		return !!this.filter(f).length
 	}
 	every(f){
 		if (typeof f !== "function") throw new TypeError(`${f} is not a function`)
-		return ([...this.filter(f)]).length == this.size
+		return this.filter(f).size == this.size
 	}
 	randomKey(){
 		const array = [...this]
@@ -103,15 +76,6 @@ class Cache extends Map {
 	}
 	random(){
 		return this.get(this.randomKey())
-	}
-	reduce(f, init = {toString: () => {return ""},valueOf: () => {return 0}}){
-		if (typeof f !== "function") throw new TypeError(`${f} is not a function`)
-		const array = [...this]
-		let v = init
-		for (let i = 0; i < this.size; i++){
-		v = f.call(this,array[i][1],v)
-		}
-		return v
 	}
 	reverse(){
 		return new this.constructor(([...this]).reverse())
@@ -151,4 +115,8 @@ class Cache extends Map {
 		return c
 	}
 }
+Cache.isCache = function (d){
+	return d.constructor == Cache
+}
+
 module.exports = Cache

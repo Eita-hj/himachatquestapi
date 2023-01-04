@@ -1,7 +1,8 @@
 const { api, convtext } = require("../utils/");
 
 module.exports = async function (client, defaultbmark) {
-  let first = true
+	if (!client.secret.recieves.has(1n << 0n)) return;
+	let first = true
 	let bmark = await api.post(api.links.Chat.AreaMessage, {
 		marumie: client.secret.id,
 		seskey: client.secret.key,
@@ -20,6 +21,8 @@ module.exports = async function (client, defaultbmark) {
 					bmark = data.bmark == undefined ? bmark : data.bmark;
 					let source = data.coments[i].source;
 					let result = new Object();
+					result.authorId = data.coments[i].uid
+					if (client.secret.ignoreUsers.includes(Number(result.authorId))) continue;
 					result.content = source
 						.split("\t")
 						.join("")
@@ -30,8 +33,8 @@ module.exports = async function (client, defaultbmark) {
 					result.content = result.shout ? result.content.slice(25).slice(0, -4) : result.content
 					if (!client.secret.chatload) return;
 					result.author = client.secret.options.has(1n << 2n)
-						? await client.users.fetch(data.coments[i].uid)
-						: await client.users.get(data.coments[i].uid);
+						? await client.users.fetch(result.authorId)
+						: await client.users.get(result.authorId);
 					if (!client.secret.chatload) return;
 					client.emit("AreaMessageCreate", result);
 				}
@@ -41,6 +44,6 @@ module.exports = async function (client, defaultbmark) {
 			}
 		}
 		if (!client.secret.chatload) return;
-		await new Promise((resolve) => setTimeout(resolve, 1000));
+		await new Promise((resolve) => setTimeout(resolve, client.secret.postInterval));
 	}
 }

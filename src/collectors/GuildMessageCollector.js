@@ -15,15 +15,16 @@ module.exports = async function (client) {
 			rate,
 		});
 		if (!client.secret.chatload) return;
-		const result = new Object();
-		result.client = client;
-		result.guild = client.user.guild;
 		if (obj.coments.length) {
 			bmark = obj.bmark || bmark;
 			for (let i = 0; i < obj.coments.length; i++){
+				const result = new Object();
+				result.client = client;
+				result.guild = client.user.guild;
 				let c = obj.coments[i].source;
 				if (!client.secret.chatload) return;
 				if (obj.coments[i].uid === "0"){
+					if (!client.secret.recieves.has(1n << 2n)) continue;
 					const message = convtext(c.split("<tr><td class='c_moji' style='color:#999999'>")[1].split("\n<span class='c_date'>")[0])
 					const createdTimestamp = Date.parse(c.split("<span class='c_date'>")[1].split("</span></td></tr>")[0])
 					const createdAt = new Date(createdTimestamp)
@@ -34,12 +35,15 @@ module.exports = async function (client) {
 					})
 					continue
 				}
-				result.author = client.secret.options.has(1n << 2n) ? await client.users.get(obj.coments[i].uid) : await client.users.fetch(obj.coments[i].uid);
+				result.authorId = obj.coments[i].uid
+				if (client.secret.ignoreUsers.includes(result.authorId)) continue;
+				result.author = await client.users.get(result.authorId);
 				if (
 					c.includes(
 						"<a href='javascript:void(0);' class='astyle' onclick='PhotoGet(this,"
 					)
 				) {
+					if (!client.secret.recieves.has(1n << 1n)) continue;
 					result.type = "image";
 					let pid = c.split("PhotoGet(this,")[1];
 					let pkey = pid.split(',"')[1].split('")')[0];
@@ -65,6 +69,7 @@ module.exports = async function (client) {
 					const GuildMessageAttachMent = require("../structures/GuildMessageAttachment")
 					result.file = new GuildMessageAttachMent(client, api.links.Attachment.PhotoData(pid, pkey, tag), pid)
 				} else {
+					if (!client.secret.recieves.has(1n << 0n)) continue;
 					result.type = "text";
 					result.file = null;
 					c = convtext(
@@ -76,11 +81,12 @@ module.exports = async function (client) {
 					);
 					result.content = c
 				}
+				if (!client.secret.chatload) return;
+				result.reply = result.guild.send
+				client.emit("GuildMessageCreate", result);
 			}
-			if (!client.secret.chatload) return;
-			client.emit("GuildMessageCreate", result);
 		}
 		if (!client.secret.chatload) return;
-		await new Promise((resolve) => setTimeout(resolve, 1000));
+		await new Promise((resolve) => setTimeout(resolve, client.secret.postInterval));
 	}
 }
