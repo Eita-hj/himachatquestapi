@@ -10,14 +10,14 @@ module.exports = class UserManager extends BaseManager {
 		if (!client.secret.caches.has(1n << 0n)) delete this.cache
 	}
 	async exists(id){
-		if (isNaN(data)) throw new Error(`${data} is invalid. (Error Code 500)`)
-		if (!(typeof Number(data) === "number" && Number.isInteger(Number(data)) && Number(data) > 0)) throw new Error(`${data} is invalid. (Error Code 501)`)
+		if (isNaN(id)) throw new Error(`${id} is invalid. (Error Code 500)`)
+		if (!(typeof Number(id) === "number" && Number.isInteger(Number(id)) && Number(id) > 0)) throw new Error(`${id} is invalid. (Error Code 501)`)
 		const data = await api.post(api.links.User.Manage, {
 			marumie: this.client.secret.id,
 			seskey: this.client.secret.key,
-			targetid: data
+			targetid: id
 		})
-		return (data === "いません")
+		return (id === "いません")
 	}
 	async fetch(data) {
 		switch (typeof data){
