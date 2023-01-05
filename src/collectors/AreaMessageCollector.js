@@ -20,7 +20,7 @@ module.exports = async function (client, defaultbmark = 0) {
 		if (comments.length) {
 			if (!first){
 				for (let i = 0; i < comments.length; i++) {
-					bmark = data.bmark ?? bmark;
+					bmark = data.bmark || bmark;
 					const { source } = comments[i].source;
 					const result = new Object();
 					result.authorId = comments[i].uid
@@ -39,7 +39,7 @@ module.exports = async function (client, defaultbmark = 0) {
 					client.emit("AreaMessageCreate", result);
 				}
 			} else {
-				bmark = data.bmark ?? bmark;
+				bmark = data.bmark || bmark;
 				first = false;
 			}
 		}
