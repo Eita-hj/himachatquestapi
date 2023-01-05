@@ -16,7 +16,7 @@ module.exports = async function (client, defaultbmark = 0) {
 			bmark,
 		});
 		const comments = data.coments.filter(n => n.type == "c")
-		console.log(data, comments)
+		console.log(data, comments,first,bmark)
 		if (comments.length) {
 			if (!first){
 				for (let i = 0; i < comments.length; i++) {
