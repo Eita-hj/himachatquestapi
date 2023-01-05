@@ -8,7 +8,7 @@ module.exports = async function (client, defaultbmark = 0) {
 		seskey: client.secret.key,
 		bmark: defaultbmark,
 	});
-	for (; client.secret.chatload; ) {
+	for (; client.secret.chatload; console.log(bmark)) {
 		if (!client.secret.chatload) return;
 		const data = await api.post(api.links.Chat.AreaMessage, {
 			marumie: client.secret.id,
