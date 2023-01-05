@@ -3,11 +3,11 @@ const { api, convtext } = require("../utils/");
 module.exports = async function (client, defaultbmark) {
 	if (!client.secret.recieves.has(1n << 0n)) return;
 	let first = true
-	let bmark = await api.post(api.links.Chat.AreaMessage, {
+	let { bmark } = await api.post(api.links.Chat.AreaMessage, {
 		marumie: client.secret.id,
 		seskey: client.secret.key,
 		bmark: defaultbmark,
-	}).bmark;
+	});
 	for (; client.secret.chatload; ) {
 		if (!client.secret.chatload) return;
 		const data = await api.post(api.links.Chat.AreaMessage, {
@@ -16,9 +16,9 @@ module.exports = async function (client, defaultbmark) {
 			bmark,
 		});
 		if (data.coments.length) {
-			if (!first){
+			if (1){
 				for (let i = 0; i < data.coments.length; i++) {
-					bmark = data.bmark == undefined ? bmark : data.bmark;
+					bmark = data.bmark ?? bmark;
 					let source = data.coments[i].source;
 					let result = new Object();
 					result.authorId = data.coments[i].uid
@@ -37,7 +37,7 @@ module.exports = async function (client, defaultbmark) {
 					client.emit("AreaMessageCreate", result);
 				}
 			} else {
-				bmark = data.bmark == undefined ? bmark : data.bmark;
+				bmark = data.bmark ?? bmark;
 				first = false;
 			}
 		}
