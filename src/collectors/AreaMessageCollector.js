@@ -32,9 +32,7 @@ module.exports = async function (client, defaultbmark) {
 					result.content = convtext(result.content)
 					result.content = result.shout ? result.content.slice(25).slice(0, -4) : result.content
 					if (!client.secret.chatload) return;
-					result.author = client.secret.options.has(1n << 2n)
-						? await client.users.fetch(result.authorId)
-						: await client.users.get(result.authorId);
+					result.author = await client.users.get(result.authorId);
 					if (!client.secret.chatload) return;
 					client.emit("AreaMessageCreate", result);
 				}
