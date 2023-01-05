@@ -8,7 +8,7 @@ module.exports = async function (client, defaultbmark = 0) {
 		seskey: client.secret.key,
 		bmark: defaultbmark,
 	});
-	for (; client.secret.chatload; console.log(bmark)) {
+	for (; client.secret.chatload;) {
 		if (!client.secret.chatload) return;
 		const data = await api.post(api.links.Chat.AreaMessage, {
 			marumie: client.secret.id,
@@ -16,12 +16,11 @@ module.exports = async function (client, defaultbmark = 0) {
 			bmark,
 		});
 		const comments = data.coments.filter(n => n.type == "c")
-		console.log(data, comments,first,bmark)
 		if (comments.length) {
 			if (!first){
 				for (let i = 0; i < comments.length; i++) {
 					bmark = data.bmark || bmark;
-					const { source } = comments[i].source;
+					const { source } = comments[i];
 					const result = new Object();
 					result.authorId = comments[i].uid
 					if (client.secret.ignoreUsers.includes(Number(result.authorId))) continue;
