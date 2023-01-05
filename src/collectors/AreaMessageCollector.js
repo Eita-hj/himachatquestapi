@@ -2,7 +2,7 @@ const { api, convtext } = require("../utils/");
 
 module.exports = async function (client, defaultbmark = 0) {
 	if (!client.secret.recieves.has(1n << 0n)) return;
-	let first = true
+	let first = defaultbmark !== 0
 	let { bmark } = await api.post(api.links.Chat.AreaMessage, {
 		marumie: client.secret.id,
 		seskey: client.secret.key,
