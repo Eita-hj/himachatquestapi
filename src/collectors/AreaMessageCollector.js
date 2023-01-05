@@ -1,6 +1,6 @@
 const { api, convtext } = require("../utils/");
 
-module.exports = async function (client, defaultbmark) {
+module.exports = async function (client, defaultbmark = 0) {
 	if (!client.secret.recieves.has(1n << 0n)) return;
 	let first = true
 	let { bmark } = await api.post(api.links.Chat.AreaMessage, {
@@ -15,13 +15,14 @@ module.exports = async function (client, defaultbmark) {
 			seskey: client.secret.key,
 			bmark,
 		});
-		if (data.coments.length) {
+		const comments = data.coments.filter(n => n.type == "c")
+		if (comments.length) {
 			if (!first){
-				for (let i = 0; i < data.coments.length; i++) {
+				for (let i = 0; i < comments.length; i++) {
 					bmark = data.bmark ?? bmark;
-					let source = data.coments[i].source;
-					let result = new Object();
-					result.authorId = data.coments[i].uid
+					const { source } = comments[i].source;
+					const result = new Object();
+					result.authorId = comments[i].uid
 					if (client.secret.ignoreUsers.includes(Number(result.authorId))) continue;
 					result.content = source
 						.split("\t")
