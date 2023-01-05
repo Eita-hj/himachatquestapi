@@ -1,7 +1,7 @@
 const { api, convtext } = require("../utils/");
 
 module.exports = async function (client, defaultbmark = 0) {
-	let first = true
+	let first = defaultbmark !== 0
 	let { bmark } = await api.post(api.links.Chat.DirectMessage, {
 		marumie: client.secret.id,
 		seskey: client.secret.key,
