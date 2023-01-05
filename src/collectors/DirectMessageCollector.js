@@ -26,9 +26,8 @@ module.exports = async function (client, defaultbmark = 0) {
 					result.author = await client.users.get(result.authorId);
 					result.createdTimeStamp = Number(n.htime) * 1000
 					result.createdAt = new Date(result.createdTimestamp)
-					console.log(source)
 					if (
-						source.startsWith(
+						source.includes(
 							"<a href='javascript:void(0);' class='astyle' onclick='PhotoGet(this,"
 						)
 					) {
