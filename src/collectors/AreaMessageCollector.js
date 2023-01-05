@@ -16,7 +16,7 @@ module.exports = async function (client, defaultbmark) {
 			bmark,
 		});
 		if (data.coments.length) {
-			if (1){
+			if (!first){
 				for (let i = 0; i < data.coments.length; i++) {
 					bmark = data.bmark ?? bmark;
 					let source = data.coments[i].source;
