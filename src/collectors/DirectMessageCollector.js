@@ -1,7 +1,7 @@
 const { api, convtext } = require("../utils/");
 
 module.exports = async function (client, defaultbmark = 0) {
-	let first = true
+	let first = defaultbmark !== 0
 	let { bmark } = await api.post(api.links.Chat.DirectMessage, {
 		marumie: client.secret.id,
 		seskey: client.secret.key,
@@ -27,7 +27,7 @@ module.exports = async function (client, defaultbmark = 0) {
 					result.createdTimeStamp = Number(n.htime) * 1000
 					result.createdAt = new Date(result.createdTimestamp)
 					if (
-						source.startsWith(
+						source.includes(
 							"<a href='javascript:void(0);' class='astyle' onclick='PhotoGet(this,"
 						)
 					) {
