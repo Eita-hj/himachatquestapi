@@ -135,7 +135,7 @@ module.exports = class Client extends BaseClient {
 		this.emit("ready", this);
 		const ignores = await this.ignores.fetch()
 		ignores.map(n => this.secret.ignoreUsers.push(n.id))
-		startload(this, result.kbmark, result.hbmark);
+		startload(this);
 		return true;
 	}
 	async loginByToken(token){

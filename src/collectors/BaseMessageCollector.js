@@ -1,5 +1,5 @@
 const { api, convtext } = require("../utils/");
-exports.startload = function (client, kbmark, hbmark) {
+exports.startload = function (client, kbmark = 0, hbmark = 0) {
 	const GuildMessage = require("./GuildMessageCollector");
 	const AreaMessage = require("./AreaMessageCollector");
 	const DirectMessage = require("./DirectMessageCollector");
