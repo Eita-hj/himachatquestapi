@@ -97,9 +97,9 @@ module.exports = class Client extends BaseClient {
 				client: this,
 				userFetch: true
 			})
-			this.emit("ready", this);
 			const ignores = await this.ignores.fetch()
 			ignores.map(n => this.secret.ignoreUsers.push(n.id))
+			this.emit("ready", this);
 			startload(this, result.kbmark, result.hbmark);
 			return true;
 		}
@@ -132,9 +132,9 @@ module.exports = class Client extends BaseClient {
 			client: this,
 			userFetch: true
 		})
-		this.emit("ready", this);
 		const ignores = await this.ignores.fetch()
 		ignores.map(n => this.secret.ignoreUsers.push(n.id))
+		this.emit("ready", this);
 		startload(this);
 		return true;
 	}
