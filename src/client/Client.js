@@ -148,6 +148,7 @@ module.exports = class Client extends BaseClient {
 			await this.loginByData(SID,SKEY);
 			return
 		} catch (e) {
+			console.log(e)
 			if (this.secret.logined) throw e
 			this.emit("debug", "[Debug] Login by secret data is failed.")
 			await this.loginByIdPass(ID, Pass);
