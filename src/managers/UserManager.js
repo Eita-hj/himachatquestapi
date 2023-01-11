@@ -61,8 +61,7 @@ module.exports = class UserManager extends BaseManager {
 					result.guild = {
 						name: convtext(source.source.split("<span style='color:#AAAAAA;font-size:8px;vertical-align:super;float:left;'>所属</span>\r\n")[1].split("</div>")[0].split(/\s/).join(""))
 					}
-					console.log(result.guild.name)
-					if (result.guild.name == "<span style='color:#AAAAAA;font-size:14px;'>(未設定)</span>") result.guild = undefined
+					if (result.guild.name == "<spanstyle='color:#AAAAAA;font-size:14px;'>(未設定)</span>") result.guild = undefined
 					if (data == this.client.secret.id) {
 						let guildid = await api.post(api.links.User.JoinGuilds, {
 							marumie: this.client.secret.id,
