@@ -38,8 +38,7 @@ module.exports = class UserManager extends BaseManager {
 					targetid: id,
 				});
 				const result = new Object();
-				if (source.source != "このアカウントは利用停止されています"){
-					console.log(source)
+				if (source.source != "このアカウントは利用停止されています" || source.source.includes("<div>拒否されました</div>")){
 					result.id = id;
 					result.name = convtext(
 						source.source.split(".png' />")[1].split("</div>")[0]
@@ -78,7 +77,7 @@ module.exports = class UserManager extends BaseManager {
 					result.name = ip.source.split("<h3>")[1].split("</h3>")[0]
 					result.id = id
 					result.rank = null
-					result.profile = "利用停止されたアカウントです。"
+					result.profile = source.source.includes("<div>拒否されました</div>") ? "blocked" : "deleted"
 					result.lastlogin = new Date(0)
 					result.ip = ip.source.split("\r\n")[2].split("\t").join("").split("<br />").join("")
 				}
