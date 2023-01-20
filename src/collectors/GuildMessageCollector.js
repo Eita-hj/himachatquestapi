@@ -25,7 +25,7 @@ module.exports = async function (client) {
 				if (!client.secret.chatload) return;
 				if (obj.coments[i].uid === "0"){
 					if (!client.secret.recieves.has(1n << 2n)) continue;
-					const message = convtext(c.split("<tr><td class='c_moji' style='color:#999999'>")[1].split("\n<span class='c_date'>")[0])
+					const message = convtext(c.split("<tr><td class='c_mozi' style='color:#999999'>")[1].split("\n<span class='c_date'>")[0])
 					const createdTimestamp = Date.parse(c.split("<span class='c_date'>")[1].split("</span></td></tr>")[0])
 					const createdAt = new Date(createdTimestamp)
 					client.emit("GuildDungeonCreate", {

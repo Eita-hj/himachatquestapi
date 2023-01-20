@@ -10,14 +10,14 @@ module.exports = class UserManager extends BaseManager {
 		if (!client.secret.caches.has(1n << 0n)) delete this.cache
 	}
 	async exists(id){
-		if (isNaN(data)) throw new Error(`${data} is invalid. (Error Code 500)`)
-		if (!(typeof Number(data) === "number" && Number.isInteger(Number(data)) && Number(data) > 0)) throw new Error(`${data} is invalid. (Error Code 501)`)
+		if (isNaN(id)) throw new Error(`${id} is invalid. (Error Code 500)`)
+		if (!(typeof Number(id) === "number" && Number.isInteger(Number(id)) && Number(id) > 0)) throw new Error(`${id} is invalid. (Error Code 501)`)
 		const data = await api.post(api.links.User.Manage, {
 			marumie: this.client.secret.id,
 			seskey: this.client.secret.key,
-			targetid: data
+			targetid: id
 		})
-		return (data === "いません")
+		return (id === "いません")
 	}
 	async fetch(data) {
 		switch (typeof data){
@@ -38,7 +38,7 @@ module.exports = class UserManager extends BaseManager {
 					targetid: id,
 				});
 				const result = new Object();
-				if (source.source != "このアカウントは利用停止されています"){
+				if (source.source != "このアカウントは利用停止されています" && !source.source.includes("<div>拒否されました</div>")){
 					result.id = id;
 					result.name = convtext(
 						source.source.split(".png' />")[1].split("</div>")[0]
@@ -61,7 +61,7 @@ module.exports = class UserManager extends BaseManager {
 					result.guild = {
 						name: convtext(source.source.split("<span style='color:#AAAAAA;font-size:8px;vertical-align:super;float:left;'>所属</span>\r\n")[1].split("</div>")[0].split(/\s/).join(""))
 					}
-					if (result.guild.name == "<span style='color:#AAAAAA;font-size:14px;'>(未設定)</span>") result.guild = undefined
+					if (result.guild.name == "<spanstyle='color:#AAAAAA;font-size:14px;'>(未設定)</span>") result.guild = undefined
 					if (data == this.client.secret.id) {
 						let guildid = await api.post(api.links.User.JoinGuilds, {
 							marumie: this.client.secret.id,
@@ -76,7 +76,7 @@ module.exports = class UserManager extends BaseManager {
 					result.name = ip.source.split("<h3>")[1].split("</h3>")[0]
 					result.id = id
 					result.rank = null
-					result.profile = "利用停止されたアカウントです。"
+					result.profile = source.source.includes("<div>拒否されました</div>") ? "blocked" : "deleted"
 					result.lastlogin = new Date(0)
 					result.ip = ip.source.split("\r\n")[2].split("\t").join("").split("<br />").join("")
 				}

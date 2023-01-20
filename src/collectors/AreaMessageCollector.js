@@ -15,7 +15,7 @@ module.exports = async function (client, defaultbmark = 0) {
 			seskey: client.secret.key,
 			bmark,
 		});
-		const comments = data.coments.filter(n => n.type == "c")
+		const comments = data.coments.filter(n => n.type === "c")
 		if (comments.length) {
 			if (!first){
 				for (let i = 0; i < comments.length; i++) {
