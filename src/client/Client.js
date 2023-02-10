@@ -27,6 +27,7 @@ module.exports = class Client extends BaseClient {
 		this.BBSs = require("../managers/BBSGetter");
 		this.ignores = require("../managers/ClientUserIgnoreManager")
 		this.friends = require("../managers/ClientUserFriendsManager")
+		this.addons = {}
 		this.games = require("./GameClient");
 		this.secret = {
 			id: undefined,
@@ -164,6 +165,7 @@ module.exports = class Client extends BaseClient {
 			seskey: this.secret.key
 		})
 		delete this.token
+		this.addons = {}
 		this.secret.id = "";
 		this.secret.key = "";
 		this.users = require("../managers/UserManager");
