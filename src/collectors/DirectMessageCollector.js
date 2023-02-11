@@ -68,7 +68,7 @@ module.exports = async function (client, defaultbmark = 0) {
 								.split("\n")[0]
 						);
 					}
-					result.reply = (data) => {
+					result.reply = async (data) => {
 						const DirectMessageAttachment = require("./DirectMessageAttachment")
 						if (data instanceof DirectMessageAttachment){
 							await api.post(api.links.Attachment.Upload.DM, data.data, result.author.id, 1)
