@@ -68,7 +68,7 @@ module.exports = async function (client, defaultbmark = 0) {
 								.split("\n")[0]
 						);
 					}
-					result.reply = result.author.send
+					result.reply = (c) => result.author.send(c)
 					if (!client.secret.chatload) return;
 					client.emit("DirectMessageCreate", result);
 				}
