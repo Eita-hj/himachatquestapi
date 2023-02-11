@@ -82,7 +82,7 @@ module.exports = async function (client) {
 					result.content = c
 				}
 				if (!client.secret.chatload) return;
-				result.reply = result.guild.send
+				result.reply = (c) => result.guild.send(c)
 				client.emit("GuildMessageCreate", result);
 			}
 		}
