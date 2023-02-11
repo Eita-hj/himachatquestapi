@@ -17,7 +17,7 @@ module.exports = class UserManager extends BaseManager {
 			seskey: this.client.secret.key,
 			targetid: id
 		})
-		return (id === "いません")
+		return (data !== "いません")
 	}
 	async fetch(data) {
 		switch (typeof data){

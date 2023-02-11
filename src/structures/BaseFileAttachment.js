@@ -6,10 +6,9 @@ module.exports = class BaseFileAttachment {
 		if (!client || !file) return
 		this.data = new FormData()
 		this.client = client
-		this.data.append("MAX_FILE_SIZE", "2000000")
+		this.data.append("MAX_FILE_SIZE", "64000000")
 		this.data.append("marumie",`${client.secret.id}`)
 		this.data.append("seskey",`${client.secret.key}`)
-		const toBuffer = require("buffer-to-stream")
 		const { createReadStream, ReadStream } = require("fs")
 		const f = (typeof file == "string" || Buffer.isBuffer(file)) ? createReadStream(file) : (file instanceof ReadStream) ? file : null
 		if (f === null) throw new Error(`${file} is invalid.`)

@@ -37,7 +37,7 @@ class ClientUserIgnoreManager extends BaseManager {
 				seskey: this.client.secret.key,
 				tuid: target
 			})
-			this.client.secret.ignoreUsers.push(target)
+			this.client.secret.ignoreUsers.push(String(target))
 		}
 		if (this.client.secret.caches.has(1n << 5n)) await this.fetch()
 		return
@@ -57,7 +57,7 @@ class ClientUserIgnoreManager extends BaseManager {
 				seskey: this.client.secret.key,
 				targetid: target
 			})
-			this.client.secret.ignoreUsers = this.client.secret.ignoreUsers.filter(n => n != Number(target))
+			this.client.secret.ignoreUsers = this.client.secret.ignoreUsers.filter(n => n !== String(target))
 		}
 		if (this.client.secret.caches.has(1n << 5n)) await this.fetch()
 		return
