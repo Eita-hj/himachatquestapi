@@ -82,7 +82,24 @@ module.exports = async function (client) {
 					result.content = c
 				}
 				if (!client.secret.chatload) return;
-				result.reply = (c) => result.guild.send(c)
+				result.reply = async (data) => {
+					const GuildMessageAttachment = require("../structures/GuildMessageAttachment")
+					if (data instanceof GuildMessageAttachment){
+						await api.post(api.links.Attachment.Upload.Guild, data.data, 1)
+					} else {
+						if (!(typeof data == "string" || typeof data == "number"))
+							throw new Error("Message type Error(Error Code 300)");
+						if (String(data.length) > 150)
+							throw new Error("Message length Error(Error Code 301)");
+						if (!data) throw new Error("Cannot send Empty message(Error Code 302)");
+						await api.post(api.links.Guild.SendMessage, {
+							marumie: client.secret.id,
+							seskey: client.secret.key,
+							monku: data.split("\n").join(" ")
+						});
+					}
+					return;
+				}
 				client.emit("GuildMessageCreate", result);
 			}
 		}
