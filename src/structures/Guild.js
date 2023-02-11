@@ -8,6 +8,7 @@ module.exports = class Guild extends Data {
 		this.BBSs = new GuildBBSManager(this.client, this)
 	}
 	async send(data) {
+		console.log(this)
 		if (this.id !== this.client.user.guild.id) throw new Error("Message guild Error(Error Code 303)")
 		const GuildMessageAttachment = require("./GuildMessageAttachment")
 		if (data instanceof GuildMessageAttachment){
