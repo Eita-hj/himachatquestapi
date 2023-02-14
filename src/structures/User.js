@@ -24,7 +24,7 @@ module.exports = class User extends Data {
 	}
 	async fetch(){
 		const result = await this.client.users.fetch(this.id)
-		return this.fetch
+		return result
 	}
 	async reload(){
 		const result = await this.fetch(this.id)
