@@ -14,7 +14,7 @@ module.exports = class ClientUserFriendRequestsManager extends BaseManager {
 			seskey: this.client.secret.key,
 		});
 		const users = sinseidata.map((user) => ({
-			id: user.uid,
+			id: user.sinseisha,
 			requestId: user.sinseiid,
 			recieved: user.updated,
 		}));
