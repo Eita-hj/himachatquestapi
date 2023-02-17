@@ -14,7 +14,7 @@ module.exports = class ClientUser extends User {
 	}
 	async setProfile(profile){
 		if (typeof profile !== "string") throw new Error("User profile must be string.")
-		if (profile.length > 150) throw new Error("User name length must be 150 or smaller.")
+		if (profile.length > 200) throw new Error("User name length must be 200 or smaller.")
 		await api.post(api.links.User.Setting.ProfileChange, {
 			marumie: this.client.secret.id,
 			seskey: this.client.secret.key,
