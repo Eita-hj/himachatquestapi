@@ -33,7 +33,7 @@ module.exports = class GuildBBSManager extends BaseManager {
 				if (this.client.secret.caches.has(1n << 2n)) this.cache.set(id, data.clone())
 				r.push([id, data.clone()])
 			} else {
-				const title = n.split("<span class='gw_bbsul_title'>")[1].split("</span>")[0]
+				const title = convtext(n.split("<span class='gw_bbsul_title'>")[1].split("</span>")[0])
 				const data = {
 					id,
 					title,

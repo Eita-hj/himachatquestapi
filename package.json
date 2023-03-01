@@ -1,10 +1,9 @@
 {
 	"name": "himaque-api",
-	"version": "6.0.6",
+	"version": "6.0.9",
 	"description": "ヒマクエ用API",
 	"main": "./src/index.js",
 	"dependencies": {
-		"buffer-to-stream": "^1.0.0",
 		"form-data": "^4.0.0",
 		"node-fetch": "2.6.8"
 	},
