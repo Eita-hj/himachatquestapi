@@ -15,6 +15,7 @@ module.exports = async function (client, defaultbmark = 0) {
 			seskey: client.secret.key,
 			bmark,
 		});
+		if (!client.secret.chatload) return;
 		const comments = data.coments.filter(n => n.type === "c")
 		if (comments.length) {
 			if (!first){
