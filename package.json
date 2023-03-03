@@ -1,11 +1,11 @@
 {
 	"name": "himaque-api",
-	"version": "6.0.9",
+	"version": "6.0.10",
 	"description": "ヒマクエ用API",
 	"main": "./src/index.js",
 	"dependencies": {
 		"form-data": "^4.0.0",
-		"node-fetch": "2.6.8"
+		"node-fetch": "2.6.9"
 	},
 	"license": "MIT",
 	"keywords": [

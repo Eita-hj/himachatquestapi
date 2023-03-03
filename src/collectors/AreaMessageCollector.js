@@ -24,7 +24,7 @@ module.exports = async function (client, defaultbmark = 0) {
 					const { source } = comments[i];
 					const result = new Object();
 					result.authorId = comments[i].uid
-					if (client.secret.ignoreUsers.includesresult.authorId)) continue;
+					if (client.secret.ignoreUsers.includes(result.authorId)) continue;
 					result.content = source
 						.split("\t")
 						.join("")
