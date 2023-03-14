@@ -69,7 +69,7 @@ module.exports = async function (client, defaultbmark = 0) {
 						);
 					}
 					result.reply = async (data) => {
-						const DirectMessageAttachment = require("./DirectMessageAttachment")
+						const DirectMessageAttachment = require("../structures/DirectMessageAttachment")
 						if (data instanceof DirectMessageAttachment){
 							await api.post(api.links.Attachment.Upload.DM, data.data, result.author.id, 1)
 						} else {
