@@ -122,7 +122,7 @@ module.exports = class UserManager extends BaseManager {
 						const id = data[i]
 						if (typeof id === "number" || typeof id === "string"){
 							const user = this.get(String(id))
-							cache.set(string(id), user)
+							cache.set(String(id), user)
 						} else {
 							throw new TypeError(`${id} must be string, or number.`)
 						}
