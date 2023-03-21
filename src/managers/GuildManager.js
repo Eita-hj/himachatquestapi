@@ -66,7 +66,7 @@ module.exports = class GuildManager extends BaseManager {
 						const id = data[i]
 						if (typeof id === "number" || typeof id === "string"){
 							const guild = await this.fetch(id)
-							cache.set(string(id), guild)
+							cache.set(String(id), guild)
 						} else {
 							throw new TypeError(`${id} must be string, or number.`)
 						}
@@ -92,7 +92,7 @@ module.exports = class GuildManager extends BaseManager {
 						const id = data[i]
 						if (typeof id === "number" || typeof id === "string"){
 							const guild = this.get(String(id))
-							cache.set(string(id), guild)
+							cache.set(String(id), guild)
 						} else {
 							throw new TypeError(`${id} must be string, or number.`)
 						}
