@@ -116,23 +116,14 @@ module.exports = class UserManager extends BaseManager {
 				return this.cache?.has?.(String(data)) ? this.cache.get(String(data)) : this.fetch(String(data));
 				break;
 			case "object":
-				const cache = new Cache()
 				if (Array.isArray(data)){
-					for (let i = 0; i < data.length; i++){
-						const id = data[i]
-						if (typeof id === "number" || typeof id === "string"){
-							if (this.cache?.has?.(String(data))) {
-								const user = this.get(String(id))
-								cache.set(String(id), user)
-							} else {
-								this.fetch(String(id)).then(n => cache.set(String(id), n))
-							}
-						} else {
-							throw new TypeError(`${id} must be string, or number.`)
-						}
-					}
-					for (;cache.size !== data.length;){}
-					return cache;
+					const d = data.filter(id => typeof id === "number" || typeof id === "string")
+					if (d.length !== data.length) throw new TypeError(`ID must be string, or number.`)
+					const t = this
+					const d2 = d.filter(id => !t.cache?.has?.(String(id)))
+					const cache = new Cache()
+					d.filter(id => t.cache?.has?.(String(id))).map(id => cache.set(String(id), t.get(id)))
+					return d2.length ? t.fetch(d2).then(n => n.concat(cache)) : cache;
 				} else {
 					throw new TypeError(`${data} must be array<string | number>, string, or number.`)
 				}
