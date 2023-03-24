@@ -121,12 +121,17 @@ module.exports = class UserManager extends BaseManager {
 					for (let i = 0; i < data.length; i++){
 						const id = data[i]
 						if (typeof id === "number" || typeof id === "string"){
-							const user = this.get(String(id))
-							cache.set(String(id), user)
+							if (this.cache?.has?.(String(data))) {
+								const user = this.get(String(id))
+								cache.set(String(id), user)
+							} else {
+								this.fetch(String(id)).then(n => cache.set(String(id), n))
+							}
 						} else {
 							throw new TypeError(`${id} must be string, or number.`)
 						}
 					}
+					for (;cache.size !== data.length;){}
 					return cache;
 				} else {
 					throw new TypeError(`${data} must be array<string | number>, string, or number.`)
