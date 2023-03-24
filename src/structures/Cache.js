@@ -4,11 +4,11 @@ class Cache extends Map {
 	}
 	concat(...d){
 		if (d.length == 0) throw TypeError("undefined is not Cache or Array")
-		const check = d.filter(n => !Array.isArray(n) && !this.isCache(n))
+		const check = d.filter(n => !Array.isArray(n) && !Cache.isCache(n))
 		if (check.length) throw TypeError(`${check} is not Cache or Array`)
 		const data = [];
 		d.forEach(n => {
-			if (this.isCache(n)){
+			if (Cache.isCache(n)){
 				[...n].forEach(m => data.push(m))
 			} else {
 				data.push(n)
