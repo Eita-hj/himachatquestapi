@@ -24,7 +24,6 @@ module.exports = async function (client){
     bmarks.guild = bmark
   }
   for (;client.secret.chatload;){
-    console.log(bmarks)
     if (!client.secret.chatload) return
     const d = await api.post(api.links.Chat.Check.DMGM, {
       origin: "himaque",
@@ -33,6 +32,7 @@ module.exports = async function (client){
       bmark: bmarks.ksg
     })
     if (d.cmds.length){
+      bmarks.ksg = d.cmds.at(-1).bmark
       if (client.secret.options.has(1n << 0n) && d.cmds.find(n => n.type === "c_h")){
         const data = await api.post(api.links.Chat.Recieve.Direct, {
           origin: "himaque",
@@ -90,6 +90,5 @@ module.exports = async function (client){
         }
       }
     }
-    await new Promise(r => setTimeout(r, 15000))
   }
 }
