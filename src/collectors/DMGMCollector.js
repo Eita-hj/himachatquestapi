@@ -7,7 +7,7 @@ module.exports = async function (client){
     ksg: 0
   }
   if (client.secret.options.has(1n << 0n)) {
-    const {bmark} = await api.post(api.links.Chat.Recieve.Direct, {
+    const {bmark} = await api.post(api.links.Chat.Check.Direct, {
       origin: "himaque",
       myid: client.secret.id,
       seskey: client.secret.key
