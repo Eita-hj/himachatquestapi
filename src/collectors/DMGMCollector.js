@@ -37,7 +37,8 @@ module.exports = async function (client){
         const data = await api.post(api.links.Chat.Recieve.Direct, {
           origin: "himaque",
           myid: client.secret.id,
-          seskey: client.secret.key
+          seskey: client.secret.key,
+          bmark: bmarks.direct
         })
         bmarks.direct = data.bmark
         for (let i = data.msgs.length; i > 0; i--){
