@@ -90,7 +90,7 @@ module.exports = class Client extends BaseClient {
 			this.friends = new this.friends(this);
 			this.BBSs = new this.BBSs(this);
 			this.user = await this.users.fetch(result.userid);
-			this.guild = this.user.guild;
+			this.guild = await this.guilds.fetch(result.nowguild);
 			this.secret.logined = true
 			const { startload } = require("../collectors/BaseMessageCollector");
 			this.token = toToken({ID: id, Pass: pass, SID: this.secret.id, SKEY: this.secret.key})
@@ -101,7 +101,7 @@ module.exports = class Client extends BaseClient {
 			const ignores = await this.ignores.fetch()
 			ignores.map(n => this.secret.ignoreUsers.push(n.id))
 			this.emit("ready", this);
-			startload(this, result.kbmark, result.hbmark);
+			startload(this, result.kbmark);
 			return true;
 		}
 	}
