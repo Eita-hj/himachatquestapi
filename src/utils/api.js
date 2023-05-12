@@ -32,7 +32,7 @@ exports.post = async function (url, option, type = 0) {
 		}).then((n) => n === 2 ? n.blob() : isJSON(n) ? n.json() : n.text())
 	}
 	if (type == 2) return result
-	if (parsed.error == 404) throw new Error("ERROR 404 (Banned.)");
+	if (result.error == 404) throw new Error("ERROR 404 (Banned.)");
 	return result
 };
 
