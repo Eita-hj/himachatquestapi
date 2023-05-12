@@ -18,30 +18,37 @@ exports.post = async function (url, option, type = 0) {
 				body
 			}
 			if (type === 1) delete data.headers["Content-Type"]
-			result = await fetch(url, data).then((n) => n === 2 ? n.blob() : isJSON(n) ? n.json() : n.text());
+			result = await fetch(url, data).then((n) => n === 2 ? n.blob() : n.text());
 		} else {
 			result = await fetch(url, {
 				method: "post",
 				headers: { "Content-Type": "application/x-www-form-urlencoded" },
-			}).then((n) => n === 2 ? n.blob() : isJSON(n) ? n.json() : n.text());
+			}).then((n) => n === 2 ? n.blob() : isJSON(n) ? n.text());
 		}
 	} else {
 		result = await fetch(url, {
 			method: "post",
 			headers: { "Content-Type": "application/x-www-form-urlencoded" },
-		}).then((n) => n === 2 ? n.blob() : isJSON(n) ? n.json() : n.text())
+		}).then((n) => n === 2 ? n.blob() : isJSON(n) ? n.text())
 	}
 	if (type == 2) return result
+	result = parseJSON(result)
+	if (typeof result == "string") return result
 	if (result.error == 404) throw new Error("ERROR 404 (Banned.)");
 	return result
 };
 
-function isJSON(json){
+function parseJSON(json){
 	try {
-		JSON.parse(json)
-		return true
-	} catch (e) {
-		console.log(e)
+		const r = JSON.parse(json)
+		return r
+	} catch {
+		try {
+			const r = JSON.parse(json.slice(1))
+			return r
+		} catch {
+			return json
+		}
 		return false
 	}
 }
