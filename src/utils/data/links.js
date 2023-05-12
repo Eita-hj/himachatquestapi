@@ -37,10 +37,11 @@ module.exports = {
 	},
 	Chat: {
 		Recieve: {
-			Direct: "http://ksg-network.tokyo/chat_LoadKobetu.php",
+			Direct: "http://ksg-network.tokyo/chat_ReadKobetu.php",
 			Guild: "http://ksg-network.tokyo/chat_ReadGuild.php",
 		},
 		Check: {
+			Direct: "http://ksg-network.tokyo/chat_LoadKobetu.php",
 			DMGM: "http://ksg-network.tokyo/F5KSG.php"
 		},
 		AreaMessage: "http://himaquest.com/chat_F5User.php",
