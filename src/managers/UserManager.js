@@ -13,11 +13,12 @@ module.exports = class UserManager extends BaseManager {
 		if (isNaN(id)) throw new Error(`${id} is invalid. (Error Code 500)`)
 		if (!(typeof Number(id) === "number" && Number.isInteger(Number(id)) && Number(id) > 0)) throw new Error(`${id} is invalid. (Error Code 501)`)
 		const data = await api.post(api.links.User.Manage, {
-			marumie: this.client.secret.id,
+			origin: "himaque",
+			myid: this.client.secret.id,
 			seskey: this.client.secret.key,
-			targetid: id
+			tuid: id
 		})
-		return (data !== "いません")
+		return (data.str !== "いません")
 	}
 	async fetch(data) {
 		switch (typeof data){
@@ -27,11 +28,12 @@ module.exports = class UserManager extends BaseManager {
 				if (isNaN(data)) throw new Error(`${data} is invalid. (Error Code 500)`)
 				if (!(typeof Number(data) === "number" && Number.isInteger(Number(data)) && Number(data) > 0)) throw new Error(`${data} is invalid. (Error Code 501)`)
 				const ip = await api.post(api.links.User.Manage, {
-					marumie: this.client.secret.id,
+					origin: "himaque",
+					myid: this.client.secret.id,
 					seskey: this.client.secret.key,
-					targetid: id
+					tuid: id
 				})
-				if (ip == "いません") return undefined
+				if (ip?.str == "存在しないユーザ") return undefined
 				const source = await api.post(api.links.User.Info, {
 					marumie: this.client.secret.id,
 					seskey: this.client.secret.key,
@@ -71,14 +73,14 @@ module.exports = class UserManager extends BaseManager {
 						result.guild =
 							guildid == 0 ? null : await this.client.guilds.fetch(guildid);
 					}
-					result.ip = ip.source.split("\r\n")[2].split("\t").join("").split("<br />").join("")
+					result.ip = ip.remote
 				} else {
-					result.name = ip.source.split("<h3>")[1].split("</h3>")[0]
+					result.name = ip.name
 					result.id = id
 					result.rank = null
 					result.profile = source.source.includes("<div>拒否されました</div>") ? "blocked" : "deleted"
 					result.lastlogin = new Date(0)
-					result.ip = ip.source.split("\r\n")[2].split("\t").join("").split("<br />").join("")
+					result.ip = ip.remote
 				}
 				let user = new User(result, this.client);
 				if (id === this.client.secret.id) return new ClientUser(result, this.client)
