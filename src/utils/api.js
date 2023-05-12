@@ -23,13 +23,13 @@ exports.post = async function (url, option, type = 0) {
 			result = await fetch(url, {
 				method: "post",
 				headers: { "Content-Type": "application/x-www-form-urlencoded" },
-			}).then((n) => n === 2 ? n.blob() : isJSON(n) ? n.text());
+			}).then((n) => n === 2 ? n.blob() : n.text());
 		}
 	} else {
 		result = await fetch(url, {
 			method: "post",
 			headers: { "Content-Type": "application/x-www-form-urlencoded" },
-		}).then((n) => n === 2 ? n.blob() : isJSON(n) ? n.text())
+		}).then((n) => n === 2 ? n.blob() : n.text())
 	}
 	if (type == 2) return result
 	result = parseJSON(result)
