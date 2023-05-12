@@ -26,6 +26,7 @@ module.exports = class GuildBBSCommentManager extends BaseManager {
       d.authorid = n.userid
       d.author = await this.client.users.get(Number(d.authorid))
       d.number = Number(n.bangou)
+      d.commentid = n.bbstxtid
       d.createdTimestamp = Date.parse(n.created.split("-").join("/"))
       d.createdAt = new Date(d.createdTimestamp)
       d.content = n.naiyou
