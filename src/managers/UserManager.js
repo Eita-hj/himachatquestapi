@@ -64,15 +64,6 @@ module.exports = class UserManager extends BaseManager {
 						name: convtext(source.source.split("<span style='color:#AAAAAA;font-size:8px;vertical-align:super;float:left;'>所属</span>\r\n")[1].split("</div>")[0].split(/\s/).join(""))
 					}
 					if (result.guild.name == "<spanstyle='color:#AAAAAA;font-size:14px;'>(未設定)</span>") result.guild = undefined
-					if (data == this.client.secret.id) {
-						let guildid = await api.post(api.links.User.JoinGuilds, {
-							marumie: this.client.secret.id,
-							seskey: this.client.secret.key,
-						});
-						guildid = guildid.myguild;
-						result.guild =
-							guildid == 0 ? null : await this.client.guilds.fetch(guildid);
-					}
 					result.ip = ip.remote
 				} else {
 					result.name = ip.name
