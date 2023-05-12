@@ -9,7 +9,8 @@ module.exports = {
 			Window: "http://ksg-network.tokyo/BBS_TxtSerch.php",
 			List: "http://ksg-network.tokyo/BBS_Serch.php",
 			Create: "http://ksg-network.tokyo/BBS_Create.php",
-			Send: "http://ksg-network.tokyo/BBS_TxtToukou.php"
+			Send: "http://ksg-network.tokyo/BBS_TxtToukou.php",
+			CommentDelete: "http://ksg-network.tokyo/BBS_TxtRemove.php"
 		}
 	},
 	User: {
