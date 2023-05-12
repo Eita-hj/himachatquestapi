@@ -19,7 +19,8 @@ module.exports = class Guild extends Data {
 				throw new Error("Message length Error(Error Code 301)");
 			if (!data) throw new Error("Cannot send Empty message(Error Code 302)");
 			await api.post(api.links.Guild.SendMessage, {
-				marumie: this.client.secret.id,
+				origin: "himaque",
+				myid: this.client.secret.id,
 				seskey: this.client.secret.key,
 				monku: data.split("\n").join(" ")
 			});
