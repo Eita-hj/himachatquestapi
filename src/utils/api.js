@@ -41,6 +41,7 @@ function isJSON(json){
 		JSON.parse(json)
 		return true
 	} catch (e) {
+		console.log(e)
 		return false
 	}
 }
