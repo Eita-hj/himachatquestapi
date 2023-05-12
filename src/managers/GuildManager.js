@@ -28,12 +28,13 @@ module.exports = class GuildManager extends BaseManager {
 			case "string":
 				if (isNaN(data)) throw new Error(`${data} is invalid. (Error Code 500)`)
 				if (!(typeof Number(data) === "number" && Number.isInteger(Number(data)) && Number(data) > 0)) throw new Error(`${data} is invalid. (Error Code 501)`)
-				const d = await api.post(api.links.Guild.Info, {
+				const f = await api.post(api.links.Guild.Info, {
 					origin: "himaque",
 					myid: this.client.secret.id,
 					seskey: this.client.secret.key,
 					gid: data,
 				});
+				const d = f.guild
 				const result = new Object();
 				result.id = String(data);
 				result.name = d.name;
