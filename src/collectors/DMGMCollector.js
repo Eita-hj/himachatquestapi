@@ -40,6 +40,7 @@ module.exports = async function (client){
           seskey: client.secret.key,
           bmark: bmarks.direct
         })
+        console.log(data)
         bmarks.direct = data.bmark
         for (let i = data.msgs.length; i > 0; i--){
           const n = data.msgs[i - 1]
