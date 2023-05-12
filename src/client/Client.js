@@ -81,7 +81,6 @@ module.exports = class Client extends BaseClient {
 		} else if (result.error == 404) {
 			throw new Error("ERROR 404 (Banned.)");
 		} else {
-			console.log(typeof result)
 			this.secret.logined = true
 			this.secret.id = result.userid;
 			this.secret.key = result.seskey;
