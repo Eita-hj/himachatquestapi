@@ -26,7 +26,7 @@ module.exports = class GuildBBSManager extends BaseManager {
 			d.id = n.bbsid
 			d.count = n.many
 			d.lastUpdateTimestamp = Date.parse(n.updated.split("-").join("/"))
-			d.lastUpdateAt = new Date(s.lastUpdateTimestamp)
+			d.lastUpdateAt = new Date(d.lastUpdateTimestamp)
 			if (this.client.secret.options.has(1n << 3n)){
 				const data = await this.client.BBSs.fetch(id)
 				data.save({lastUpdateTimestamp: d.lastUpdateTimestamp, lastUpdateAt: d.lastUpdateAt, count: d.count})
