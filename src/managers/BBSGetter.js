@@ -28,21 +28,22 @@ module.exports = class BBSGetter extends BaseManager {
 	async fetch(id){
 		if (!(typeof Number(id) === "number" && Number.isInteger(Number(id)) && Number(id) > 0)) throw new TypeError(`${id} is invalid of BBS id.`)
 		const f = await api.post(api.links.Guild.BBS.Window, {
-			marumie: this.client.secret.id,
+			origin: "himaque",
+			myid: this.client.secret.id,
 			seskey: this.client.secret.key,
 			bbsid: id,
 			page: 1
 		})
-		if (f === "メンバーでない" || f.error === 99) return null
+		if (f.str === "誰おま" || f.str === "存在しないBBS") return null
 		const r = {}
-		const { source } = f
 		r.id = String(id)
-		r.title = convtext(source.split("<h3 style='font-weight:bold' class='bbsul_title'>")[1].split("</h3>")[0])
-		const authorid = source.split("author <span onclick='UserWindow(")[1].split(")")[0]
-		r.author = await this.client.users.get(Number(authorid))
-		const t = source.split(`style='color:#0000EE;cursor:pointer;font-size:11px;'>${authorid}</span>　`)[1].split("</div>")[0]
-		r.createdTimestamp = Date.parse(t.split("-").join("/"))
-		r.createdAt = new Date(r.createdTimestamp)
+		r.title = f.title
+		//スレ作成者・更新日時が確認できなくなった
+		//const authorid = source.split("author <span onclick='UserWindow(")[1].split(")")[0]
+		//r.author = await this.client.users.get(Number(authorid))
+		//const t = source.split(`style='color:#0000EE;cursor:pointer;font-size:11px;'>${authorid}</span>　`)[1].split("</div>")[0]
+		//r.createdTimestamp = Date.parse(t.split("-").join("/"))
+		//r.createdAt = new Date(r.createdTimestamp)
 		const BBS = new GuildBBS(r, this.client)
 		if (this.client.secret.caches.has(1n << 2n)) this.cache.set(String(BBS.id), BBS)
 		return BBS
