@@ -9,14 +9,20 @@ class ClientUserIgnoreManager extends BaseManager {
 		if (!client.secret.caches.has(1n << 4n)) delete this.cache
 	}
 	async fetch() {
-		const { musiarray } = await api.post(api.links.User.Ignores.List,{
-			marumie: this.client.secret.id,
+		const { musilist } = await api.post(api.links.User.Ignores.List,{
+			myid: this.client.secret.id,
 			seskey: this.client.secret.key,
 		})
 		const result = new Cache()
-		for (let i = 0; i < musiarray.length; i++){
-			const u = await this.client.users.get(musiarray[i])
-			result.set(musiarray[i], u)
+		for (let i = 0; i < musilist.length; i++){
+			const n = musilist[i]
+			const r = {}
+			r.userid = n.tuid
+			r.user = await this.client.users.get(n.tuid)
+			r.ip = n.remote
+			r.createdTimeStamp = Date.parse(n.created.split("-").join("/"))
+			r.createdAt = new Date(r.createdTimeStamp)
+			result.set(r.userid, r)
 		}
 		if (this.client.secret.caches.has(1n << 5n)) this.cache = result
 		return result
@@ -45,17 +51,17 @@ class ClientUserIgnoreManager extends BaseManager {
 	async remove(target) {
 		if (target instanceof User){
 			await api.post(api.links.User.Ignores.Remove,{
-				marumie: this.client.secret.id,
+				myid: this.client.secret.id,
 				seskey: this.client.secret.key,
-				targetid: target.id
+				target: target.id
 			})
 			this.client.secret.ignoreUsers.filter(n => n != target.id)
 		} else {
 			if (!Number.isSafeInteger(Number(target))) throw new TypeError(`${target} is invalid.`)
 			const r = await api.post(api.links.User.Ignores.Remove,{
-				marumie: this.client.secret.id,
+				myid: this.client.secret.id,
 				seskey: this.client.secret.key,
-				targetid: target
+				target: target
 			})
 			this.client.secret.ignoreUsers = this.client.secret.ignoreUsers.filter(n => n !== String(target))
 		}
