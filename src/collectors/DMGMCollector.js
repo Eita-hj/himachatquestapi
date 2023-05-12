@@ -7,7 +7,6 @@ module.exports = async function (client){
     ksg: 0
   }
   if (client.secret.options.has(1n << 0n)) {
-    //http://ksg-network.tokyo/chat_LoadKobetu.php
     const {bmark} = await api.post(api.links.Chat.Recieve.Direct, {
       origin: "himaque",
       myid: client.secret.id,
@@ -16,7 +15,6 @@ module.exports = async function (client){
     bmarks.direct = bmark
   }
   if (client.secret.options.has(1n << 2n)) {
-    //http://ksg-network.tokyo/chat_ReadGuild.php
     const {bmark} = await api.post(api.links.Chat.Recieve.Guild, {
       origin: "himaque",
       myid: client.secret.id,
@@ -26,8 +24,7 @@ module.exports = async function (client){
     bmarks.guild = bmark
   }
   for (;client.secret.chatload;){
-    if (!client.secret.chatload) return;
-    //http://ksg-network.tokyo/F5KSG.php
+    if (!client.secret.chatload) return
     const d = await api.post(api.links.Chat.Check.DMGM, {
       origin: "himaque",
       myid: client.secret.id,
