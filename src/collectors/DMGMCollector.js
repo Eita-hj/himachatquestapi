@@ -24,6 +24,7 @@ module.exports = async function (client){
     bmarks.guild = bmark
   }
   for (;client.secret.chatload;){
+    console.log(bmarks)
     if (!client.secret.chatload) return
     const d = await api.post(api.links.Chat.Check.DMGM, {
       origin: "himaque",
