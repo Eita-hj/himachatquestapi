@@ -12,7 +12,7 @@ module.exports = class GuildBBSCommentManager extends BaseManager {
     if (!(typeof Number(page) === "number" && Number.isInteger(Number(page)) && Number(page) > 0)) throw new TypeError(`${page} is invalid.`)
     const f = await api.post(api.links.Guild.BBS.Window, {
       origin: "himaque",
-      marumie: this.client.secret.id,
+      myid: this.client.secret.id,
       seskey: this.client.secret.key,
       bbsid: this.BBS.id,
       page
