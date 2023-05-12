@@ -106,6 +106,7 @@ module.exports = class UserManager extends BaseManager {
 				} else {
 					throw new TypeError(`${data} must be array<string | number>, string, or number.`)
 				}
+				break
 			default:
 				throw new TypeError(`${data} must be array<string | number>, string, or number.`)
 		}
