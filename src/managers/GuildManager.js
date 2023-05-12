@@ -28,31 +28,22 @@ module.exports = class GuildManager extends BaseManager {
 			case "string":
 				if (isNaN(data)) throw new Error(`${data} is invalid. (Error Code 500)`)
 				if (!(typeof Number(data) === "number" && Number.isInteger(Number(data)) && Number(data) > 0)) throw new Error(`${data} is invalid. (Error Code 501)`)
-				const { source } = await api.post(api.links.Guild.Info, {
-					marumie: this.client.secret.id,
+				const d = await api.post(api.links.Guild.Info, {
+					origin: "himaque",
+					myid: this.client.secret.id,
 					seskey: this.client.secret.key,
-					targetid: data,
+					gid: data,
 				});
 				const result = new Object();
 				result.id = String(data);
-				result.name = convtext(
-					source
-						.split("<div class='gw_guildname'>")[1]
-						.split("</div>")[0]
-				);
+				result.name = d.name;
 				if (result.name == "") return null
-				result.PR = convtext(source.split("<div class='gw_guildpr'>")[1].split("</div>")[0]);
-				result.info = convtext(
-					source
-						.split("<div class='gw_setumei'>")[1]
-						.split("</div>")[0]
-						.split("<br />")
-						.join("\n")
-				);
-				result.ownerID = source
-					.split("<span onclick='UserWindow(")[1]
-					.split(")")[0];
+				result.PR = d.pr;
+				result.info = d.shoukai;
+				result.ownerID = d.owner
 				result.owner = result.ownerID == this.client.secret.id ? this.user : await this.client.users.get(result.ownerID)
+				result.lastUpdateTimestamp = Date.parse(d.updated.split("-").join("/"))
+				result.lastUpdatedAt = new Date(result.lastUpdateTimestamp)
 				const guild = new Guild(result, this.client);
 				if (this.client.secret.options.has(1n << 2n)) {
 					if (this.cache.has(result.id)) this.cache.delete(result.id);
