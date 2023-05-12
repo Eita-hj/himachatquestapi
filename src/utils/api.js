@@ -18,28 +18,31 @@ exports.post = async function (url, option, type = 0) {
 				body
 			}
 			if (type === 1) delete data.headers["Content-Type"]
-			result = await fetch(url, data).then((n) => n === 2 ? n.blob() : n.text());
+			result = await fetch(url, data).then((n) => n === 2 ? n.blob() : isJSON(n) ? n.json() : n.text());
 		} else {
 			result = await fetch(url, {
 				method: "post",
 				headers: { "Content-Type": "application/x-www-form-urlencoded" },
-			}).then((n) => n === 2 ? n.blob() : n.text());
+			}).then((n) => n === 2 ? n.blob() : isJSON(n) ? n.json() : n.text());
 		}
 	} else {
 		result = await fetch(url, {
 			method: "post",
 			headers: { "Content-Type": "application/x-www-form-urlencoded" },
-		}).then((n) => n === 2 ? n.blob() : n.text())
+		}).then((n) => n === 2 ? n.blob() : isJSON(n) ? n.json() : n.text())
 	}
 	if (type == 2) return result
-	result = result.slice(1)
-	try {
-		const parsed = JSON.parse(result)
-		if (parsed.error == 404) throw new Error("ERROR 404 (Banned.)");
-		return parsed;
-	} catch (err) {
-		return result
-	}
+	if (parsed.error == 404) throw new Error("ERROR 404 (Banned.)");
+	return result
 };
+
+function isJSON(json){
+	try {
+		JSON.parse(json)
+		return true
+	} catch (e) {
+		return false
+	}
+}
 
 exports.links = require("./data/links")
