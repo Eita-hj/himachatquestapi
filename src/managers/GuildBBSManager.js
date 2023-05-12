@@ -20,7 +20,7 @@ module.exports = class GuildBBSManager extends BaseManager {
 		})
 		const { bbss } = f
 		const r = []
-		for (let i = 0; i < a.length; i++){
+		for (let i = 0; i < bbss.length; i++){
 			const n = bbss[i]
 			const d = {}
 			d.id = n.bbsid
