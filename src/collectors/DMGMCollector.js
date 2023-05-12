@@ -1,3 +1,30 @@
+const { api, convtext } = require("../utils/")
+
+module.exports = async function (client){
+  const bmarks = {
+    guild: -1,
+    direct: 0,
+    ksg: 0
+  }
+  if (client.secret.options.has(1n << 0n)) {
+    //http://ksg-network.tokyo/chat_LoadKobetu.php
+    const {bmark} = await api.post(api.links.Chat.Recieve.Direct, {
+      origin: "himaque",
+      myid: client.secret.id,
+      seskey: client.secret.key
+    })
+    bmarks.direct = bmark
+  }
+  if (client.secret.options.has(1n << 2n)) {
+    //http://ksg-network.tokyo/chat_ReadGuild.php
+    const {bmark} = await api.post(api.links.Chat.Recieve.Guild, {
+      origin: "himaque",
+      myid: client.secret.id,
+      seskey: client.secret.key,
+      bmark: -1
+    })
+    bmarks.guild = bmark
+  }
   for (;client.secret.chatload;){
     if (!client.secret.chatload) return;
     //http://ksg-network.tokyo/F5KSG.php
@@ -44,3 +71,27 @@
             if (!client.secret.recieves.has(1n << 2n)) continue
             const d = {}
             d.userid = n.userid
+            d.user = await client.users.get(d.userid)
+            d.guild = client.guild
+            d.createdTimestamp = Date.parse(`${new Date().getFullYear()}/${n.hiduke}`)
+            d.createdAt = new Date(d.createdTimestamp)
+            client.emit("GuildDungeonCreate", d)
+          } else {
+            if ((!client.secret.recieves.has(1n << 0n) && n.type == 0) || (!client.secret.recieves.has(1n << 1n) && n.type == 7)) continue
+            const msg = {}
+            msg.authorid = n.userid
+            msg.author = await client.users.get(n.userid)
+            msg.content = n.type == 0 ? n.mozi : ""
+            msg.type = n.type == 0 ? "text" : "image"
+            msg.file = n.type == 7 ? {url: n.mozi.split(":")[2], id: n.mozi.split(":")[0]} : {}
+            msg.createdTimestamp = Date.parse(`${new Date().getFullYear()}/${n.hiduke}`)
+            msg.createdAt = new Date(msg.createdTimestamp)
+            msg.guild = client.guild
+            client.emit("GuildMessageCreate", msg)
+          }
+        }
+      }
+    }
+    await new Promise(r => setTimeout(r, 15000))
+  }
+}
