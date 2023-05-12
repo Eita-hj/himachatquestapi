@@ -32,8 +32,8 @@ module.exports = class GuildBBSCommentManager extends BaseManager {
       d.content = n.naiyou
       d.files = n.imgfiles.map(m => ({url: `http://ksg-network.tokyo/photo/${m.filename}`}))
       const commentData = new GuildBBSCommentData(d, this.client)
-      r.push([number, commentData])
-      if (this.client.secret.caches.has(1n << 3n)) this.cache.set(number, commentData)
+      r.push([d.number, commentData])
+      if (this.client.secret.caches.has(1n << 3n)) this.cache.set(d.number, commentData)
     }
     return new Cache(r)
   }
