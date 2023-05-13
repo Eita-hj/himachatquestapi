@@ -32,15 +32,15 @@ module.exports = async function (client){
       bmark: client.secret.bmarks.ksg
     })
     if (d.cmds.length){
-      client.bmarks.ksg = d.cmds.at(-1).bmark
+      client.secret.bmarks.ksg = d.cmds.at(-1).bmark
       if (client.secret.options.has(1n << 0n) && d.cmds.find(n => n.type === "c_h")){
         const data = await api.post(api.links.Chat.Recieve.Direct, {
           origin: "himaque",
           myid: client.secret.id,
           seskey: client.secret.key,
-          bmark: client.bmarks.direct
+          bmark: client.secret.bmarks.direct
         })
-        client.bmarks.direct = data.bmark
+        client.secret.bmarks.direct = data.bmark
         for (let i = data.msgs.length; i > 0; i--){
           const n = data.msgs[i - 1]
           if ((!client.secret.recieves.has(1n << 0n) && n.type == 0) || (!client.secret.recieves.has(1n << 1n) && n.type == 7)) continue
@@ -61,9 +61,9 @@ module.exports = async function (client){
           origin: "himaque",
           myid: client.secret.id,
           seskey: client.secret.key,
-          bmark: client.bmarks.guild
+          bmark: client.secret.bmarks.guild
         })
-        client.bmarks.guild = data.bmark
+        client.secret.bmarks.guild = data.bmark
         for (let i = data.msgs.length; i > 0; i--){
           const n = data.msgs[i - 1]
           if (n.type == 1) {
