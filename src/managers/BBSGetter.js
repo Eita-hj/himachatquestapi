@@ -37,10 +37,9 @@ module.exports = class BBSGetter extends BaseManager {
 		if (f.str === "誰おま" || f.str === "存在しないBBS") return null
 		const r = {}
 		r.id = String(id)
-		r.title = f.title
-		//スレ作成者・更新日時が確認できなくなった
-		//const authorid = source.split("author <span onclick='UserWindow(")[1].split(")")[0]
-		//r.author = await this.client.users.get(Number(authorid))
+		r.title = convtext(f.title)
+		r.authorid = f.created_userid
+		r.author = await this.client.users.get(Number(r.authorid))
 		//const t = source.split(`style='color:#0000EE;cursor:pointer;font-size:11px;'>${authorid}</span>　`)[1].split("</div>")[0]
 		//r.createdTimestamp = Date.parse(t.split("-").join("/"))
 		//r.createdAt = new Date(r.createdTimestamp)
