@@ -29,7 +29,7 @@ module.exports = class GuildBBSCommentManager extends BaseManager {
       d.commentid = n.bbstxtid
       d.createdTimestamp = Date.parse(n.created.split("-").join("/"))
       d.createdAt = new Date(d.createdTimestamp)
-      d.content = n.naiyou
+      d.content = convtext(n.naiyou)
       d.files = n.imgfiles.map(m => ({url: `http://ksg-network.tokyo/photo/${m.filename}`}))
       const commentData = new GuildBBSCommentData(d, this.client)
       r.push([d.number, commentData])
