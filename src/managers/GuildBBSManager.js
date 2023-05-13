@@ -24,6 +24,7 @@ module.exports = class GuildBBSManager extends BaseManager {
 			const n = bbss[i]
 			const d = {}
 			d.id = n.bbsid
+			d.title = convtext(n.title)
 			d.count = n.many
 			d.lastUpdateTimestamp = Date.parse(n.updated.split("-").join("/"))
 			d.lastUpdateAt = new Date(d.lastUpdateTimestamp)
@@ -33,7 +34,6 @@ module.exports = class GuildBBSManager extends BaseManager {
 				if (this.client.secret.caches.has(1n << 2n)) this.cache.set(id, data.clone())
 				r.push([d.id, data.clone()])
 			} else {
-				d.title = n.title
 				const BBS = new GuildBBS(d, this.client)
 				if (this.client.secret.caches.has(1n << 2n)) this.cache.set(d.id, BBS)
 				r.push([d.id, BBS])
