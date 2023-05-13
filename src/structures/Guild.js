@@ -24,6 +24,13 @@ module.exports = class Guild extends Data {
 				seskey: this.client.secret.key,
 				monku: data.split("\n").join(" ")
 			});
+			const data = await api.post(api.links.Chat.Recieve.Guild, {
+				origin: "himaque",
+				myid: client.secret.id,
+				seskey: client.secret.key,
+				bmark: client.bmarks.guild
+			})
+			client.bmarks.guild = data.bmark
 		}
 		return;
 	}
