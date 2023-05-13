@@ -23,6 +23,16 @@ module.exports = async function (client){
     })
     client.secret.bmarks.guild = bmark
   }
+  await api.post(api.links.Chat.Check.DMGM, {
+      origin: "himaque",
+      myid: client.secret.id,
+      seskey: client.secret.key,
+      bmark: client.secret.bmarks.ksg
+  }).then(n => {
+    if (n.cmds.length){
+      client.secret.bmarks.ksg = n.cmds.at(-1).bmark
+    }
+  })
   for (;client.secret.chatload;){
     if (!client.secret.chatload) return
     const d = await api.post(api.links.Chat.Check.DMGM, {
