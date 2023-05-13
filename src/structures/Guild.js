@@ -26,11 +26,11 @@ module.exports = class Guild extends Data {
 			});
 			const d = await api.post(api.links.Chat.Recieve.Guild, {
 				origin: "himaque",
-				myid: client.secret.id,
-				seskey: client.secret.key,
-				bmark: client.bmarks.guild
+				myid: this.client.secret.id,
+				seskey: this.client.secret.key,
+				bmark: this.client.bmarks.guild
 			})
-			client.bmarks.guild = d.bmark
+			this.client.bmarks.guild = d.bmark
 		}
 		return;
 	}
