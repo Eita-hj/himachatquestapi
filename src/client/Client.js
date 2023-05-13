@@ -150,7 +150,7 @@ module.exports = class Client extends BaseClient {
 		this.emit("debug", `Recieved Token: ${token.slice(0,12)}${token.slice(12).replace(/./g, "*")}`)
 		const { ID, Pass, SID, SKEY, version } = toData(token);
 		this.emit("debug", `[Debug] Token was parsed. ID: ${ID.slice(0,2)}${ID.slice(2).replace(/./g, "*")} Pass: ${Pass.slice(0,2)}${Pass.slice(2).replace(/./g, "*")} SID: ${SID} SKEY: ${(`${SKEY}`).slice(0,4)}${(`${SKEY}`).slice(4).replace(/./g, "*")}`)
-		if (version === "2") {
+		if (version !== 2) {
 			if (this.secret.logined) throw e
 			this.emit("debug", "[Debug] Token version is old.")
 			await this.loginByIdPass(ID, Pass);
