@@ -1,7 +1,7 @@
 const { api, convtext } = require("../utils/")
 
 module.exports = async function (client){
-  const bmarks = {
+  client.secret.bmarks = {
     guild: -1,
     direct: 0,
     ksg: 0
@@ -12,7 +12,7 @@ module.exports = async function (client){
       myid: client.secret.id,
       seskey: client.secret.key
     })
-    bmarks.direct = bmark
+    client.secret.bmarks.direct = bmark
   }
   if (client.secret.options.has(1n << 2n)) {
     const {bmark} = await api.post(api.links.Chat.Recieve.Guild, {
@@ -21,7 +21,7 @@ module.exports = async function (client){
       seskey: client.secret.key,
       bmark: -1
     })
-    bmarks.guild = bmark
+    client.secret.bmarks.guild = bmark
   }
   for (;client.secret.chatload;){
     if (!client.secret.chatload) return
@@ -29,18 +29,18 @@ module.exports = async function (client){
       origin: "himaque",
       myid: client.secret.id,
       seskey: client.secret.key,
-      bmark: bmarks.ksg
+      bmark: client.secret.bmarks.ksg
     })
     if (d.cmds.length){
-      bmarks.ksg = d.cmds.at(-1).bmark
+      client.bmarks.ksg = d.cmds.at(-1).bmark
       if (client.secret.options.has(1n << 0n) && d.cmds.find(n => n.type === "c_h")){
         const data = await api.post(api.links.Chat.Recieve.Direct, {
           origin: "himaque",
           myid: client.secret.id,
           seskey: client.secret.key,
-          bmark: bmarks.direct
+          bmark: client.bmarks.direct
         })
-        bmarks.direct = data.bmark
+        client.bmarks.direct = data.bmark
         for (let i = data.msgs.length; i > 0; i--){
           const n = data.msgs[i - 1]
           if ((!client.secret.recieves.has(1n << 0n) && n.type == 0) || (!client.secret.recieves.has(1n << 1n) && n.type == 7)) continue
@@ -61,9 +61,9 @@ module.exports = async function (client){
           origin: "himaque",
           myid: client.secret.id,
           seskey: client.secret.key,
-          bmark: bmarks.guild
+          bmark: client.bmarks.guild
         })
-        bmarks.guild = data.bmark
+        client.bmarks.guild = data.bmark
         for (let i = data.msgs.length; i > 0; i--){
           const n = data.msgs[i - 1]
           if (n.type == 1) {
