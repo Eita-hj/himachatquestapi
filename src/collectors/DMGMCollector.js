@@ -47,7 +47,7 @@ module.exports = async function (client){
           const msg = {}
           msg.authorid = n.userid
           msg.author = await client.users.get(n.userid)
-          msg.content = n.type == 0 ? n.mozi : ""
+          msg.content = n.type == 0 ? convtext(n.mozi) : ""
           msg.createdTimestamp = Date.parse(`${new Date().getFullYear()}/${n.hiduke}`)
           msg.createdAt = new Date(msg.createdTimestamp)
           msg.type = n.type == 0 ? "text" : "image"
@@ -80,7 +80,7 @@ module.exports = async function (client){
             const msg = {}
             msg.authorid = n.userid
             msg.author = await client.users.get(n.userid)
-            msg.content = n.type == 0 ? n.mozi : ""
+            msg.content = n.type == 0 ? convtext(n.mozi) : ""
             msg.type = n.type == 0 ? "text" : "image"
             msg.file = n.type == 7 ? {url: n.mozi.split(":")[2], id: n.mozi.split(":")[0]} : {}
             msg.createdTimestamp = Date.parse(`${new Date().getFullYear()}/${n.hiduke}`)
