@@ -16,7 +16,7 @@ module.exports = class GuildBBSManager extends BaseManager {
 			myid: this.client.secret.id,
 			seskey: this.client.secret.key,
 			gid: this.guild.id,
-			page,
+			page
 		})
 		const { bbss } = f
 		const r = []
