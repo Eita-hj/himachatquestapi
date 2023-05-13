@@ -37,10 +37,10 @@ module.exports = class GuildManager extends BaseManager {
 				const d = f.guild
 				const result = new Object();
 				result.id = String(data);
-				result.name = d.name;
+				result.name = convtext(d.name);
 				if (result.name == "") return null
-				result.PR = d.pr;
-				result.info = d.shoukai;
+				result.PR = convtext(d.pr);
+				result.info = convtext(d.shoukai);
 				result.ownerID = d.owner
 				result.owner = result.ownerID == this.client.secret.id ? this.user : await this.client.users.get(result.ownerID)
 				result.lastUpdateTimestamp = Date.parse(d.updated.split("-").join("/"))
