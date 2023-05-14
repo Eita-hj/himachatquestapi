@@ -30,7 +30,7 @@ module.exports = class Guild extends Data {
 				seskey: this.client.secret.key,
 				bmark: this.client.secret.bmarks.guild
 			})
-			this.client.bmarks.guild = d.bmark
+			this.client.secret.bmarks.guild = d.bmark
 		}
 		return;
 	}
