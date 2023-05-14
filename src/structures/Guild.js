@@ -28,7 +28,7 @@ module.exports = class Guild extends Data {
 				origin: "himaque",
 				myid: this.client.secret.id,
 				seskey: this.client.secret.key,
-				bmark: this.client.bmarks.guild
+				bmark: this.client.secret.bmarks.guild
 			})
 			this.client.bmarks.guild = d.bmark
 		}
