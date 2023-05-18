@@ -53,6 +53,7 @@ module.exports = async function (client){
         client.secret.bmarks.direct = data.bmark
         for (let i = data.msgs.length; i > 0; i--){
           const n = data.msgs[i - 1]
+          console.log(n)
           if ((!client.secret.recieves.has(1n << 0n) && n.type == 0) || (!client.secret.recieves.has(1n << 1n) && n.type == 7)) continue
           const msg = {}
           msg.authorid = n.userid
