@@ -53,16 +53,15 @@ module.exports = async function (client){
         client.secret.bmarks.direct = data.bmark
         for (let i = data.msgs.length; i > 0; i--){
           const n = data.msgs[i - 1]
-          console.log(n)
           if ((!client.secret.recieves.has(1n << 0n) && n.type == 0) || (!client.secret.recieves.has(1n << 1n) && n.type == 7)) continue
           const msg = {}
           msg.authorid = n.userid
           msg.author = await client.users.get(n.userid)
-          msg.content = n.type == 0 ? convtext(n.mozi) : ""
+          msg.content = (n.type == 0) ? convtext(n.mozi) : ""
           msg.createdTimestamp = Date.parse(`${new Date().getFullYear()}/${n.hiduke}`)
           msg.createdAt = new Date(msg.createdTimestamp)
-          msg.type = n.type == 0 ? "text" : "image"
-          msg.file = n.type == 7 ? {url: n.mozi.split(":")[2], id: n.mozi.split(":")[0]} : {}
+          msg.type = (n.type == 0) ? "text" : "image"
+          msg.file = (n.type == 7) ? {url: n.mozi.split(":")[2], id: n.mozi.split(":")[0]} : {}
           msg.at = await client.users.get(n.targetid)
           client.emit("DirectMessageCreate", msg)
         }
@@ -77,6 +76,7 @@ module.exports = async function (client){
         client.secret.bmarks.guild = data.bmark
         for (let i = data.msgs.length; i > 0; i--){
           const n = data.msgs[i - 1]
+          console.log(n)
           if (n.type == 1) {
             if (!client.secret.recieves.has(1n << 2n)) continue
             const d = {}
@@ -91,9 +91,9 @@ module.exports = async function (client){
             const msg = {}
             msg.authorid = n.userid
             msg.author = await client.users.get(n.userid)
-            msg.content = n.type == 0 ? convtext(n.mozi) : ""
-            msg.type = n.type == 0 ? "text" : "image"
-            msg.file = n.type == 7 ? {url: n.mozi.split(":")[2], id: n.mozi.split(":")[0]} : {}
+            msg.content = (n.type == 0) ? convtext(n.mozi) : ""
+            msg.type = (n.type == 0) ? "text" : "image"
+            msg.file = (n.type == 7) ? {url: n.mozi.split(":")[2], id: n.mozi.split(":")[0]} : {}
             msg.createdTimestamp = Date.parse(`${new Date().getFullYear()}/${n.hiduke}`)
             msg.createdAt = new Date(msg.createdTimestamp)
             msg.guild = client.guild
