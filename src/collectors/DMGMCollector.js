@@ -67,7 +67,7 @@ module.exports = async function (client){
           msg.createdTimestamp = Date.parse(`${new Date().getFullYear()}/${n.hiduke}`)
           msg.createdAt = new Date(msg.createdTimestamp)
           msg.type = (n.type == 0) ? "text" : "image"
-          msg.file = (n.type == 7) ? {url: n.mozi.split(":")[2], id: n.mozi.split(":")[0]} : {}
+          msg.file = (n.type == 7) ? {url: `http://ksg-network.tokyo/photo/${n.mozi.split(":")[2]}`, id: n.mozi.split(":")[0]} : {}
           msg.at = await client.users.get(n.targetid)
           client.emit("DirectMessageCreate", msg)
         }
@@ -81,8 +81,8 @@ module.exports = async function (client){
         })
         client.secret.bmarks.guild = data.bmark
         for (let i = data.msgs.length; i > 0; i--){
-          if (Number(n.msgid) < Number(id.guild)) continue;
           const n = data.msgs[i - 1]
+          if (Number(n.msgid) < Number(id.guild)) continue;
           if (n.type == 1) {
             if (!client.secret.recieves.has(1n << 2n)) continue
             const d = {}
@@ -101,7 +101,7 @@ module.exports = async function (client){
             msg.author = await client.users.get(n.userid)
             msg.content = (n.type == 0) ? convtext(n.mozi) : ""
             msg.type = (n.type == 0) ? "text" : "image"
-            msg.file = (n.type == 7) ? {url: n.mozi.split(":")[2], id: n.mozi.split(":")[0]} : {}
+            msg.file = (n.type == 7) ? {url: `http://ksg-network.tokyo/photo/${n.mozi.split(":")[2]}`, id: n.mozi.split(":")[0]} : {}
             msg.createdTimestamp = Date.parse(`${new Date().getFullYear()}/${n.hiduke}`)
             msg.createdAt = new Date(msg.createdTimestamp)
             msg.guild = client.guild
