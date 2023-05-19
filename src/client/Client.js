@@ -5,6 +5,8 @@ const ClientRecieveOptionBits = require("../structures/ClientRecieveOptionBits")
 const { api } = require("../utils/")
 const { GenerateToken: { toData, toToken } } = require("../utils/");
 
+const GuildMessageManager = require("../managers/GuildMessageManager")
+
 module.exports = class Client extends BaseClient {
 	constructor(ClientOptions) {
 		if (ClientOptions.options == undefined) throw new Error("ClientOptionBits must be set.");
@@ -91,6 +93,7 @@ module.exports = class Client extends BaseClient {
 			this.BBSs = new this.BBSs(this);
 			this.user = await this.users.fetch(result.userid);
 			this.guild = await this.guilds.fetch(result.nowguild);
+			if (this.guild) this.guild.messages = new GuildMessageManager(this, this.guild)
 			this.secret.logined = true
 			const { startload } = require("../collectors/BaseMessageCollector");
 			this.token = toToken({ID: id, Pass: pass, SID: this.secret.id, SKEY: this.secret.key})
@@ -132,6 +135,7 @@ module.exports = class Client extends BaseClient {
 		this.BBSs = new this.BBSs(this);
 		this.user = await this.users.fetch(SID);
 		this.guild = await this.guilds.fetch(gid);
+		if (this.guild) this.guild.messages = new GuildMessageManager(this, this.guild)
 		this.secret.logined = true
 		const { startload } = require("../collectors/BaseMessageCollector");
 		this.games = new this.games({
