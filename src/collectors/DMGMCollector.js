@@ -3,6 +3,8 @@ const id = {
   direct: 0,
   guild: 0
 }
+const DirectMessage = require("../structures/DirectMessage")
+const GuildMessage = require("../structures/GuildMessage")
 module.exports = async function (client){
   client.secret.bmarks = {
     guild: -1,
@@ -69,7 +71,9 @@ module.exports = async function (client){
           msg.type = (n.type == 0) ? "text" : "image"
           msg.file = (n.type == 7) ? {url: `http://ksg-network.tokyo/photo/${n.mozi.split(":")[2]}`, id: n.mozi.split(":")[0]} : {}
           msg.at = await client.users.get(n.targetid)
-          client.emit("DirectMessageCreate", msg)
+          const message = new DirectMessage(msg, client)
+          if (client.secret.caches.has(1n << 7n)) msg.at.messages.cache.set(message.id, message)
+          client.emit("DirectMessageCreate", message)
         }
       }
       if (client.secret.options.has(1n << 2n) && d.cmds.find(n => n.type === "c_g")) {
@@ -105,7 +109,9 @@ module.exports = async function (client){
             msg.createdTimestamp = Date.parse(`${new Date().getFullYear()}/${n.hiduke}`)
             msg.createdAt = new Date(msg.createdTimestamp)
             msg.guild = client.guild
-            client.emit("GuildMessageCreate", msg)
+            const message = new GuildMessage(msg, client)
+            if (client.secret.caches.has(1n << 7n)) msg.guild.messages.cache.set(message.id, message)
+            client.emit("GuildMessageCreate", message)
           }
         }
       }
