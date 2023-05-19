@@ -7,6 +7,7 @@ module.exports = new Bits({
 		GuildBBSComments: 1n << 3n,
 		ClientUserFriends: 1n << 4n,
 		ClientUserIgnoreList: 1n << 5n,
-		GameRanking: 1n << 6n
+		GameRanking: 1n << 6n,
+		Messages: 1n << 7n
 	}
 })
