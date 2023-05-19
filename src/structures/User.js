@@ -35,4 +35,7 @@ module.exports = class User extends Data {
 		this.save(result)
 		return this
 	}
+	toString() {
+		return `${this.name} (No.${this.id})`
+	}
 }
