@@ -1,7 +1,15 @@
 const Data = require("./Data")
 const { api } = require("../utils/")
+const DirectMessageManager = require("../managers/DirectMessageManager")
 
 module.exports = class User extends Data {
+	constructor(a, b){
+		super(a, b)
+		if (this.id !== this.client.userid){
+			this.messages = new DirectMessageManager(this.client, this)
+			this.save(this.messages)
+		}
+	}
 	async send(data){
 		const DirectMessageAttachment = require("./DirectMessageAttachment")
 		if (data instanceof DirectMessageAttachment){
