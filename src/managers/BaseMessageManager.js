@@ -1,5 +1,5 @@
 const BaseManager = require("./BaseManager")
-const BaseMessage = require("./structures/BaseMessage")
+const BaseMessage = require("../structures/BaseMessage")
 module.exports = class BaseMessageManager extends BaseManager {
 	constructor(client) {
 		super(client)
