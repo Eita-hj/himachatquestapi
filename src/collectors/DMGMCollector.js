@@ -72,6 +72,7 @@ module.exports = async function (client){
           msg.file = (n.type == 7) ? {url: `http://ksg-network.tokyo/photo/${n.mozi.split(":")[2]}`, id: n.mozi.split(":")[0]} : {}
           msg.at = await client.users.get(n.targetid)
           const message = new DirectMessage(msg, client)
+          console.log(n)
           //if (client.secret.caches.has(1n << 7n)) msg.at.messages.cache.set(message.id, message)
           client.emit("DirectMessageCreate", message)
         }
