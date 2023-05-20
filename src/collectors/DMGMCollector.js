@@ -70,10 +70,9 @@ module.exports = async function (client){
           msg.createdAt = new Date(msg.createdTimestamp)
           msg.type = (n.type == 0) ? "text" : "image"
           msg.file = (n.type == 7) ? {url: `http://ksg-network.tokyo/photo/${n.mozi.split(":")[2]}`, id: n.mozi.split(":")[0]} : {}
-          msg.at = await client.users.get(n.targetid)
+          msg.at = await client.users.get(n[n.userid === client.user.id ? "targetid" : "userid"])
           const message = new DirectMessage(msg, client)
-          console.log(n)
-          //if (client.secret.caches.has(1n << 7n)) msg.at.messages.cache.set(message.id, message)
+          if (client.secret.caches.has(1n << 7n)) msg.at.messages.cache.set(message.id, message)
           client.emit("DirectMessageCreate", message)
         }
       }
