@@ -1,5 +1,5 @@
 const Data = require("./Data")
-const { api } = require("../utils/api/")
+const { api } = require("../utils/")
 
 module.exports = class BaseMessage extends Data {
 	toString() {
