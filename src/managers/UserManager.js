@@ -3,6 +3,7 @@ const { api, convtext } = require("../utils/")
 const User = require("../structures/User")
 const ClientUser = require("../structures/ClientUser")
 const Cache = require("../structures/Cache")
+const DirectMessageManager = require("./DirectMessageManager")
 
 module.exports = class UserManager extends BaseManager {
 	constructor(client){
@@ -75,6 +76,10 @@ module.exports = class UserManager extends BaseManager {
 				}
 				let user = new User(result, this.client);
 				if (id === this.client.secret.id) return new ClientUser(result, this.client)
+				if (this.client.secret.caches.has(1n << 7n)) {
+					user.messages = new DirectMessageManager(this.client, user)
+					user.save(user.messages)
+				}
 				if (this.client.secret.options.has(1n << 2n)) {
 					if (this.cache.has(result.id)) this.cache.delete(result.id);
 					this.cache.set(result.id, user);
