@@ -5,10 +5,6 @@ const DirectMessageManager = require("../managers/DirectMessageManager")
 module.exports = class User extends Data {
 	constructor(a, b){
 		super(a, b)
-		if (this.id != this.client.secret.id){
-			this.messages = new DirectMessageManager(this.client, this)
-			this.save(this.messages)
-		}
 	}
 	async send(data){
 		const DirectMessageAttachment = require("./DirectMessageAttachment")
