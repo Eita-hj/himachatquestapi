@@ -92,7 +92,7 @@ module.exports = class Client extends BaseClient {
 			this.friends = new this.friends(this);
 			this.BBSs = new this.BBSs(this);
 			this.user = await this.users.fetch(result.userid);
-			this.guild = await this.guilds.fetch(result.nowguild);
+			if (result.nowguild != 0) this.guild = await this.guilds.fetch(result.nowguild);
 			if (this.guild) this.guild.messages = new GuildMessageManager(this, this.guild)
 			this.secret.logined = true
 			const { startload } = require("../collectors/BaseMessageCollector");
