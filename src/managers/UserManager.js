@@ -3,6 +3,7 @@ const { api, convtext } = require("../utils/")
 const User = require("../structures/User")
 const ClientUser = require("../structures/ClientUser")
 const Cache = require("../structures/Cache")
+const DirectMessageManager = require("./DirectMessageManager")
 
 module.exports = class UserManager extends BaseManager {
 	constructor(client){
@@ -13,11 +14,12 @@ module.exports = class UserManager extends BaseManager {
 		if (isNaN(id)) throw new Error(`${id} is invalid. (Error Code 500)`)
 		if (!(typeof Number(id) === "number" && Number.isInteger(Number(id)) && Number(id) > 0)) throw new Error(`${id} is invalid. (Error Code 501)`)
 		const data = await api.post(api.links.User.Manage, {
-			marumie: this.client.secret.id,
+			origin: "himaque",
+			myid: this.client.secret.id,
 			seskey: this.client.secret.key,
-			targetid: id
+			tuid: id
 		})
-		return (data !== "いません")
+		return (data.str !== "存在しないユーザ")
 	}
 	async fetch(data) {
 		switch (typeof data){
@@ -27,18 +29,19 @@ module.exports = class UserManager extends BaseManager {
 				if (isNaN(data)) throw new Error(`${data} is invalid. (Error Code 500)`)
 				if (!(typeof Number(data) === "number" && Number.isInteger(Number(data)) && Number(data) > 0)) throw new Error(`${data} is invalid. (Error Code 501)`)
 				const ip = await api.post(api.links.User.Manage, {
-					marumie: this.client.secret.id,
+					origin: "himaque",
+					myid: this.client.secret.id,
 					seskey: this.client.secret.key,
-					targetid: id
+					tuid: id
 				})
-				if (ip == "いません") return undefined
+				if (ip?.str == "存在しないユーザ") return undefined
 				const source = await api.post(api.links.User.Info, {
 					marumie: this.client.secret.id,
 					seskey: this.client.secret.key,
 					targetid: id,
 				});
 				const result = new Object();
-				if (source.source != "このアカウントは利用停止されています" && !source.source.includes("<div>拒否されました</div>")){
+				if (source.source != "このアカウントは利用停止されています" && source.source != "該当ユーザはHIMACHATQUESTをプレイしていません。" && !source.source.includes("<div>拒否されました。</div>")){
 					result.id = id;
 					result.name = convtext(
 						source.source.split(".png' />")[1].split("</div>")[0]
@@ -62,26 +65,21 @@ module.exports = class UserManager extends BaseManager {
 						name: convtext(source.source.split("<span style='color:#AAAAAA;font-size:8px;vertical-align:super;float:left;'>所属</span>\r\n")[1].split("</div>")[0].split(/\s/).join(""))
 					}
 					if (result.guild.name == "<spanstyle='color:#AAAAAA;font-size:14px;'>(未設定)</span>") result.guild = undefined
-					if (data == this.client.secret.id) {
-						let guildid = await api.post(api.links.User.JoinGuilds, {
-							marumie: this.client.secret.id,
-							seskey: this.client.secret.key,
-						});
-						guildid = guildid.myguild;
-						result.guild =
-							guildid == 0 ? null : await this.client.guilds.fetch(guildid);
-					}
-					result.ip = ip.source.split("\r\n")[2].split("\t").join("").split("<br />").join("")
+					result.ip = ip.remote
 				} else {
-					result.name = ip.source.split("<h3>")[1].split("</h3>")[0]
+					result.name = ip.name
 					result.id = id
 					result.rank = null
-					result.profile = source.source.includes("<div>拒否されました</div>") ? "blocked" : "deleted"
+					result.profile = source.source.includes("<div>拒否されました</div>") ? "blocked" : source.source == "該当ユーザはHIMACHATQUESTをプレイしていません。" ? "not playing" : "deleted"
 					result.lastlogin = new Date(0)
-					result.ip = ip.source.split("\r\n")[2].split("\t").join("").split("<br />").join("")
+					result.ip = ip.remote
 				}
 				let user = new User(result, this.client);
 				if (id === this.client.secret.id) return new ClientUser(result, this.client)
+				if (this.client.secret.caches.has(1n << 7n)) {
+					user.messages = new DirectMessageManager(this.client, user)
+					user.save(user.messages)
+				}
 				if (this.client.secret.options.has(1n << 2n)) {
 					if (this.cache.has(result.id)) this.cache.delete(result.id);
 					this.cache.set(result.id, user);
@@ -95,7 +93,7 @@ module.exports = class UserManager extends BaseManager {
 						const id = data[i]
 						if (typeof id === "number" || typeof id === "string"){
 							const user = await this.fetch(id)
-							cache.set(string(id), user)
+							cache.set(String(id), user)
 						} else {
 							throw new TypeError(`${id} must be string, or number.`)
 						}
@@ -104,6 +102,7 @@ module.exports = class UserManager extends BaseManager {
 				} else {
 					throw new TypeError(`${data} must be array<string | number>, string, or number.`)
 				}
+				break
 			default:
 				throw new TypeError(`${data} must be array<string | number>, string, or number.`)
 		}
@@ -116,18 +115,14 @@ module.exports = class UserManager extends BaseManager {
 				return this.cache?.has?.(String(data)) ? this.cache.get(String(data)) : this.fetch(String(data));
 				break;
 			case "object":
-				const cache = new Cache()
 				if (Array.isArray(data)){
-					for (let i = 0; i < data.length; i++){
-						const id = data[i]
-						if (typeof id === "number" || typeof id === "string"){
-							const user = this.get(String(id))
-							cache.set(string(id), user)
-						} else {
-							throw new TypeError(`${id} must be string, or number.`)
-						}
-					}
-					return cache;
+					const d = data.filter(id => typeof id === "number" || typeof id === "string")
+					if (d.length !== data.length) throw new TypeError(`ID must be string, or number.`)
+					const t = this
+					const d2 = d.filter(id => !t.cache?.has?.(String(id)))
+					const cache = new Cache()
+					d.filter(id => t.cache?.has?.(String(id))).map(id => cache.set(String(id), t.get(id)))
+					return d2.length ? t.fetch(d2).then(n => n.concat(cache)) : cache;
 				} else {
 					throw new TypeError(`${data} must be array<string | number>, string, or number.`)
 				}

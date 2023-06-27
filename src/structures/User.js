@@ -1,7 +1,11 @@
 const Data = require("./Data")
 const { api } = require("../utils/")
+const DirectMessageManager = require("../managers/DirectMessageManager")
 
 module.exports = class User extends Data {
+	constructor(a, b){
+		super(a, b)
+	}
 	async send(data){
 		const DirectMessageAttachment = require("./DirectMessageAttachment")
 		if (data instanceof DirectMessageAttachment){
@@ -14,7 +18,8 @@ module.exports = class User extends Data {
 			if (!data) throw new Error("Cannot send Empty message(Error Code 302)");
 			if (this.id === this.client.user.id) throw new Error("Message target Error(Error Code 304)")
 			await api.post(api.links.User.SendDM, {
-				marumie: this.client.secret.id,
+				origin: "himaque",
+				myid: this.client.secret.id,
 				seskey: this.client.secret.key,
 				monku: data.split("\n").join(" "),
 				target: this.id
@@ -33,5 +38,8 @@ module.exports = class User extends Data {
 		}
 		this.save(result)
 		return this
+	}
+	toString() {
+		return `${this.name} (No.${this.id})`
 	}
 }

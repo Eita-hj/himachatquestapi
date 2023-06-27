@@ -1,6 +1,8 @@
 module.exports = function (text) {
 	return text
 		.split("<small style='color:#AAAAAA'>")[0]
+	        .split("<br />")
+	        .join("\n")
 		.split("&#039;")
 		.join("'")
 		.split("&quot;")

@@ -38,7 +38,7 @@ hcq.on("GuildMessageCreate", async message => {
 	if (message.content.startsWith("!user")){
 		const id = message.content.slice(6)
 		if (isNaN(id)) return
-		const user = await hcq.users.fetch(Number(id))
+		const user = await hcq.users.get(Number(id))
 		console.log(user)
 	}
 })
@@ -46,8 +46,8 @@ hcq.on("GuildMessageCreate", async message => {
 
 ## ギルド情報取得
 ```js
-hcq.on("reqdy", async () => {
+hcq.on("ready", async () => {
 	//No.1046 ミナコイギルド
-	const guild = await hcq.guilds.fetch(1046)
+	const guild = await hcq.guilds.get(1046)
 	console.log(guild)
 });

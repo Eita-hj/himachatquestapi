@@ -11,27 +11,29 @@ module.exports = class GuildBBSCommentManager extends BaseManager {
   async fetch(page){
     if (!(typeof Number(page) === "number" && Number.isInteger(Number(page)) && Number(page) > 0)) throw new TypeError(`${page} is invalid.`)
     const f = await api.post(api.links.Guild.BBS.Window, {
-      marumie: this.client.secret.id,
+      origin: "himaque",
+      myid: this.client.secret.id,
       seskey: this.client.secret.key,
       bbsid: this.BBS.id,
       page
     })
-    const { source } = f
-    const a = source.split("<small onclick='UserWindow(")
-    a.shift()
+    const { bbstxts } = f
+    const { client } = this
     const r = []
-    for (let i = 0; i < a.length; i++){
-      const n = a[i]
-      const authorid = n.split(")")[0]
-      const author = await this.client.users.get(Number(authorid))
-      const number = Number(n.split(">")[1].split("　")[0])
-      const createdTimestamp = Date.parse(n.split("<span style='color:#AAAAAA'>")[1].split("</span>")[0].split("-").join("/"))
-      const createdAt = new Date(createdTimestamp)
-      const content = convtext(n.split("<p class='bbsul_honbun'>")[1].split("</p>")[0].split("<br />\n").join("\n"))
-      const files = n.includes("<img class='photoimg' src='PhotoBBS/") ? n.split("<div class='bbsul_imgdivs'>")[1].split("<img class='photoimg' src='PhotoBBS/").slice(1).map(n => `http://himaquest.com/PhotoBBS/${n.split("'")[0]}`) : null
-      const commentData = new GuildBBSCommentData({number, content, files, author, createdAt, createdTimestamp}, this.client)
-      r.push([number, commentData])
-      if (this.client.secret.caches.has(1n << 3n)) this.cache.set(number, commentData)
+    for (let i = 0; i < bbstxts.length; i++){
+      const n = bbstxts[i]
+      const d = {}
+      d.authorid = n.userid
+      d.author = await this.client.users.get(Number(d.authorid))
+      d.number = Number(n.bangou)
+      d.commentid = n.bbstxtid
+      d.createdTimestamp = Date.parse(n.created.split("-").join("/"))
+      d.createdAt = new Date(d.createdTimestamp)
+      d.content = convtext(n.naiyou)
+      d.files = n.imgfiles.map(m => ({url: `http://ksg-network.tokyo/photo/${m.filename}`}))
+      const commentData = new GuildBBSCommentData(d, this.client)
+      r.push([d.number, commentData])
+      if (this.client.secret.caches.has(1n << 3n)) this.cache.set(d.number, commentData)
     }
     return new Cache(r)
   }

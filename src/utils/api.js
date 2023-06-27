@@ -32,14 +32,25 @@ exports.post = async function (url, option, type = 0) {
 		}).then((n) => n === 2 ? n.blob() : n.text())
 	}
 	if (type == 2) return result
-	result = result.slice(1)
-	try {
-		const parsed = JSON.parse(result)
-		if (parsed.error == 404) throw new Error("ERROR 404 (Banned.)");
-		return parsed;
-	} catch (err) {
-		return result
-	}
+	result = parseJSON(result)
+	if (typeof result == "string") return result
+	if (result.error == 404) throw new Error("ERROR 404 (Banned.)");
+	return result
 };
+
+function parseJSON(json){
+	try {
+		const r = JSON.parse(json)
+		return r
+	} catch {
+		try {
+			const r = JSON.parse(json.slice(1))
+			return r
+		} catch {
+			return json
+		}
+		return false
+	}
+}
 
 exports.links = require("./data/links")

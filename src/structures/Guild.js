@@ -8,7 +8,7 @@ module.exports = class Guild extends Data {
 		this.BBSs = new GuildBBSManager(this.client, this)
 	}
 	async send(data) {
-		if (this.id !== this.client.user.guild.id) throw new Error("Message guild Error(Error Code 303)")
+		if (this.id !== this.client.guild.id) throw new Error("Message guild Error(Error Code 303)")
 		const GuildMessageAttachment = require("./GuildMessageAttachment")
 		if (data instanceof GuildMessageAttachment){
 			await api.post(api.links.Attachment.Upload.Guild, data.data, 1)
@@ -19,10 +19,18 @@ module.exports = class Guild extends Data {
 				throw new Error("Message length Error(Error Code 301)");
 			if (!data) throw new Error("Cannot send Empty message(Error Code 302)");
 			await api.post(api.links.Guild.SendMessage, {
-				marumie: this.client.secret.id,
+				origin: "himaque",
+				myid: this.client.secret.id,
 				seskey: this.client.secret.key,
 				monku: data.split("\n").join(" ")
 			});
+			const d = await api.post(api.links.Chat.Recieve.Guild, {
+				origin: "himaque",
+				myid: this.client.secret.id,
+				seskey: this.client.secret.key,
+				bmark: this.client.secret.bmarks.guild
+			})
+			this.client.secret.bmarks.guild = d.bmark
 		}
 		return;
 	}

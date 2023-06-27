@@ -5,6 +5,8 @@ const ClientRecieveOptionBits = require("../structures/ClientRecieveOptionBits")
 const { api } = require("../utils/")
 const { GenerateToken: { toData, toToken } } = require("../utils/");
 
+const GuildMessageManager = require("../managers/GuildMessageManager")
+
 module.exports = class Client extends BaseClient {
 	constructor(ClientOptions) {
 		if (ClientOptions.options == undefined) throw new Error("ClientOptionBits must be set.");
@@ -90,7 +92,8 @@ module.exports = class Client extends BaseClient {
 			this.friends = new this.friends(this);
 			this.BBSs = new this.BBSs(this);
 			this.user = await this.users.fetch(result.userid);
-			this.guild = this.user.guild;
+			if (result.nowguild != 0) this.guild = await this.guilds.fetch(result.nowguild);
+			if (this.guild) this.guild.messages = new GuildMessageManager(this, this.guild)
 			this.secret.logined = true
 			const { startload } = require("../collectors/BaseMessageCollector");
 			this.token = toToken({ID: id, Pass: pass, SID: this.secret.id, SKEY: this.secret.key})
@@ -101,7 +104,7 @@ module.exports = class Client extends BaseClient {
 			const ignores = await this.ignores.fetch()
 			ignores.map(n => this.secret.ignoreUsers.push(n.id))
 			this.emit("ready", this);
-			startload(this, result.kbmark, result.hbmark);
+			startload(this, result.kbmark);
 			return true;
 		}
 	}
@@ -109,14 +112,19 @@ module.exports = class Client extends BaseClient {
 		if (this.secret.logined) throw new Error("Already Logined.")
 		this.emit("debug", "[Debug] Login Requested.")
 		this.emit("debug", `[Debug] Recieved SID: ${SID} Recieved SKEY: ${(`${SKEY}`).slice(0,4)}${(`${SKEY}`).slice(4).replace(/./g, "*")}`)
-		
 		if (!SID || !SKEY) throw new TypeError("SID or SKEY is invaild.")
 		const result = await api.post(api.links.User.Info, {
 			marumie: SID,
 			seskey: SKEY,
-			targetid: SID
+			targetid: 1
 		})
-		if (result === "セッション不正") throw new Error("SID or SKEY is invalid.")
+		if (result === "不正1") throw new Error("SID or SKEY is invalid.")
+		const {gid} = await api.post(api.links.Chat.Recieve.Guild, {
+			origin: "himaque",
+			myid: SID,
+			seskey: SKEY,
+			bmark: -1
+		})
 		this.secret.logined = true
 		this.secret.id = SID;
 		this.secret.key = SKEY;
@@ -126,7 +134,8 @@ module.exports = class Client extends BaseClient {
 		this.friends = new this.friends(this);
 		this.BBSs = new this.BBSs(this);
 		this.user = await this.users.fetch(SID);
-		this.guild = this.user.guild;
+		this.guild = await this.guilds.fetch(gid);
+		if (this.guild) this.guild.messages = new GuildMessageManager(this, this.guild)
 		this.secret.logined = true
 		const { startload } = require("../collectors/BaseMessageCollector");
 		this.games = new this.games({
@@ -143,17 +152,25 @@ module.exports = class Client extends BaseClient {
 		if (this.secret.logined) throw new Error("Already Logined.")
 		this.emit("debug", "[Debug] Login requested.")
 		this.emit("debug", `Recieved Token: ${token.slice(0,12)}${token.slice(12).replace(/./g, "*")}`)
-		const { ID, Pass, SID, SKEY } = toData(token);
+		const { ID, Pass, SID, SKEY, version } = toData(token);
 		this.emit("debug", `[Debug] Token was parsed. ID: ${ID.slice(0,2)}${ID.slice(2).replace(/./g, "*")} Pass: ${Pass.slice(0,2)}${Pass.slice(2).replace(/./g, "*")} SID: ${SID} SKEY: ${(`${SKEY}`).slice(0,4)}${(`${SKEY}`).slice(4).replace(/./g, "*")}`)
-		try {
-			await this.loginByData(SID,SKEY);
-			return
-		} catch (e) {
+		if (version !== 2) {
 			if (this.secret.logined) throw e
-			this.emit("debug", "[Debug] Login by secret data is failed.")
+			this.emit("debug", "[Debug] Token version is old.")
 			await this.loginByIdPass(ID, Pass);
-			console.warn("Login successed, but secret data is invalid. You need to regenerate token.");
+			console.warn("Token version is old. Please regenerate token.");
 			return;
+		} else {
+			try {
+				await this.loginByData(SID,SKEY);
+				return
+			} catch (e) {
+				if (this.secret.logined) throw e
+				this.emit("debug", "[Debug] Login by secret data is failed.")
+				await this.loginByIdPass(ID, Pass);
+				console.warn("Login successed, but secret data is invalid. You need to regenerate token.");
+				return;
+			}
 		}
 	}
 	async logout(post = false){

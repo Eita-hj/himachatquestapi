@@ -12,10 +12,10 @@ module.exports = class GuildBBS extends Data {
 		if (!data) throw new TypeError("Cannot send empty message")
 		if (typeof data === "string"){
 			await api.post(api.links.Guild.BBS.Send, {
-				marumie: this.client.secret.id,
+				origin: "himaque",
+				myid: this.client.secret.id,
 				seskey: this.client.secret.key,
 				fnaiyou: data,
-				imgarray: [],
 				bbsid: this.id
 			})
 		}
