@@ -38,6 +38,7 @@ module.exports = async function (client){
       client.secret.bmarks.ksg = n.cmds.at(-1).bmark
     }
   })
+  console.log(client.secret.bmarks)
   for (;client.secret.chatload;){
     if (!client.secret.chatload) return
     const d = await api.post(api.links.Chat.Check.DMGM, {
