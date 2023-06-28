@@ -34,6 +34,7 @@ module.exports = async function (client){
       seskey: client.secret.key,
       bmark: client.secret.bmarks.ksg
   }).then(n => {
+    console.log(n)
     if (n.cmds.length){
       client.secret.bmarks.ksg = n.cmds.at(-1).bmark
     }
