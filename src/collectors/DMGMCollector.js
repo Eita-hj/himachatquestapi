@@ -34,12 +34,12 @@ module.exports = async function (client){
       seskey: client.secret.key,
       bmark: client.secret.bmarks.ksg
   }).then(n => {
-    console.log(n)
     if (n.cmds.length){
       client.secret.bmarks.ksg = n.cmds.at(-1).bmark
     }
   })
-  console.log(client.secret.bmarks)
+  client.emit("DirectMessageReady")
+  client.emit("GuildMessageReady")
   for (;client.secret.chatload;){
     if (!client.secret.chatload) return
     const d = await api.post(api.links.Chat.Check.DMGM, {
@@ -50,7 +50,6 @@ module.exports = async function (client){
     })
     if (d.cmds.length){
       client.secret.bmarks.ksg = d.cmds.at(-1).bmark
-      console.log(client.secret.bmarks)
       if (client.secret.options.has(1n << 0n) && d.cmds.find(n => n.type === "c_h")){
         const data = await api.post(api.links.Chat.Recieve.Direct, {
           origin: "himaque",
