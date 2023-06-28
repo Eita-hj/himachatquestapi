@@ -48,6 +48,7 @@ module.exports = async function (client){
       bmark: client.secret.bmarks.ksg
     })
     if (d.cmds.length){
+      console.log(client.secret.bmarks)
       client.secret.bmarks.ksg = d.cmds.at(-1).bmark
       if (client.secret.options.has(1n << 0n) && d.cmds.find(n => n.type === "c_h")){
         const data = await api.post(api.links.Chat.Recieve.Direct, {
