@@ -34,7 +34,7 @@ module.exports = class Bits {
 		const boolean = typeof bits == "string" 
 			? this.toArray().includes(bits)
 			: typeof bits == "bigint"
-				? this.toBitArray().includes(bits)
+				? !!this.set(bits).toBitArray().find(n => !this.toBitArray().includes(n))
 				: Array.isArray(bits)
 					? bits.map(n => this.has(n)).includes(false)
 					: new Error("<Bits>.has option is invalid. (Code:602)")
