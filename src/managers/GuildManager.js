@@ -46,7 +46,7 @@ module.exports = class GuildManager extends BaseManager {
 				result.lastUpdateTimestamp = Date.parse(d.updated.split("-").join("/"))
 				result.lastUpdatedAt = new Date(result.lastUpdateTimestamp)
 				const guild = new Guild(result, this.client);
-				if (this.client.secret.options.has(1n << 2n)) {
+				if (this.client.secret.caches.has(1n << 1n)) {
 					if (this.cache.has(result.id)) this.cache.delete(result.id);
 					this.cache.set(result.id, guild);
 				}
