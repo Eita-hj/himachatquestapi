@@ -80,7 +80,7 @@ module.exports = class UserManager extends BaseManager {
 					user.messages = new DirectMessageManager(this.client, user)
 					user.save(user.messages)
 				}
-				if (this.client.secret.options.has(1n << 2n)) {
+				if (this.client.secret.caches.has(1n << 0n)) {
 					if (this.cache.has(result.id)) this.cache.delete(result.id);
 					this.cache.set(result.id, user);
 				};
