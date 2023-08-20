@@ -30,18 +30,17 @@ class ClientUserIgnoreManager extends BaseManager {
 	async add(target) {
 		if (target instanceof User){
 			await api.post(api.links.User.Ignores.Add,{
-				marumie: this.client.secret.id,
+				myid: this.client.secret.id,
 				seskey: this.client.secret.key,
-				tuid: target.id,
-				tmemo: target.name
+				target: target.id
 			})
 			this.client.secret.ignoreUsers.push(Number(target.id))
 		} else {
 			if (!Number.isSafeInteger(Number(target))) throw new TypeError(`${target} is invalid.`)
 			await api.post(api.links.User.Ignores.Add,{
-				marumie: this.client.secret.id,
+				myid: this.client.secret.id,
 				seskey: this.client.secret.key,
-				tuid: target
+				target: target
 			})
 			this.client.secret.ignoreUsers.push(String(target))
 		}

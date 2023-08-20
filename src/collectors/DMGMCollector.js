@@ -38,6 +38,8 @@ module.exports = async function (client){
       client.secret.bmarks.ksg = n.cmds.at(-1).bmark
     }
   })
+  client.emit("DirectMessageReady")
+  client.emit("GuildMessageReady")
   for (;client.secret.chatload;){
     if (!client.secret.chatload) return
     const d = await api.post(api.links.Chat.Check.DMGM, {

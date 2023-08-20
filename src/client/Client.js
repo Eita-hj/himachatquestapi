@@ -143,7 +143,7 @@ module.exports = class Client extends BaseClient {
 			userFetch: true
 		})
 		const ignores = await this.ignores.fetch()
-		ignores.map(n => this.secret.ignoreUsers.push(n.id))
+		ignores.map(n => this.secret.ignoreUsers.push(n.userid))
 		this.emit("ready", this);
 		startload(this);
 		return true;
