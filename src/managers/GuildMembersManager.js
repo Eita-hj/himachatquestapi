@@ -34,7 +34,7 @@ module.exports = class GuildMembersManager extends BaseManager {
 				lastLoginedAt: new Date(d.lastLoginTimestamp),
 				role: role[n.shokui]
 			});
-			const u = r.clone();
+			const u = d.clone();
 			r.push([n.userid, u]);
 			if (this.client.secret.options.has(1n << 8n)) this.cache.set(id, u);
 		}
