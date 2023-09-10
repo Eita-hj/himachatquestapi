@@ -6,7 +6,7 @@ const GuildMembersManager = require("../managers/GuildMembersManager")
 module.exports = class Guild extends Data {
 	constructor(a,b){
 		super(a,b)
-		this.Members = new GuildMembersManager(this.client, this)
+		this.members = new GuildMembersManager(this.client, this)
 		this.BBSs = new GuildBBSManager(this.client, this)
 	}
 	async send(data) {
