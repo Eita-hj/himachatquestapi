@@ -1,10 +1,12 @@
 const Data = require("./Data")
 const { api } = require("../utils/")
 const GuildBBSManager = require("../managers/GuildBBSManager")
+const GuildMembersManager = require("../managers/GuildMembersManager")
 
 module.exports = class Guild extends Data {
 	constructor(a,b){
 		super(a,b)
+		this.Members = new GuildMembersManager(this.client, this)
 		this.BBSs = new GuildBBSManager(this.client, this)
 	}
 	async send(data) {
