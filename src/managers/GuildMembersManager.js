@@ -22,7 +22,7 @@ module.exports = class GuildMembersManager extends BaseManager {
 		const r = [];
 		for (let i = 0; i < bbss.length; i++){
 			const n = members[i];
-			const d = await this.client.users.fetch(n.userid);
+			const d = await this.client.users.get(n.userid);
 			const role = {
 				"0": "member",
 				"80": "healper",
