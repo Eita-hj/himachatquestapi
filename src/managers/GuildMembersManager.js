@@ -31,7 +31,7 @@ module.exports = class GuildMembersManager extends BaseManager {
 			}
 			d.save({
 				lastLoginTimestamp: Date.parse(n.updated.split("-").join("/")),
-				lastLoginedAt: new Date(d.lastLoginTimestamp);
+				lastLoginedAt: new Date(d.lastLoginTimestamp),
 				role: role[n.shokui]
 			});
 			const u = r.clone();
