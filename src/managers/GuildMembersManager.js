@@ -36,7 +36,7 @@ module.exports = class GuildMembersManager extends BaseManager {
 			});
 			const u = d.clone();
 			r.push([n.userid, u]);
-			if (this.client.secret.options.has(1n << 8n)) this.cache.set(id, u);
+			if (this.client.secret.options.has(1n << 8n)) this.cache.set(n.userid, u);
 		}
 		return new Cache(r)
 	}
