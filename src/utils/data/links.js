@@ -11,7 +11,8 @@ module.exports = {
 			Create: "http://ksg-network.tokyo/BBS_Create.php",
 			Send: "http://ksg-network.tokyo/BBS_TxtToukou.php",
 			CommentDelete: "http://ksg-network.tokyo/BBS_TxtRemove.php"
-		}
+		},
+		Members: "http://ksg-network.tokyo/Guild_MemberSerch.php"
 	},
 	User: {
 		Info: "http://himaquest.com/UserWindow.php",
